@@ -1,0 +1,9 @@
+# getff
+> Compiles codebase conventions into native toolchain gates (ESLint/husky, clippy/cargo-deny). Deterministic, local-first, $0 LLM in CI. Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.
+## Docs
+- [Quickstart TS](https://getff.ai/docs/quickstart-ts)
+- [Executable AGENTS.md, defined](https://getff.ai/docs/executable-agents-md)
+- [FAQ and comparisons](https://getff.ai/docs/faq)
+- [Honest limits](https://getff.ai/docs/limits)
+## Source
+- [GitHub](https://github.com/artyhoo/getff)
