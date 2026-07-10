@@ -2,7 +2,7 @@
 title: "AGENTS.md is advisory. Here's what it takes to make it executable"
 description: "Three mechanical properties that make an AGENTS.md executable instead of advisory — a walkthrough of three real, live-fired claims from getff's own AGENTS.md."
 pubDate: 2026-07-10
-draft: true
+draft: false
 ---
 
 ## The pain: your agent file is a polite suggestion
