@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'getff — Docs lie. Tests don’t.';
+const description =
+  'getff compiles your conventions into native toolchain gates (ESLint/husky for npm, clippy/cargo-deny for cargo). Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'getff',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Cross-platform',
+  description,
+  url: 'https://getff.ai',
+  softwareVersion: 'current',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  license: 'https://fsl.software/',
+};
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brand">get<span>ff</span></div>
+    <div class="subbrand">rules as tests</div>
+
+    <h1 class="hook" style="font-family: var(--sans); font-weight: 700; font-size: var(--step-2); max-width: 16ch;">Docs lie. Tests don&rsquo;t.</h1>
+
+    <p class="hook">
+      getff compiles your conventions into native toolchain gates
+      (ESLint/husky for npm, clippy/cargo-deny for cargo). Its
+      own <a href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">AGENTS.md</a> is
+      executable: every claim carries a live-fired enforcement status,
+      and the gate fails when a claim drifts from reality.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn primary" href="/docs/quickstart-ts/">Get started</a>
+      <a class="btn secondary" href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">Open the executable AGENTS.md</a>
+    </div>
+
+    <p class="fineprint">
+      Source-available (FSL-1.1-ALv2 &rarr; Apache-2.0 after 2 years).
+      Deterministic. Local-first. $0 LLM calls in CI &mdash; enforced by a test.
+    </p>
+  </header>
+
+  <section id="pain">
+    <h2><span class="num">01</span>The pain</h2>
+    <div class="col-grid">
+      <div>
+        <h3>Your agent ignores your rules.</h3>
+        <p>CLAUDE.md and AGENTS.md are prose. The spec itself says the agent
+        &laquo;simply parses the text you provide&raquo;. Parsing is not enforcement.</p>
+      </div>
+      <div>
+        <h3><code>as any</code> creeps back.</h3>
+        <p>Conventions you never wrote down break silently. Conventions you
+        DID write down break politely.</p>
+      </div>
+      <div>
+        <h3>Tests pass, protection doesn&rsquo;t.</h3>
+        <p>LLM-generated tests are often tautological: green, and guarding
+        nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <h2><span class="num">02</span>20 seconds each. No narration needed.</h2>
+    <div class="demo-grid">
+      <figure>
+        <img src="/demo/violation-blocked.gif" alt="An agent adds as any; the pre-push hook kills it before CI even wakes up" width="640" height="400">
+        <figcaption>An agent adds <code>as any</code>; the pre-push hook kills it before CI even wakes up.</figcaption>
+      </figure>
+      <figure>
+        <img src="/demo/doc-drift-gate.gif" alt="A claim in AGENTS.md stops being true; make self-audit fails and names the exact line" width="640" height="400" loading="lazy">
+        <figcaption>A claim in AGENTS.md stops being true; <code>make self-audit</code> fails and names the exact line.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2><span class="num">03</span>How it works</h2>
+    <ol class="steps">
+      <li><strong>Write the convention once</strong> &mdash; a rule file, not a prompt.</li>
+      <li><strong>getff compiles it</strong> into native gates: ESLint/husky for npm, clippy/cargo-deny for cargo. No custom runtime, no LLM in the loop.</li>
+      <li><strong>It fails early</strong> &mdash; edit-time &rarr; pre-commit &rarr; pre-push &rarr; CI. CI is the last resort, not the first.</li>
+    </ol>
+  </section>
+
+  <section id="feel-it">
+    <h2><span class="num">04</span>Feel it in 90 seconds</h2>
+    <pre class="termblock"><code>git clone https://github.com/artyhoo/getff
+cd getff &amp;&amp; make self-audit        <span class="comment"># green: every AGENTS.md claim verified</span>
+<span class="comment"># now open AGENTS.md, break any enforcement line, run it again</span>
+make self-audit                    <span class="comment"># red: the gate names the claim that lied</span></code></pre>
+    <p class="fineprint">That AGENTS.md is not a mock. It is the live root doc of this repo.</p>
+  </section>
+
+  <section id="install">
+    <h2><span class="num">05</span>Install</h2>
+    <pre class="install"><code>/plugin marketplace add artyhoo/getff
+/plugin install getff@getff</code></pre>
+    <p class="fineprint">The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command.</p>
+  </section>
+
+  <section id="limits">
+    <h2><span class="num">06</span>Honest limits</h2>
+    <ul class="limits">
+      <li>Executable AGENTS.md today = <strong>this repo&rsquo;s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</li>
+      <li>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky) and <strong>Rust</strong> gate generation (clippy/cargo-deny). Other toolchains are on the roadmap, not in the box.</li>
+      <li>Source-available (<strong>FSL-1.1-ALv2</strong>), not OSI open source. Every release becomes Apache-2.0 after 2 years. We say this first, on purpose.</li>
+    </ul>
+  </section>
+
+  <section id="email">
+    <h2><span class="num">07</span>Get updates</h2>
+    <div class="email-box">
+      <p>One email when the generator milestone ships. No digest, no drip.</p>
+      <form action="https://buttondown.com/api/emails/embed-subscribe/getff" method="post" class="embeddable-buttondown-form">
+        <label for="bd-email">Enter your email</label>
+        <input type="email" name="email" id="bd-email" placeholder="you@example.com" required>
+        <input type="submit" value="Subscribe">
+      </form>
+    </div>
+  </section>
+
+</div>
+</BaseLayout>

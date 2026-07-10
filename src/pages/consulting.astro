@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Consulting — getff';
+const description = 'I set this discipline up for teams: an enforcement audit and native gates wired into your toolchain, no LLM bill attached.';
+---
+
+<BaseLayout title={title} description={description}>
+<div class="wrap">
+  <header class="hero" style="text-align: left; padding-top: var(--space-m);">
+    <h1 style="font-size: var(--step-2);">I set this discipline up for teams.</h1>
+    <p class="hook" style="margin-inline: 0; max-width: 55ch; text-align: left;">
+      If your agents keep breaking conventions you thought were documented,
+      I do an enforcement audit &mdash; what&rsquo;s drifting, what&rsquo;s enforceable,
+      what&rsquo;s prose &mdash; and wire the gates in: ESLint/husky/CI for npm
+      stacks, clippy/cargo-deny for Rust. Deterministic, local-first, no LLM
+      bill attached.
+    </p>
+    <p style="max-width: 55ch;">
+      Write me: <a href="mailto:hi@getff.ai">hi@getff.ai</a>. Include a repo
+      link if you can; I reply with what I&rsquo;d check first.
+    </p>
+  </header>
+</div>
+</BaseLayout>

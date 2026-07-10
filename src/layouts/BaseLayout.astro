@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  structuredData?: Record<string, unknown>;
+  ogType?: string;
+}
+
+const { title, description, structuredData, ogType = 'website' } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('/og-card.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:site_name" content="getff" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:site" content="@artyhoo" />
+
+  <link rel="alternate" type="application/rss+xml" title="getff blog" href="/rss.xml" />
+
+  {structuredData && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+</head>
+<body>
+  <nav class="sitenav">
+    <a class="brand-link" href="/">get<span>ff</span></a>
+    <a href="/docs/quickstart-ts/">Docs</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/artyhoo/getff">GitHub</a>
+    <a href="/consulting/">Consulting</a>
+  </nav>
+  <slot />
+  <footer class="sitefooter">
+    <p>
+      <a href="/docs/quickstart-ts/">Docs</a><span class="sep">·</span><a href="/blog/">Blog</a><span class="sep">·</span><a href="https://github.com/artyhoo/getff">GitHub</a><span class="sep">·</span><a href="/consulting/">Consulting</a><span class="sep">·</span><a href="mailto:hi@getff.ai">hi@getff.ai</a><span class="sep">·</span><a href="https://x.com/artyhoo">X @artyhoo</a><span class="sep">·</span><a href="https://bsky.app/profile/getff.ai">Bluesky @getff.ai</a><span class="sep">·</span>License FSL-1.1-ALv2
+    </p>
+  </footer>
+</body>
+</html>
