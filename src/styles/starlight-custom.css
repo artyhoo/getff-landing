@@ -1,29 +1,29 @@
-/* Align Starlight's theme with getff's brand palette (dark, pink/cyan accents). */
+/* Align Starlight's theme with getff's brand palette (dark, gate-green accent). */
 :root {
-  --sl-color-accent-low: #2a1d29;
-  --sl-color-accent: #ff79c6;
-  --sl-color-accent-high: #ffb3e0;
+  --sl-color-accent-low: #10241a;
+  --sl-color-accent: #3fb950;
+  --sl-color-accent-high: #7ee28a;
   --sl-color-white: #e6e9ef;
   --sl-color-gray-1: #e6e9ef;
   --sl-color-gray-2: #c3cadb;
-  --sl-color-gray-3: #9aa4b8;
-  --sl-color-gray-4: #2a3142;
-  --sl-color-gray-5: #1c2231;
-  --sl-color-gray-6: #161b26;
-  --sl-color-black: #0d1017;
-  --sl-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --sl-font-mono: "SF Mono", "Menlo", "Consolas", ui-monospace, monospace;
+  --sl-color-gray-3: #9aa4b2;
+  --sl-color-gray-4: #1e2530;
+  --sl-color-gray-5: #171c26;
+  --sl-color-gray-6: #11151d;
+  --sl-color-black: #0b0e14;
+  --sl-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --sl-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
 }
 
 :root[data-theme='light'] {
-  --sl-color-accent-low: #ffe1f3;
-  --sl-color-accent: #c23f8e;
-  --sl-color-accent-high: #7a2159;
+  --sl-color-accent-low: #d9f2de;
+  --sl-color-accent: #1a7f37;
+  --sl-color-accent-high: #0f5323;
 }
 
 a:not([role='button']) {
-  color: #1d8ea8;
+  color: #58a6ff;
 }
 :root {
-  --sl-color-text-accent: #8be9fd;
+  --sl-color-text-accent: #58a6ff;
 }

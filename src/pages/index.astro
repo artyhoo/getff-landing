@@ -24,48 +24,66 @@ const structuredData = {
 ---
 
 <BaseLayout title={title} description={description} structuredData={structuredData}>
-<div class="wrap">
+<main class="wrap">
 
   <header class="hero">
-    <div class="brand">get<span>ff</span></div>
-    <div class="subbrand">rules as tests</div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">rules as tests</p>
 
-    <h1 class="hook" style="font-family: var(--sans); font-weight: 700; font-size: var(--step-2); max-width: 16ch;">Docs lie. Tests don&rsquo;t.</h1>
+        <h1 class="hero-h1">Docs lie. Tests <span class="u-pass">don&rsquo;t.</span></h1>
 
-    <p class="hook">
-      getff compiles your conventions into native toolchain gates
-      (ESLint/husky for npm, clippy/cargo-deny for cargo). Its
-      own <a href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">AGENTS.md</a> is
-      executable: every claim carries a live-fired enforcement status,
-      and the gate fails when a claim drifts from reality.
-    </p>
+        <p class="lede">
+          getff compiles your conventions into native toolchain gates
+          (ESLint/husky for npm, clippy/cargo-deny for cargo). Its
+          own <a href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">AGENTS.md</a> is
+          executable: every claim carries a live-fired enforcement status,
+          and the gate fails when a claim drifts from reality.
+        </p>
 
-    <div class="cta-row">
-      <a class="btn primary" href="/docs/quickstart-ts/">Get started</a>
-      <a class="btn secondary" href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">Open the executable AGENTS.md</a>
+        <div class="cta-row">
+          <a class="btn primary" href="/docs/quickstart-ts/">Get started</a>
+          <a class="btn ghost" href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">Open the executable AGENTS.md</a>
+        </div>
+
+        <p class="fineprint">
+          Source-available (FSL-1.1-ALv2 &rarr; Apache-2.0 after 2 years).
+          Deterministic. Local-first. $0 LLM calls in CI &mdash; enforced by a test.
+        </p>
+      </div>
+
+      <div class="hero-term">
+        <div class="term" aria-hidden="true">
+          <div class="term-bar">
+            <span class="term-dots"><i></i><i></i><i></i></span>
+            <span class="term-title">make self-audit</span>
+          </div>
+          <div class="term-body"><pre><span class="c-prompt">$</span> git clone https://github.com/artyhoo/getff
+<span class="c-prompt">$</span> cd getff &amp;&amp; make self-audit
+<span class="c-pass"># green: every AGENTS.md claim verified</span>
+<span class="c-comment"># now break any enforcement line, run it again</span>
+<span class="c-prompt">$</span> make self-audit
+<span class="c-fail"># red: the gate names the claim that lied</span></pre></div>
+        </div>
+      </div>
     </div>
-
-    <p class="fineprint">
-      Source-available (FSL-1.1-ALv2 &rarr; Apache-2.0 after 2 years).
-      Deterministic. Local-first. $0 LLM calls in CI &mdash; enforced by a test.
-    </p>
   </header>
 
   <section id="pain">
     <h2><span class="num">01</span>The pain</h2>
-    <div class="col-grid">
-      <div>
-        <h3>Your agent ignores your rules.</h3>
+    <div class="pain-row">
+      <div class="pain-item">
+        <span class="x" aria-hidden="true">&#10007;</span><h3>Your agent ignores your rules.</h3>
         <p>CLAUDE.md and AGENTS.md are prose. The spec itself says the agent
-        &laquo;simply parses the text you provide&raquo;. Parsing is not enforcement.</p>
+        "simply parses the text you provide". Parsing is not enforcement.</p>
       </div>
-      <div>
-        <h3><code>as any</code> creeps back.</h3>
+      <div class="pain-item">
+        <span class="x" aria-hidden="true">&#10007;</span><h3><code>as any</code> creeps back.</h3>
         <p>Conventions you never wrote down break silently. Conventions you
         DID write down break politely.</p>
       </div>
-      <div>
-        <h3>Tests pass, protection doesn&rsquo;t.</h3>
+      <div class="pain-item">
+        <span class="x" aria-hidden="true">&#10007;</span><h3>Tests pass, protection doesn&rsquo;t.</h3>
         <p>LLM-generated tests are often tautological: green, and guarding
         nothing.</p>
       </div>
@@ -75,49 +93,99 @@ const structuredData = {
   <section id="demo">
     <h2><span class="num">02</span>20 seconds each. No narration needed.</h2>
     <div class="demo-grid">
-      <figure>
-        <img src="/demo/violation-blocked.gif" alt="An agent adds as any; the pre-push hook kills it before CI even wakes up" width="640" height="400">
-        <figcaption>An agent adds <code>as any</code>; the pre-push hook kills it before CI even wakes up.</figcaption>
+      <figure class="demo">
+        <div class="term">
+          <div class="term-bar">
+            <span class="term-dots"><i></i><i></i><i></i></span>
+            <span class="term-title">git commit — pre-push gate</span>
+          </div>
+          <video class="demo-video" width="1200" height="600"
+            poster="/demo/violation-blocked.poster.webp"
+            autoplay muted loop playsinline preload="metadata"
+            data-demo
+            aria-label="An agent adds as any; the pre-push hook kills it before CI even wakes up">
+            <source src="/demo/violation-blocked.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <figcaption><span class="arr">&rarr;</span> An agent adds <code>as any</code>; the pre-push hook kills it before CI even wakes up.</figcaption>
       </figure>
-      <figure>
-        <img src="/demo/doc-drift-gate.gif" alt="A claim in AGENTS.md stops being true; make self-audit fails and names the exact line" width="640" height="400" loading="lazy">
-        <figcaption>A claim in AGENTS.md stops being true; <code>make self-audit</code> fails and names the exact line.</figcaption>
+      <figure class="demo">
+        <div class="term">
+          <div class="term-bar">
+            <span class="term-dots"><i></i><i></i><i></i></span>
+            <span class="term-title">make self-audit — doc drift</span>
+          </div>
+          <video class="demo-video" width="1200" height="600"
+            poster="/demo/doc-drift-gate.poster.webp"
+            autoplay muted loop playsinline preload="metadata"
+            data-demo
+            aria-label="A claim in AGENTS.md stops being true; make self-audit fails and names the exact line">
+            <source src="/demo/doc-drift-gate.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <figcaption><span class="arr">&rarr;</span> A claim in AGENTS.md stops being true; <code>make self-audit</code> fails and names the exact line.</figcaption>
       </figure>
     </div>
   </section>
 
   <section id="how">
     <h2><span class="num">03</span>How it works</h2>
-    <ol class="steps">
-      <li><strong>Write the convention once</strong> &mdash; a rule file, not a prompt.</li>
-      <li><strong>getff compiles it</strong> into native gates: ESLint/husky for npm, clippy/cargo-deny for cargo. No custom runtime, no LLM in the loop.</li>
-      <li><strong>It fails early</strong> &mdash; edit-time &rarr; pre-commit &rarr; pre-push &rarr; CI. CI is the last resort, not the first.</li>
+    <ol class="steps-timeline">
+      <li>
+        <span class="step-n">01</span>
+        <span class="body"><strong>Write the convention once</strong> &mdash; a rule file, not a prompt.</span>
+      </li>
+      <li>
+        <span class="step-n">02</span>
+        <span class="body"><strong>getff compiles it</strong> into native gates: ESLint/husky for npm, clippy/cargo-deny for cargo. No custom runtime, no LLM in the loop.</span>
+      </li>
+      <li>
+        <span class="step-n">03</span>
+        <span class="body"><strong>It fails early</strong> &mdash; <span class="chan-chain"><span class="chan">edit-time</span><span class="arr">&rarr;</span><span class="chan">pre-commit</span><span class="arr">&rarr;</span><span class="chan">pre-push</span><span class="arr">&rarr;</span><span class="chan chan-last">CI</span></span>. CI is the last resort, not the first.</span>
+      </li>
     </ol>
   </section>
 
   <section id="feel-it">
     <h2><span class="num">04</span>Feel it in 90 seconds</h2>
-    <pre class="termblock"><code>git clone https://github.com/artyhoo/getff
-cd getff &amp;&amp; make self-audit        <span class="comment"># green: every AGENTS.md claim verified</span>
-<span class="comment"># now open AGENTS.md, break any enforcement line, run it again</span>
-make self-audit                    <span class="comment"># red: the gate names the claim that lied</span></code></pre>
+    <div class="term block">
+      <div class="term-bar">
+        <span class="term-dots"><i></i><i></i><i></i></span>
+        <span class="term-title">bash</span>
+        <button class="term-copy" type="button" data-copy>copy</button>
+      </div>
+      <div class="term-body"><pre><span class="c-prompt">$</span> <span data-copy-text>git clone https://github.com/artyhoo/getff</span>
+<span class="c-prompt">$</span> <span data-copy-text>cd getff &amp;&amp; make self-audit</span>        <span class="c-pass"># green: every AGENTS.md claim verified</span>
+<span class="c-comment"># now open AGENTS.md, break any enforcement line, run it again</span>
+<span class="c-prompt">$</span> <span data-copy-text>make self-audit</span>                    <span class="c-fail"># red: the gate names the claim that lied</span></pre></div>
+    </div>
     <p class="fineprint">That AGENTS.md is not a mock. It is the live root doc of this repo.</p>
   </section>
 
   <section id="install">
     <h2><span class="num">05</span>Install</h2>
-    <pre class="install"><code>/plugin marketplace add artyhoo/getff
-/plugin install getff@getff</code></pre>
+    <div class="term block">
+      <div class="term-bar">
+        <span class="term-dots"><i></i><i></i><i></i></span>
+        <span class="term-title">claude</span>
+        <button class="term-copy" type="button" data-copy>copy</button>
+      </div>
+      <div class="term-body"><pre><span data-copy-text>/plugin marketplace add artyhoo/getff
+/plugin install getff@getff</span></pre></div>
+    </div>
     <p class="fineprint">The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command.</p>
   </section>
 
   <section id="limits">
     <h2><span class="num">06</span>Honest limits</h2>
-    <ul class="limits">
-      <li>Executable AGENTS.md today = <strong>this repo&rsquo;s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</li>
-      <li>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky) and <strong>Rust</strong> gate generation (clippy/cargo-deny). Other toolchains are on the roadmap, not in the box.</li>
-      <li>Source-available (<strong>FSL-1.1-ALv2</strong>), not OSI open source. Every release becomes Apache-2.0 after 2 years. We say this first, on purpose.</li>
-    </ul>
+    <div class="limits-frame">
+      <div class="frame-label"><span class="c-prompt">$</span> getff --limits</div>
+      <ul class="limits">
+        <li><span>Executable AGENTS.md today = <strong>this repo&rsquo;s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</span></li>
+        <li><span>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky) and <strong>Rust</strong> gate generation (clippy/cargo-deny). Other toolchains are on the roadmap, not in the box.</span></li>
+        <li><span>Source-available (<strong>FSL-1.1-ALv2</strong>), not OSI open source. Every release becomes Apache-2.0 after 2 years. We say this first, on purpose.</span></li>
+      </ul>
+    </div>
   </section>
 
   <section id="email">
@@ -132,5 +200,71 @@ make self-audit                    <span class="comment"># red: the gate names t
     </div>
   </section>
 
-</div>
+</main>
+
+<script>
+  // Copy buttons: copy the command text (data-copy-text spans) of the nearest terminal.
+  document.querySelectorAll('.term-copy[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const term = btn.closest('.term');
+      if (!term) return;
+      const text = Array.from(term.querySelectorAll('[data-copy-text]'))
+        .map((el) => el.textContent)
+        .join('\n')
+        .trim();
+      let ok = false;
+      try {
+        // Race a timeout: some embedded contexts leave writeText pending forever.
+        ok = await Promise.race([
+          navigator.clipboard.writeText(text).then(
+            () => true,
+            () => false
+          ),
+          new Promise((r) => setTimeout(() => r(false), 500)),
+        ]);
+      } catch {
+        ok = false;
+      }
+      if (!ok) {
+        // Fallback for contexts where the async clipboard API is unavailable.
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          ok = document.execCommand('copy');
+        } catch {
+          ok = false;
+        }
+        ta.remove();
+      }
+      if (ok) {
+        btn.textContent = 'copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 1600);
+      }
+    });
+  });
+
+  // Demo videos: honour prefers-reduced-motion — stop the loop, leave the poster/frame.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const applyMotion = () => {
+    document.querySelectorAll('video[data-demo]').forEach((v) => {
+      if (reduce.matches) {
+        v.pause();
+        v.removeAttribute('autoplay');
+      } else {
+        v.play().catch(() => {});
+      }
+    });
+  };
+  applyMotion();
+  reduce.addEventListener('change', applyMotion);
+</script>
 </BaseLayout>
