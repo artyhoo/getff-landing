@@ -9,6 +9,15 @@ round-1 cold audit — that routing means the kickoff's own §3 rows 5 and 9 nee
 neither a defect grade against this stage nor an endorsement of these resolutions. The kickoff is
 the dispatching session's artefact and that session owns the fix; no action was asked of this stage.
 
+**Provenance of this file.** Everything below §1 was written by the implementing stage, which
+ran the commands it quotes. Three passages were NOT: the `KICKOFF-AMBIGUOUS` restatement in the
+header above, the same restatement in the §3 verdict line, and all of §6. Those were authored by
+the **dispatching session** in commit `ff4ab6b`, because they restate what a cold reviewer said
+and the implementing stage is cold by construction — it cannot read the review and had, in an
+earlier revision, guessed at it. That commit was not self-cleared: it was audited as round 3 and
+returned `FIDELITY: GO`. Read the restatements as the dispatching session's paraphrase; the
+reviewer's own words are quoted verbatim in §6 item 2.
+
 ## 1. Entry re-verification (§1, all seven rows run, output quoted)
 
 | # | Fact | Command → output |
@@ -101,11 +110,14 @@ Two, both for the concept holder — neither is resolvable inside this stage's f
    (`app/(site)/landing.css`), and §5 T16 adopts Fumadocs for the docs UI. What is unrecorded
    anywhere is whether a neutral docs theme is acceptable on the live domain. BS3 is the
    irreversible step, so this must be answered before it, not inside it.
-2. **§3 rows 5 and 9 of the kickoff are unpassable as literally written** (F1/F2) — row 5 forbids
-   «environment» anywhere in `out/` while D3 mandates a verbatim lede containing it; row 9 demands
-   `grep -ril noindex out/` → 0 while Next hard-stamps `noindex` on its own 404 artefacts. Both
-   cold-audit rounds routed this `KICKOFF-AMBIGUOUS` — to kickoff re-design, owned by the
-   dispatching session.
+2. **§3 rows 5 and 9 of the kickoff are unpassable as literally written** (F1/F2). The cold audit's
+   own line, quoted verbatim rather than paraphrased: «§3 rows 5 and 9 are unpassable as literally
+   written — row 5 forbids «environment» anywhere in out/ while D3 mandates a verbatim lede
+   containing it, and row 9 demands `grep -ril noindex out/` → 0 while Next hard-stamps noindex on
+   its own 404 artefacts; the kickoff also gives no descope for either, so §3's «on any FAIL, STOP»
+   collides with §7's «a finding is a success of this stage».» Graded `KICKOFF-AMBIGUOUS` in all
+   three rounds, which routes to kickoff re-design — owned by the dispatching session, not this
+   stage, and not a defect grade against it.
 
 ## 7. Coverage statement (T14)
 
