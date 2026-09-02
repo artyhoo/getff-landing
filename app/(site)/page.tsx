@@ -87,7 +87,7 @@ export default function HomePage() {
           <a className="panel-card" href="https://github.com/artyhoo/getff">
             <span className="badge badge-exp">experimental</span>
             <h3>The AI factory</h3>
-            <p>An AGENTS.md that is executable: every claim carries a live-fired enforcement status.</p>
+            <p>Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.</p>
           </a>
         </div>
       </section>

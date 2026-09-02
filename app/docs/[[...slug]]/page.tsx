@@ -26,8 +26,9 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
 
   return (
     <DocsPage tableOfContent={{ enabled: true }} full>
-      {/* FAQPage JSON-LD — ported from faq.md's Starlight `head:` front-matter. */}
-      {page.url === 'faq' && (
+      {/* FAQPage JSON-LD — ported from faq.md's Starlight `head:` front-matter.
+          page.url carries the baseUrl: '/docs/faq', not 'faq'. */}
+      {page.url === '/docs/faq' && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqJsonLd }} />
       )}
       <h1>{page.data.title}</h1>
