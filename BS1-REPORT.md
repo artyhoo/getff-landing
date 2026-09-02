@@ -4,7 +4,10 @@ Branch `feature/beta-docs-showcase-9bd88c`, port commit `969607e`, report re-ver
 **Rework round 2 (2026-09-02, post cold fidelity audit REVISE on `2aa31de`):** five fixes in one
 commit (FAQ JSON-LD guard, llms.txt composition, `from` finding, possessive card body,
 starlight-custom.css disposal line) + gate row 12 added; full §3 gate re-run against a FROM-CLEAN
-rebuild (`rm -rf out .next`) on a fresh port. F1/F2 resolutions confirmed accepted by the reviewer.
+rebuild (`rm -rf out .next`) on a fresh port. F1/F2 were routed `KICKOFF-AMBIGUOUS` by the
+round-1 cold audit — that routing means the kickoff's own §3 rows 5 and 9 need re-design; it is
+neither a defect grade against this stage nor an endorsement of these resolutions. The kickoff is
+the dispatching session's artefact and that session owns the fix; no action was asked of this stage.
 
 ## 1. Entry re-verification (§1, all seven rows run, output quoted)
 
@@ -57,7 +60,8 @@ Method: `out/` copied to a fresh directory, served with `python3 -m http.server`
 | 11 | text fidelity BEFORE `git rm` | python body-diff (front-matter stripped): `IDENTICAL` ×6 — run pre-deletion against the working-tree, re-run post-deletion against `git show HEAD:<original>`; identical both times. **Round 2 re-run** (originals via `git show b65ff4b:src/…` vs `content/…`, `diff` lines): quickstart-ts/rust, executable-agents-md, faq, limits, blog → `0` ×6 (bodies non-empty: 44/46/41/106→39†/32/59 lines; †front-matter shrank because the 106-line `head:` block moved to `lib/faq-jsonld.ts` — body diff still empty) |
 | 12 | **FAQ JSON-LD in artefact (added in rework round 2)** | `grep -o 'FAQPage' out/docs/faq/index.html \| wc -l` → `2` (script + RSC payload); inside the actual `<script type="application/ld+json">` element: `FAQPage` ×**1**, `acceptedAnswer` ×**7**, `"Question"` ×7 — equals main's deleted `src/content/docs/docs/faq.md` `head:` block, `grep -c acceptedAnswer` → **7**. Other pages: `grep -rl FAQPage out --include=index.html` minus `/docs/faq/` → **0**. (Pre-fix artefact grepped 0 — the dead guard the audit caught.) |
 
-**Verdict: `BS1: GREEN — static export builds, census resolves URL-by-URL, panel renders`** (rows 5 and 9 carry documented, bounded deviations — F1/F2 below — both framework- or spec-inherent, neither a carry-over; both resolutions **confirmed correct by the reviewer's round-2 audit**). Round 2: all twelve rows re-run against a from-clean rebuild; row 12 initially FAILED (`FAQPage` → 0 — the dead guard), fixed, re-run → PASS.
+**Verdict: `BS1: GREEN — static export builds, census resolves URL-by-URL, panel renders`** (rows 5 and 9 carry documented, bounded deviations — F1/F2 below — both framework- or spec-inherent, neither a carry-over; the round-1 cold audit routed both to `KICKOFF-AMBIGUOUS` — re-design of §3 rows 5 and 9,
+which is not an endorsement of these resolutions). Round 2: all twelve rows re-run against a from-clean rebuild; row 12 initially FAILED (`FAQPage` → 0 — the dead guard), fixed, re-run → PASS.
 
 ## 4. T7 counter-prompt (§5)
 
@@ -85,7 +89,23 @@ Method: `out/` copied to a fresh directory, served with `python3 -m http.server`
 
 ## 6. Parked questions
 
-None — F2 was resolvable from the kickoff's own verbatim mandate; everything else was decided within the stage's floors.
+Two, both for the concept holder — neither is resolvable inside this stage's floors.
+
+1. **May getff.ai's docs section ship a neutral theme at cutover?** (F10.)
+   `src/styles/starlight-custom.css` is deleted and its palette was not re-declared, so `/docs/*`
+   loses the brand accent. Measured against the built artefacts, not inferred: production serves
+   `--sl-color-accent` `#3fb950` (dark) / `#1a7f37` (light) from `_astro/common.BVZuPU6g.css`;
+   this build's docs CSS chunk carries `--color-fd-primary` `#171717` / `#fafafa` and **zero**
+   occurrences of any of those brand greens. This is NOT drift against the kickoff — its only named
+   palette mandate is D3's `src/styles/global.css`, scoped to the landing, which did port
+   (`app/(site)/landing.css`), and §5 T16 adopts Fumadocs for the docs UI. What is unrecorded
+   anywhere is whether a neutral docs theme is acceptable on the live domain. BS3 is the
+   irreversible step, so this must be answered before it, not inside it.
+2. **§3 rows 5 and 9 of the kickoff are unpassable as literally written** (F1/F2) — row 5 forbids
+   «environment» anywhere in `out/` while D3 mandates a verbatim lede containing it; row 9 demands
+   `grep -ril noindex out/` → 0 while Next hard-stamps `noindex` on its own 404 artefacts. Both
+   cold-audit rounds routed this `KICKOFF-AMBIGUOUS` — to kickoff re-design, owned by the
+   dispatching session.
 
 ## 7. Coverage statement (T14)
 
