@@ -9,14 +9,27 @@ round-1 cold audit — that routing means the kickoff's own §3 rows 5 and 9 nee
 neither a defect grade against this stage nor an endorsement of these resolutions. The kickoff is
 the dispatching session's artefact and that session owns the fix; no action was asked of this stage.
 
-**Provenance of this file.** Everything below §1 was written by the implementing stage, which
-ran the commands it quotes. Three passages were NOT: the `KICKOFF-AMBIGUOUS` restatement in the
-header above, the same restatement in the §3 verdict line, and all of §6. Those were authored by
-the **dispatching session** in commit `ff4ab6b`, because they restate what a cold reviewer said
-and the implementing stage is cold by construction — it cannot read the review and had, in an
-earlier revision, guessed at it. That commit was not self-cleared: it was audited as round 3 and
-returned `FIDELITY: GO`. Read the restatements as the dispatching session's paraphrase; the
-reviewer's own words are quoted verbatim in §6 item 2.
+**Provenance of this file.** Everything below §1 was written by the implementing stage, which ran
+the commands it quotes. Four passages were NOT — they restate what a cold reviewer said, and the
+implementing stage is cold by construction: it cannot read the review, and in an earlier revision
+it guessed at it. Authored by the **dispatching session**, per commit:
+
+| Passage | Commit |
+| --- | --- |
+| the `KICKOFF-AMBIGUOUS` restatement in the header above | `ff4ab6b` |
+| the same restatement in the §3 verdict line | `ff4ab6b` |
+| §6 item 1 and the parked-questions framing | `ff4ab6b` |
+| §6 item 2, including the verbatim reviewer quote | `b805ff4` |
+
+**This paragraph deliberately states no audit status.** An earlier revision did, and it went stale
+inside one commit: it vouched «audited, `FIDELITY: GO`» for §6 as a whole while §6 item 2 had been
+written later and never seen by that audit — a true-sentence pair composing into a false one, which
+is the same defect class this paragraph exists to prevent. A snapshot of review state cannot live
+inside a file that keeps changing; authorship can, because `git log` settles it and it never goes
+stale. **For the review status of any passage, read the history of the commit named beside it** —
+each dispatching-session commit message records the audit round that produced it, and each was
+submitted to a cold round rather than self-cleared. Read the restatements as the dispatching
+session's paraphrase; the reviewer's own words are quoted verbatim in §6 item 2.
 
 ## 1. Entry re-verification (§1, all seven rows run, output quoted)
 
