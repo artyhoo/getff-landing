@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "---Get started---",
+    "quickstart-ts",
+    "quickstart-rust",
+    "---Concepts---",
+    "executable-agents-md",
+    "---Reference---",
+    "faq",
+    "limits",
+    "---More---",
+    "[Home](/)",
+    "[Blog](/blog/)",
+    "[Consulting](/consulting/)"
+  ]
+}
