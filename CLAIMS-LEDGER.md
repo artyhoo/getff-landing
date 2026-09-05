@@ -18,8 +18,8 @@ roadmap»; (5) everything environment-layer (public name: «The AI factory») is
 `[TIER §N @L<line>]` = `packages/core/templates/shared/tier-home.md` ·
 `[INSTALL py]` = `INSTALL-FOR-AI.md` «Python toolchain lane» ·
 `[W6]` = `tests/consumer-matrix/python-unfamiliar-stack-cell.sh` (assertion numbers refer to its header list) ·
-`[LEDE]` = deployed landing lede, `app/(site)/page.tsx:44-46` at `87d1a99` (BS1 copy, unchanged) ·
-`[LIMITS]` = deployed landing «Honest limits» section, `app/(site)/page.tsx:190-194` at `87d1a99`.
+`[LEDE]` = deployed landing lede, `app/(site)/page.tsx:44-46` at `87d1a99` (`:43-45` at this branch's head — the BS1 copy text is unchanged; only two hrefs + two comments differ) ·
+`[LIMITS]` = deployed landing «Honest limits» section, `app/(site)/page.tsx:190-194` at `87d1a99` (`:188-192` at head). All other `page.tsx:line` cites are head numbers.
 
 **Scope note:** rows are *capability claims* — sentences that say what getff does, supports, or
 will do. Normative rhetoric («a bypassed gate is just a lie moved downstream»), structural
@@ -35,7 +35,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 3 | content/docs/what-is-getff.md:14-16 | «The first layer compiles your conventions into the toolchain gates your project already runs: ESLint rules and husky hooks for npm projects, gate generation for Rust.» | 1 | npm arm: kept quickstart page content/docs/quickstart-ts.md:29 + [LIMITS]; Rust arm: [LIMITS] «Rust gate generation» + [SSOT seq.core.step.install] (`install.sh cargo` lane exists) |
 | 4 | content/docs/what-is-getff.md:18 | «Today this layer covers TypeScript/JS, Rust and Python stacks» | 1 | [W6] (python lane e2e); npm-tarball cell `tests/consumer-matrix/npm-tarball-cell.sh` (npm); [LIMITS] + [SSOT seq.core.step.install] (cargo lane) |
 | 5 | content/docs/what-is-getff.md:18 | «with more toolchains on the roadmap» | 1 | [LIMITS] «Other toolchains are on the roadmap, not in the box» — label: planned |
-| 6 | content/docs/what-is-getff.md:19-20 | «an *executable* AGENTS.md today means **getff's own repo** — generating yours from your conventions is the next milestone, not a shipped feature.» | 2 | our repo's AGENTS.md + `make self-audit` demo (app/(site)/page.tsx:65-70, kept BS1 hero) — label: milestone (F5-2 exactly) |
+| 6 | content/docs/what-is-getff.md:19-20 | «an *executable* AGENTS.md today means **getff's own repo** — generating yours from your conventions is the next milestone, not a shipped feature.» | 2 | our repo's AGENTS.md + `make self-audit` demo (app/(site)/page.tsx:63-69 at head, kept BS1 hero) — label: milestone (F5-2 exactly) |
 | 7 | content/docs/what-is-getff.md:22 | «The rules layer ships as a **beta**.» | 5 | label: beta (public-beta label, parent §7 maturity set; design B-D1) |
 | 8 | content/docs/what-is-getff.md:27-28 | «Tasks are tiered by a fixed rubric — who plans, who implements, who reviews — so cheap mechanical work runs on a cheaper model and design-heavy work plans on a stronger one.» | 1 | [TIER §2 @L43-59] (two questions, three tiers, criteria table) |
 | 9 | content/docs/what-is-getff.md:29-31 | «The factory installs on top of the rules layer: the factory profile ships the same rule-proving steps, so dispatched work happens in a repo where those gates are installed and proven.» | 1 | [SSOT seq.factory.step.prove-rules-not-inert] (the proving steps are IN the factory sequence) |
@@ -91,7 +91,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 59 | content/docs/beta.md:23-24 | «It runs today on a specific operator runtime» | 1 | [SSOT seq.factory.step.install] |
 | 60 | content/docs/beta.md:26-27 | «where a capability is missing it degrades in named ways — the matrix is public on the Degradations page» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 61 | content/docs/beta.md:31-33 | «`npx getff@latest init` is **not published yet** — the install command will be announced with the beta» | — | label: planned (U10) |
-| 62 | content/docs/beta.md:35-38 | entry path: clone the framework repo, run the installer; First Steps — core «ends with a rule that has gone red on input planted on purpose» | 1 | [INSTALL] entry path + [SSOT seq.core.step.watch-a-rule-fire] |
+| 62 | content/docs/beta.md:30-38 | entry path: clone the framework repo, run the installer; First Steps — core «ends with a rule that has gone red on input planted on purpose» | 1 | [INSTALL] entry path + [SSOT seq.core.step.watch-a-rule-fire] |
 | 63 | content/docs/beta.md:42-45 | feedback via issue templates (bug report / beta feedback) at artyhoo/getff `/issues/new/choose` | 1 | kickoff D6 (leg B ships the templates; link resolves either way) + design B-D6 |
 | 64 | content/docs/first-steps-core.md:16-17 | «The sequence ends with a rule that has gone red on input planted on purpose» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (plants deliberately-bad input, asserts RED) |
 | 65 | content/docs/first-steps-core.md:18 | «The rules layer ships as a **beta**.» | 5 | label: beta |
@@ -109,19 +109,23 @@ below cover each page's own connective prose; the step content's evidence is the
 | 77 | content/blog/getff-beta.md:20-23 | layer-1 lanes: ESLint/husky (npm), gate generation (Rust), pure-bash python lane with no Node | 1 | quickstart-ts (kept) + [LIMITS] + [INSTALL py] + [W6] |
 | 78 | content/blog/getff-beta.md:23-25 | «Install, and you end inside a gate that has gone red on a planted violation — every quickstart ends with exactly that moment» | 1 | [SSOT seq.core.step.watch-a-rule-fire] + [W6] RED arm + kept quickstart-ts §3 |
 | 79 | content/blog/getff-beta.md:29 | «for cargo, the demo today is clippy, with cargo-deny on the roadmap» | 4 | F5-4's exact required shape — label: planned (deny arm) |
-| 80 | content/blog/getff-beta.md:31-33 | executable AGENTS.md «**still a milestone for your repo**»: the inspectable one is our own, live-fired claims + `make self-audit` | 2 | our repo's AGENTS.md + hero demo (page.tsx:65-70) — label: milestone (F5-2) |
+| 80 | content/blog/getff-beta.md:31-33 | executable AGENTS.md «**still a milestone for your repo**»: the inspectable one is our own, live-fired claims + `make self-audit` | 2 | our repo's AGENTS.md + hero demo (page.tsx:63-69 at head) — label: milestone (F5-2) |
 | 81 | content/blog/getff-beta.md:40-42 | factory: kickoff in, fixed tier rubric (who plans / implements / reviews), branches inside compiled gates, harvest back | 1 | [TIER §2] + [SSOT seq.factory] + [GUIDE §2.3] |
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | kickoff D6 + design B-D6 |
-| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm, clippy/cargo-deny for cargo.» (left panel card, BS1 copy — only the href was re-pointed this stage) | 1+4 | npm arm: quickstart-ts (kept) [F5-1]. cargo-deny arm: **label: planned (F5-4)** — see FINDING-L1: the BS1-era copy names cargo-deny inside a present-tense gate list; this stage may only change two hrefs in this file, so the wording is flagged for the operator/BS3, not edited |
-| 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:65-70) — F5-2's exact sanctioned form («its own») |
-| 87 | app/(site)/page.tsx:80 | left card href → `/docs/daily-cycle-rules/` | — | wiring per B-D2 (killer card links killer-layer docs) — not a claim; listed for completeness |
-| 88 | app/(site)/page.tsx:85 | right card href → `/docs/factory-overview/` | — | wiring per B-D2 (environment card links factory docs) — not a claim |
+| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm, clippy/cargo-deny for cargo.» (left panel card, BS1 copy — only the href was re-pointed this stage) | 1, 4 | npm arm: quickstart-ts (kept) [F5-1]. cargo-deny arm: **label: planned (F5-4)** — see FINDING-L1: the BS1-era copy names cargo-deny inside a present-tense gate list; this stage may only change two hrefs in this file, so the wording is flagged for the operator/BS3, not edited |
+| 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:63-69 at head) — F5-2's exact sanctioned form («its own») |
+
+**Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
+`app/(site)/page.tsx:80` → `/docs/daily-cycle-rules/` (killer card links killer-layer docs) and
+`:85` → `/docs/factory-overview/` (environment card links factory docs). They carry no formula
+and no label because they assert nothing; they are listed here only so the auditor can see the
+landing diff accounted for in full.
 
 ## Label density
 
-Rows carrying a pure or partial **planned / milestone** label: 5, 6, 50, 51, 58, 61, 79, 80, 83, 85 → 10 rows.
+Rows carrying a pure or partial **planned / milestone** label: 5, 6, 50, 51, 58, 61, 79, 80, 83, 85 → 10 rows (86 numbered rows total; the two href re-points are recorded as wiring below the table, not as rows).
 Rows carrying **experimental / beta** labels: 7, 10, 21, 30, 52, 56, 65, 68, 72 → 9 rows.
 
 ## Findings raised while writing this ledger
