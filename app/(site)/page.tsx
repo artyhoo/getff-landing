@@ -77,14 +77,12 @@ export default function HomePage() {
       <section id="ai-dx" aria-labelledby="ai-dx-title">
         <h2 id="ai-dx-title">AI DX on both sides of the keyboard</h2>
         <div className="panel-grid">
-          {/* BS2 target: the two-layer showcase page for the rules layer. */}
-          <a className="panel-card" href="/docs/quickstart-ts/">
+          <a className="panel-card" href="/docs/daily-cycle-rules/">
             <span className="badge">beta</span>
             <h3>Rules from live docs</h3>
             <p>Conventions compiled into native toolchain gates — ESLint/husky for npm, clippy/cargo-deny for cargo.</p>
           </a>
-          {/* BS2 target: the AI-factory overview page. */}
-          <a className="panel-card" href="https://github.com/artyhoo/getff">
+          <a className="panel-card" href="/docs/factory-overview/">
             <span className="badge badge-exp">experimental</span>
             <h3>The AI factory</h3>
             <p>Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.</p>
