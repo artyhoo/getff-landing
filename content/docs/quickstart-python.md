@@ -7,8 +7,9 @@ You'll go from install to a red gate in one command: the Python lane is a pure-b
 delivery — no `package.json`, no npm, no Node on the consumer machine — that ships
 ast-grep structural rules plus a ruff fast-path into your repo, then proves on a planted
 violation that they fire. The consumer-matrix cell for exactly this shape (a scripted
-fresh Python project, install under a Node-stripped PATH) runs green in the framework's
-CI today; everything in present tense below is what that cell demonstrates.
+fresh Python project, install under a Node-stripped PATH) runs end to end — install,
+agent surface, generated-rule join, red/green/reject arms — as a merge-blocking job in
+the framework's CI; everything in present tense below is what that cell demonstrates.
 
 ## 1. Install
 

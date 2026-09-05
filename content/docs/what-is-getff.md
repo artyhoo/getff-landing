@@ -15,7 +15,7 @@ The first layer compiles your conventions into the toolchain gates your project 
 runs: ESLint rules and husky hooks for npm projects, gate generation for Rust. A
 convention that lives as a rule file fails loudly at edit time, pre-commit, pre-push or
 CI — not politely in prose the agent parsed and ignored. Today this layer covers
-TypeScript/JS and Rust stacks, with more toolchains on the roadmap. And the flagship
+TypeScript/JS, Rust and Python stacks, with more toolchains on the roadmap. And the flagship
 honest limit: an *executable* AGENTS.md today means **getff's own repo** — generating
 yours from your conventions is the next milestone, not a shipped feature.
 
@@ -27,7 +27,8 @@ The second layer is the AI-run half: a multi-model dispatch pipeline where a kic
 goes in and a harvested branch comes out. Tasks are tiered by a fixed rubric — who
 plans, who implements, who reviews — so cheap mechanical work runs on a cheaper model
 and design-heavy work plans on a stronger one. The factory installs on top of the rules
-layer, so everything it dispatches works inside the same gates.
+layer: the factory profile ships the same rule-proving steps, so dispatched work happens
+in a repo where those gates are installed and proven.
 
 The factory layer is **experimental**: it expects a specific operator runtime and its
 capability surface degrades in named ways when pieces are missing — see

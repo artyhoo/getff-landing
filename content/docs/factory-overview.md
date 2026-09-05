@@ -51,8 +51,8 @@ the harness fills each tier's seat with what it has.
 
 ## Harvest
 
-A dispatched task ends with a branch, and `/harvest` is what brings it back into your
-branch — the worker never merges into your main line by itself. If a task stalls or the
+A dispatched task ends with a branch, and `/harvest` is what brings the finished branch
+back. If a task stalls or the
 runtime misbehaves, `/aif-doctor` is the diagnostic entry point. The day-to-day shape
 of this loop is one page: [Daily cycle — factory](/docs/daily-cycle-factory/).
 

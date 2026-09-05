@@ -20,8 +20,8 @@ because the honest version of this announcement has both.
 The first layer compiles conventions into the toolchain gates your project already
 runs. For npm projects that means ESLint rules and husky hooks; for Rust, gate
 generation; for Python, a pure-bash lane that ships ast-grep rules and a ruff
-fast-path with no Node on your machine. Install, and a planted violation goes red
-locally before CI wakes up — the quickstarts each end with exactly that moment, on
+fast-path with no Node on your machine. Install, and you end inside a gate that has
+gone red on a planted violation — every quickstart ends with exactly that moment, on
 purpose, because a gate nobody has seen fire is an unproven claim.
 
 This layer is the **beta**: it works today on TypeScript/JS, Rust and Python stacks.

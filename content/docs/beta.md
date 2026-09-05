@@ -12,7 +12,8 @@ names what you can hold us to.
 
 **Beta — Rules from live docs.** Conventions compiled into native toolchain gates:
 ESLint rules and husky hooks for npm projects, gate generation for Rust, and the
-Node-free bash lane for Python. The gates fire today, on your repo, before CI does.
+Node-free bash lane for Python. The gates run today, on your repo — locally where the
+lane ships hooks (npm), and as failing CI gates on every lane.
 What is *not* here yet: generating an executable AGENTS.md from *your* conventions —
 today the executable AGENTS.md you can inspect is [getff's own repo](https://github.com/artyhoo/getff/blob/main/AGENTS.md),
 and making yours is the next milestone. Other toolchains are on the roadmap, not in

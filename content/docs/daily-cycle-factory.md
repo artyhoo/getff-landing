@@ -14,9 +14,9 @@ with a first task.
 Invoke `/arch <topic>`: the external design contour turns a raw idea into a reviewed
 design plus a routed handoff. On a harness without skills, read
 `.claude/skills/arch/SKILL.md` and follow it by hand. A design that comes out of
-`/arch` plan-complete also changes how the task routes: the tier rubric lets such a
-kickoff run whole-pipeline on the executor tier, because the judgment was already
-spent in design.
+`/arch` plan-complete also changes how the task routes — a plan-complete kickoff from
+`/arch` is exactly the case the tier rubric routes whole-pipeline to the executor tier;
+the rubric owns the conditions.
 
 ## preset — pick how the work runs
 
@@ -43,8 +43,8 @@ rows plan on the top tier; mechanical rows run whole-line on the executor tier.
 ## dispatch → harvest — start it, then bring it home
 
 Dispatch the launch table's top row, then bring the finished branch back with
-`/harvest`. The worker works on its own branch inside your compiled gates; nothing
-reaches your line until you harvest it. If a task stalls or the runtime misbehaves,
+`/harvest`. The worker works on its own branch inside your compiled gates. If a task
+stalls or the runtime misbehaves,
 `/aif-doctor` is the diagnostic entry point.
 
 ## Next
