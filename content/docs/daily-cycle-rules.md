@@ -1,0 +1,65 @@
+---
+title: "Daily cycle — rules"
+description: "How you live with the rules layer day to day: five beats from before you edit to the PR, each with the exact command the shipped guide spells."
+---
+
+Once the gates are installed, the rules layer is not a thing you visit — it is a loop
+you live in. The shipped AI Usage Guide spells the same loop for AI agents; this page is
+the human-voiced version, with every command spelled exactly as the guide spells it.
+Nothing here needs anything beyond a core install: every command below is shipped by the
+installer at **every** depth.
+
+## The five beats
+
+### 1. Before you edit
+
+Read `AGENTS.md`, then the `.ai-factory/` doc it points at for your task: `RULES.md`
+for what is enforced, `ARCHITECTURE.md` for layer direction. Thirty seconds of reading
+is cheaper than a rewrite the gates force later.
+
+### 2. While you edit
+
+The ESLint custom rules are the earliest channel: they fire in your editor and in
+`npm run lint`. A rule firing is the design working, not an obstacle to route around —
+it means the convention you wrote down is holding against the change you are making.
+
+### 3. Before you commit
+
+`bash scripts/audit-ai-docs.sh` — drift + code-vs-docs probes. When you touched layout
+or added a package, also `bash scripts/check-rule-globs.sh` and
+`bash scripts/check-lintstaged-resolves.sh`. The pre-commit hook runs lint-staged on
+its own; these are the checks you run so the hook never surprises you.
+
+### 4. On push
+
+`.husky/pre-push` fires automatically: typecheck, `vitest related`, dependency-cruiser.
+It is not optional and not to be bypassed with `--no-verify` — a bypassed gate is just
+a lie moved downstream.
+
+### 5. On the PR
+
+CI (`ci-success`) is the last-resort gate — the authority that does not depend on
+anyone's local tooling, which is exactly why it must never be the FIRST place a problem
+is caught. A CI that died without running a step is not a red gate: when a GitHub Free
+account exhausts its private-repo Actions-minutes pool, every first-party check fails
+in ~2 s with zero steps. `bash scripts/ci-available-probe.sh` (shipped on npm-lane
+installs only) classifies that state as `CI UNAVAILABLE` instead of misreporting RED.
+`bash scripts/pre-merge-local.sh` runs every detected lane's gates on the merge result
+locally before you push — opt-in, and weaker evidence than CI: its verdict says so and
+lists what it does NOT cover.
+
+## When you add a convention
+
+Add its executable check in the same change. A convention with no check is not a rule;
+`/rule-research` and `/rule-tests` exist to make that cheap.
+
+## Where a rule came from
+
+`.ai-factory/RULES.md` is the rule list, and the enforcement channel per rule is named
+there. If a rule seems wrong for this project, change it there with a rationale in the
+PR — never silence it with an inline suppression you cannot explain.
+
+## Next
+
+What this loop looks like on the dispatch side: [Daily cycle — factory](/docs/daily-cycle-factory/)
+(experimental). What the gates can and cannot catch today: [Honest limits](/docs/limits/).
