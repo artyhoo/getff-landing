@@ -114,7 +114,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | kickoff D6 + design B-D6 |
-| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm, clippy/cargo-deny for cargo.» (left panel card, BS1 copy — only the href was re-pointed this stage) | 1, 4 | npm arm: quickstart-ts (kept) [F5-1]. cargo-deny arm: **label: planned (F5-4)** — see FINDING-L1: the BS1-era copy names cargo-deny inside a present-tense gate list; this stage may only change two hrefs in this file, so the wording is flagged for the operator/BS3, not edited |
+| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: quickstart-ts (kept) [F5-1]. cargo arm: **F5-4-conformant** — clippy present tense, cargo-deny explicitly roadmap; same shape as row 79's blog sentence. No `planned` label needed: the sentence now states its own tense |
 | 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:63-69 at head) — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
@@ -130,10 +130,13 @@ Rows carrying **experimental / beta** labels: 7, 10, 21, 30, 52, 56, 65, 68, 72 
 
 ## Findings raised while writing this ledger
 
-- **FINDING-L1 (row 85):** the landing's left panel card (BS1 copy) reads «clippy/cargo-deny
-  for cargo» in a present-tense gate list. F5-4 requires «clippy demo, deny roadmap». This
-  stage's only permitted edits to `app/(site)/page.tsx` are the two hrefs, so the copy is
-  ledger-labelled `planned` and flagged for the operator at BS3 — not silently reworded here.
+- **FINDING-L1 (row 85) — RESOLVED at BS3.** The landing's left panel card carried the BS1
+  copy «clippy/cargo-deny for cargo» inside a present-tense gate list, which F5-4 forbids
+  («clippy demo, deny roadmap»). BS2 could not edit it (its permitted edits to
+  `app/(site)/page.tsx` were the two hrefs) and correctly flagged it rather than reworking it
+  silently. BS3 owns the file and reworded it to «for cargo, the demo today is clippy, with
+  cargo-deny on the roadmap» — the same shape row 79 already uses in the blog. Row 85 above is
+  updated to the shipped wording; the claim is now F5-4-conformant rather than `planned`.
 - **FINDING-L2 (rows 39, 47):** the W6 cell's *pass status* in the framework's CI is not
   observable from this container (no github.com egress); the page claims what the cell
   *demonstrates and asserts* (its arms, its merge-blocking wiring), never a green badge.

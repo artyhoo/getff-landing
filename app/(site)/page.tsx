@@ -80,7 +80,7 @@ export default function HomePage() {
           <a className="panel-card" href="/docs/daily-cycle-rules/">
             <span className="badge">beta</span>
             <h3>Rules from live docs</h3>
-            <p>Conventions compiled into native toolchain gates — ESLint/husky for npm, clippy/cargo-deny for cargo.</p>
+            <p>Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.</p>
           </a>
           <a className="panel-card" href="/docs/factory-overview/">
             <span className="badge badge-exp">experimental</span>
