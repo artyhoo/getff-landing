@@ -1,7 +1,7 @@
 # CLAIMS-LEDGER.md — BS2 per-claim F5 ledger
 
 **Framework clone read at commit `f49e35311c` (HEAD of `/home/www/rules-as-tests-aif` at authoring), 2026-09-05.**
-Landing base: `87d1a99` (BS1); every `page:line` below is this branch's head (`2b407f3`).
+Landing base: `87d1a99` (BS1); page:line cites were authored at the BS2 head `2b407f3` and re-verified at the BS3 round-8 head (see the round sections below for every delta since).
 Auditor note (BS3 pre-merge): this ledger was written by the BS2 worker; per design §2 the
 author never self-certifies — check each row claim-by-claim against shipped reality before cutover.
 
@@ -115,7 +115,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | probe: registry.npmjs.org `getff` → 0.0.1 placeholder, no `bin`; site surface carries no signup form — label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
-| 85 | app/(site)/page.tsx:84 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `packages/core/templates/ts-server/eslint.config.mjs`; cargo arm: `packages/core/templates/cargo/clippy.toml` (shipped ban surface) vs `packages/core/templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `packages/core/templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
+| 85 | app/(site)/page.tsx:84 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs` (repo root); cargo arm: `packages/core/templates/cargo/clippy.toml` (shipped ban surface) vs `packages/core/templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `packages/core/templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
 | 86 | app/(site)/page.tsx:89 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | repo `AGENTS.md` Enforced lines (every demo node carries one) + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
@@ -307,3 +307,16 @@ consumer contract fix/research/feature vs pipeline parser R-phase/execution-buil
 vs free-form maintainer corpus) is recorded for the operator: the site follows the
 shipped consumer contract verbatim (Option A); aligning the vocabularies is a
 framework-side change.
+
+## BS3 round 8 — seventh-audit GAP fix (2026-09-10)
+
+Leg A round 7 (cold audit of `fe51cdb`, 89 claims: 85 VERIFIED / 1 GAP / 3
+UNVERIFIABLE; live external probes incl. packmind.com, github.com/agent-sh/agnix,
+coderabbit.ai, qodo.ai — the three competitor characterizations came back VERIFIED
+against primary sources this round) returned REVISE on one ledger-evidence row:
+
+- row 85 npm-arm evidence re-pointed to `templates/ts-server/eslint.config.mjs`
+  (repo root — round-6 over-corrected the prefix into `packages/core/`, which holds
+  only cargo/go/python/react-next/shared templates).
+- the header's stale «branch head 2b407f3» self-provenance note updated (observation
+  from the same audit).
