@@ -84,8 +84,8 @@ below cover each page's own connective prose; the step content's evidence is the
 | 51 | content/docs/quickstart-python.md:98-99 | «The one-command public install path (`npx getff@latest init`) is not published yet» | — | probe: registry.npmjs.org `getff` → 0.0.1 placeholder («name reserved. Real release coming soon.», published 2026-06-23, no `bin` field) — label: planned (U10 open; kickoff §4 forbids inventing an entry command) |
 | 52 | content/docs/degradations.md:14 | «**Experimental.**» (first paragraph) | 5 | label: experimental |
 | 53 | content/docs/degradations.md:16-21 + reading note :23-27 | matrix «is copied verbatim — row text unchanged — from the one file that owns it; this page is a pointer, never a second source. Read the rows as evidenced claims, not probe-verified facts» + the reading note resolving the pre-pointer-ization `CLAUDE.md:108/:130` cites to the owner's §2 | 1 | byte-diff of the table vs `packages/core/templates/shared/tier-home.md` §3 performed at the BS3 round-3 audit (all rows byte-identical); NO mechanical gate on the landing — the note is prose, re-checked by hand on re-vendor |
-| 54 | content/docs/degradations.md:23-30 | the 4 matrix rows (no aif runtime / no GLM subscription / no Fable / non-CC harness) | 1 | [TIER §3 @L77-84] — verbatim render, single owner A3 |
-| 55 | content/docs/degradations.md:32-35 | «The authoritative rows live in your install at `.ai-factory/tier-home.md` §3. That file installs at `env` and `factory` depth only — on a `core` install it is absent by design» | 1 | [GUIDE §4 @L249-250] + [SSOT seq.env.step.read-tier-home] |
+| 54 | content/docs/degradations.md:31-36 | the 4 matrix rows (no aif runtime / no GLM subscription / no Fable / non-CC harness) | 1 | [TIER §3 @L77-84] — verbatim render, single owner A3 |
+| 55 | content/docs/degradations.md:38-41 | «The authoritative rows live in your install at `.ai-factory/tier-home.md` §3. That file installs at `env` and `factory` depth only — on a `core` install it is absent by design» | 1 | [GUIDE §4 @L249-250] + [SSOT seq.env.step.read-tier-home] |
 | 56 | content/docs/beta.md:7-8 | «the rules layer is the **beta**, the factory layer is **experimental**» | 5 | label: beta + experimental (parent §7 maturity set, design B-D1) |
 | 57 | content/docs/beta.md:15-17 | «The gates run today, on your repo — locally where the lane ships hooks (npm; the Python lane ships a local pre-push rung too), and as failing CI gates on every lane.» | 1 | npm hooks: `setup.d/50-hooks.sh` (`.husky/` delivery); python rung: `setup.d/45-python.sh:887-899`; CI-gate lanes: `setup.d/46-cargo.sh` (getff-cargo.yml) + [INSTALL py] (getff-python.yml) |
 | 58 | content/docs/beta.md:18-20 | «today the executable AGENTS.md you can inspect is getff's own repo … making yours is the next milestone» + «Other toolchains are on the roadmap, not in the box» | 2 | our repo's AGENTS.md + `make self-audit` — labels: milestone (F5-2) + planned |
@@ -100,7 +100,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 67 | content/docs/first-steps-core.md:64 | «an installed rule that has never been seen to fire is an unproven claim» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (same sentence, source) |
 | 68 | content/docs/first-steps-env.md:17 | «**Experimental.**» | 5 | label: experimental |
 | 69 | content/docs/first-steps-env.md:steps 1-6 | all step content | 1 | [SSOT seq.env steps install→arch-one-idea] @ `94a3a9efcd` — vendored render, re-vendored at the BS3 round (verify-payload step had drifted); NO mechanical parity gate on the landing (operator finding); provenance header :9-15 |
-| 70 | content/docs/first-steps-env.md:26-33 | deepening core→env keeps «every core artefact … byte-identical except `.prettierignore`»; bare `--refresh` never deepens (resolves to core); `--refresh --profile env` DOES deliver tier-home + env skills | 1 | live install probe at BS3 round 5 (fresh sandbox: core → refresh+env → tier-home.md and `.claude/skills/arch/` both delivered, rc 0); code: install.sh:643-646 refresh→core resolution, :1349-1352 tier-home uniform gate (PROFILE=env|factory OR presence), :823-828 env-skills same gate (#869/#1334). NB: the SSOT's 2026-08-09 measurement is inverted since #869/#1334 — framework defect → operator; this render deviates from the SSOT deliberately (header names it) |
+| 70 | content/docs/first-steps-env.md:26-33 | deepening core→env keeps «every core artefact byte-identical, `.prettierignore` included (managed block ships full-depth at core)»; bare `--refresh` never deepens (resolves to core); `--refresh --profile env` DOES deliver tier-home + env skills | 1 | live install probe at BS3 round 5 (fresh sandbox: core → refresh+env → tier-home.md and `.claude/skills/arch/` both delivered, rc 0); code: install.sh:643-646 refresh→core resolution, :1349-1352 tier-home uniform gate (PROFILE=env|factory OR presence), :823-828 env-skills same gate (#869/#1334). NB: the SSOT's 2026-08-09 measurement is inverted since #869/#1334 — framework defect → operator; this render deviates from the SSOT deliberately (header names it) |
 | 71 | content/docs/first-steps-env.md:57-60 | tier-home owns Tier 0/1/2 criteria + degradation matrix; AGENTS.md only points there | 1 | [SSOT seq.env.step.read-tier-home] + [TIER §2/§3] |
 | 72 | content/docs/first-steps-factory.md:16 | «**Experimental.**» | 5 | label: experimental |
 | 73 | content/docs/first-steps-factory.md:21 | «pick this only if this machine runs the aif-handoff operator runtime — the factory payload dead-ends without it.» | 1 | [SSOT seq.factory.step.install] |
@@ -320,3 +320,23 @@ against primary sources this round) returned REVISE on one ledger-evidence row:
   only cargo/go/python/react-next/shared templates).
 - the header's stale «branch head 2b407f3» self-provenance note updated (observation
   from the same audit).
+
+## BS3 round 9 — eighth-audit GAP fixes (2026-09-10)
+
+Leg A round 8 (cold audit of `0a1e32e`, 62-claim consolidation: 4 GAP reported)
+returned REVISE. Dispositions:
+
+- **first-steps-env:33 `.prettierignore` exception removed**: the live double-install
+  byte-diff (auditor's sandbox) shows the managed block ships full-depth at core time
+  (`packages/core/templates/shared/.prettierignore:85` lists tier-home.md; the merge in
+  lib.sh is pattern-driven, not depth-driven) — deepening leaves `.prettierignore`
+  byte-identical as well. Step 1 reworded; the provenance header's deviation note now
+  covers both halves; ledger row 70 updated. Framework defect → operator: the SSOT's
+  seq.env.step.install carries the stale exception (fourth SSOT staleness after
+  `-y`/core, `<PLACEHOLDER>`, and the inverted refresh warning).
+- **ledger rows 54/55**: degradations.md line cites refreshed (:31-36 / :38-41) — they
+  had been shifted by the round-4 reading-note insertion.
+- **row 62 «installing-enforcement.md» GAP: NOT A DEFECT** — the row cites
+  `plugin/commands/install-enforcement.md` (verified: `git ls-tree` resolves it; the
+  file was read in this very session). The round-8 auditor misread the path; recorded
+  here rather than «fixed», per the no-prose-only-findings rule.

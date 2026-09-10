@@ -11,10 +11,13 @@ description: "Add the env profile on top of core: tier criteria on disk and one 
   Read at framework commit: 94a3a9efcd (staging, 2026-09-10)
   Regen:    re-vendor from the source at the current staging HEAD; do not edit by hand.
   Deviation: the source's install step still warns that `--refresh --profile env`
-  leaves tier-home/arch absent (a 2026-08-09 measurement). The #869/#1334 refresh-parity
-  fix (install.sh:1349-1352, already in this pin) made the deepening arms uniformly
-  profile-gated: refresh+env DOES deliver them; only a bare --refresh stays shallow.
-  This render states the real behaviour; see CLAIMS-LEDGER.md BS3 round 6.
+  leaves tier-home/arch absent (a 2026-08-09 measurement), and that deepening changes
+  `.prettierignore`. The #869/#1334 refresh-parity fix (install.sh:1349-1352, already in
+  this pin) made the deepening arms uniformly profile-gated: refresh+env DOES deliver
+  them; only a bare --refresh stays shallow. And the prettierignore managed block
+  ships full-depth at core time (pattern-driven merge, not depth-driven), so deepening
+  leaves it byte-identical too. This render states the real behaviour on both counts;
+  see CLAIMS-LEDGER.md BS3 rounds 6 and 9.
 -->
 
 Env is core plus the multi-model contour: the tier-routing criteria land on disk as a
@@ -30,11 +33,11 @@ Run it with the profile flag `--profile env`.
 
 1. **Install at env depth** — `bash <getff>/install.sh <stack> --profile env`. Already on
    core? Re-run that same command: the deeper payload is added and every core artefact
-   stays byte-identical except `.prettierignore`, whose managed block gains the new
-   paths. A bare `--refresh` never deepens — with no `--profile`, a refresh resolves to
-   core depth, re-delivers fixes to what is already on disk and creates nothing new. To
-   refresh and deepen in one pass, ask for it explicitly: `--refresh --profile env`
-   delivers `tier-home.md` and the env skills.
+   stays byte-identical, `.prettierignore` included — its managed block ships full-depth
+   from core time. A bare `--refresh` never deepens — with no `--profile`, a refresh
+   resolves to core depth, re-delivers fixes to what is already on disk and creates
+   nothing new. To refresh and deepen in one pass, ask for it explicitly:
+   `--refresh --profile env` delivers `tier-home.md` and the env skills.
 
 <!-- step: verify-payload -->
 
