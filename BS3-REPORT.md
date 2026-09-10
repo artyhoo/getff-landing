@@ -151,7 +151,7 @@ figure, `operatingSystem: Cross-platform`. None material to capability truth.
 | 7 | llms.txt + llms-full.txt non-empty; search hit for BS2-unique terms | 3979 / 61184 bytes; verify-search 3/3 PASS against the live index |
 | 8 | Draft containment on production | `getff-beta` → 0 in blog/, rss.xml, sitemap-0.xml, llms.txt, llms-full.txt, api/search |
 | 9 | Leg A GO naming the merged SHA's ancestor | Round 9 on `b782f51`: «Overall: GO — … zero GAP»; tallies 133/0/8 |
-| 10 | BS0 prototype retired | `has_pages: false`; pages API 404; final probe post-expiry: `curl https://artyhoo.github.io/getff-docs-smoke/` → `404` |
+| 10 | BS0 prototype retired | control plane: `gh api -X DELETE repos/artyhoo/getff-docs-smoke/pages` → exit 0; `has_pages: false`; pages GET → 404. URL during this run: still `200` from the CDN (`x-proxy-cache: MISS`, `age: 498`, `cache-control: max-age=600`) — GitHub's origin kept serving past the observed window; deprovisioning is asynchronous. **Operator park:** re-probe `https://artyhoo.github.io/getff-docs-smoke/` later; if it still serves after deprovisioning completes, deleting the `getff-docs-smoke` repo outright is the operator's call (this stage does not delete repositories) |
 | 11 | `beta.getff.ai` DNS state | `dig +short` → empty; `curl` → `000`. Never existed — no-op recorded |
 
 ## §5 T7 counter-prompt — «what would make this cutover look successful when it is not?»
