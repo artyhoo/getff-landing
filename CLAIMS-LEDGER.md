@@ -32,7 +32,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | # | page:line | claim (verbatim) | F5 | evidence / label |
 |---|---|---|---|---|
 | 1 | content/docs/what-is-getff.md:6-7 | «getff is two layers around one idea: **conventions your AI agents can't silently bypass**» | 1 | [W6] RED arm (a rule-as-gate fires non-zero on a planted violation) + npm-tarball cell `tests/consumer-matrix/npm-tarball-cell.sh` (repo evidence, re-cited at BS3 — site-page circulars removed) |
-| 2 | content/docs/what-is-getff.md:7-9 | «AI DX for your codebase: conventions AI agents can't silently bypass — and an AI-run dev environment around them.» (quoted lede) | 1 | [LEDE] — quoted verbatim per design B-D2; its factory half is separately labelled experimental (row 10; panel badge page.tsx:86) |
+| 2 | content/docs/what-is-getff.md:7-9 | «AI DX for your codebase: conventions AI agents can't silently bypass — and an AI-run dev environment around them.» (quoted lede) | 1 | wiring note, not a capability row: the lede is quoted verbatim from the landing hero per design B-D2 (quote parity); the capability halves carry their own repo-evidenced rows — rules half = row 1's evidence (W6 RED arm + delivered gates), factory half = row 10 (label: experimental) |
 | 3 | content/docs/what-is-getff.md:14-16 | «The first layer compiles your conventions into the toolchain gates your project already runs: ESLint rules and husky hooks for npm projects, gate generation for Rust.» | 1 | npm arm: `.husky/` delivery (`setup.d/50-hooks.sh`) + npm-tarball cell; Rust arm: [SSOT seq.core.step.install] (`install.sh cargo` lane; `setup.d/46-cargo.sh` delivers `clippy.toml` + `.github/workflows/getff-cargo.yml`) |
 | 4 | content/docs/what-is-getff.md:18 | «Today this layer covers TypeScript/JS, Rust, Python and Go stacks» (widened at BS3 round 2 — see BS3 section) | 1 | install.sh:163-171 accepts `python \| cargo \| go` positionals; `setup.d/45-python.sh` / `46-cargo.sh` / `47-go.sh`; [W6] (python lane e2e); npm-tarball cell (npm) |
 | 5 | content/docs/what-is-getff.md:18 | «with more toolchains on the roadmap» | 1 | no lane beyond npm/python/cargo/go in `install.sh` case arms — label: planned |
@@ -100,7 +100,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 67 | content/docs/first-steps-core.md:64 | «an installed rule that has never been seen to fire is an unproven claim» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (same sentence, source) |
 | 68 | content/docs/first-steps-env.md:17 | «**Experimental.**» | 5 | label: experimental |
 | 69 | content/docs/first-steps-env.md:steps 1-6 | all step content | 1 | [SSOT seq.env steps install→arch-one-idea] @ `94a3a9efcd` — vendored render, re-vendored at the BS3 round (verify-payload step had drifted); NO mechanical parity gate on the landing (operator finding); provenance header :9-15 |
-| 70 | content/docs/first-steps-env.md:27-29 | deepening core→env keeps «every core artefact … byte-identical except `.prettierignore`»; `--refresh` warning (exits 0 while tier-home/arch stay absent) | 1 | [SSOT seq.env.step.install] (action + evidence incl. the 2026-08-09 measurement) |
+| 70 | content/docs/first-steps-env.md:26-33 | deepening core→env keeps «every core artefact … byte-identical except `.prettierignore`»; bare `--refresh` never deepens (resolves to core); `--refresh --profile env` DOES deliver tier-home + env skills | 1 | live install probe at BS3 round 5 (fresh sandbox: core → refresh+env → tier-home.md and `.claude/skills/arch/` both delivered, rc 0); code: install.sh:643-646 refresh→core resolution, :1349-1352 tier-home uniform gate (PROFILE=env|factory OR presence), :823-828 env-skills same gate (#869/#1334). NB: the SSOT's 2026-08-09 measurement is inverted since #869/#1334 — framework defect → operator; this render deviates from the SSOT deliberately (header names it) |
 | 71 | content/docs/first-steps-env.md:57-60 | tier-home owns Tier 0/1/2 criteria + degradation matrix; AGENTS.md only points there | 1 | [SSOT seq.env.step.read-tier-home] + [TIER §2/§3] |
 | 72 | content/docs/first-steps-factory.md:16 | «**Experimental.**» | 5 | label: experimental |
 | 73 | content/docs/first-steps-factory.md:21 | «pick this only if this machine runs the aif-handoff operator runtime — the factory payload dead-ends without it.» | 1 | [SSOT seq.factory.step.install] |
@@ -115,8 +115,8 @@ below cover each page's own connective prose; the step content's evidence is the
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
-| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs`; cargo arm: `templates/cargo/clippy.toml` (shipped ban surface) vs `templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
-| 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | repo `AGENTS.md` Enforced lines (every demo node carries one) + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — F5-2's exact sanctioned form («its own») |
+| 85 | app/(site)/page.tsx:84 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs`; cargo arm: `templates/cargo/clippy.toml` (shipped ban surface) vs `templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
+| 86 | app/(site)/page.tsx:89 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | repo `AGENTS.md` Enforced lines (every demo node carries one) + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
 `app/(site)/page.tsx:80` → `/docs/daily-cycle-rules/` (killer card links killer-layer docs) and
@@ -265,3 +265,26 @@ UNVERIFIABLE) returned REVISE. All fixed:
 - **ledger rows 6/80/86**: the «own repo / self-audit» claims' evidence re-pointed from
   the site's own hero (same-page circular) to the repository artifacts (AGENTS.md
   Enforced lines, `Makefile:3`, the ratchet test).
+
+## BS3 round 6 — fifth-audit GAP fixes (2026-09-10)
+
+Leg A round 5 (cold audit of `6b9e878`, 140 claims: 130 VERIFIED / 6 GAP / 4
+UNVERIFIABLE; the auditor ran live sandbox installs) returned REVISE. All fixed:
+
+- **first-steps-env refresh warning inverted**: the SSOT's 2026-08-09 measurement
+  («`--refresh --profile env` leaves tier-home/arch absent») is stale — the #869/#1334
+  refresh-parity fix (`install.sh:1349-1352` uniform profile gate, already in pin
+  `94a3a9efcd`) makes refresh+env deliver them; a bare `--refresh` resolves to core and
+  never deepens. Page reworded to the live-probed behaviour; provenance header carries
+  the deviation; row 70 re-evidenced with the sandbox probe. Framework defect →
+  operator: `first-steps.source.json` seq.env.step.install (third SSOT staleness after
+  `-y`/core and `<PLACEHOLDER>`).
+- **beta.md plugin wording**: «wires the TypeScript lanes» → «wires the `ts-server` /
+  `react-next` lanes» (the plugin bridge offers exactly two stacks — no react-spa /
+  react-native).
+- **page.tsx:187 frame label**: `$ getff --limits` rendered a runnable-looking command
+  that does not exist (the unpublished `getff` bin has only `init`) → non-command label
+  «getff — honest limits».
+- **ledger hygiene**: row 2 refiled as a wiring/quote-parity note (capability halves
+  carry their own repo rows); rows 85/86 line cites refreshed to the branch head
+  (:84/:89).

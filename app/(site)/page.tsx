@@ -186,7 +186,7 @@ export default function HomePage() {
       <section id="limits">
         <h2><span className="num">06</span>Honest limits</h2>
         <div className="limits-frame">
-          <div className="frame-label"><span className="c-prompt">$</span> getff --limits</div>
+          <div className="frame-label">getff — honest limits</div>
           <ul className="limits">
             <li><span>Executable AGENTS.md today = <strong>this repo’s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</span></li>
             <li><span>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky), <strong>Rust</strong> (clippy today, cargo-deny on the roadmap), plus installer lanes for <strong>Python</strong> (ast-grep + ruff, Node-free) and <strong>Go</strong> (golangci-lint bans + pinned CI gate). Java and the rest are on the roadmap, not in the box.</span></li>

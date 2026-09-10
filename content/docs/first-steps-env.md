@@ -10,6 +10,11 @@ description: "Add the env profile on top of core: tier criteria on disk and one 
             (schema getff.first-steps/v1, sequence "env")
   Read at framework commit: 94a3a9efcd (staging, 2026-09-10)
   Regen:    re-vendor from the source at the current staging HEAD; do not edit by hand.
+  Deviation: the source's install step still warns that `--refresh --profile env`
+  leaves tier-home/arch absent (a 2026-08-09 measurement). The #869/#1334 refresh-parity
+  fix (install.sh:1349-1352, already in this pin) made the deepening arms uniformly
+  profile-gated: refresh+env DOES deliver them; only a bare --refresh stays shallow.
+  This render states the real behaviour; see CLAIMS-LEDGER.md BS3 round 6.
 -->
 
 Env is core plus the multi-model contour: the tier-routing criteria land on disk as a
@@ -26,10 +31,10 @@ Run it with the profile flag `--profile env`.
 1. **Install at env depth** — `bash <getff>/install.sh <stack> --profile env`. Already on
    core? Re-run that same command: the deeper payload is added and every core artefact
    stays byte-identical except `.prettierignore`, whose managed block gains the new
-   paths. Do not reach for `--refresh` to upgrade — it re-delivers fixes to what you
-   already have and does not reliably deepen an install: on a `core` project
-   `--refresh --profile env` exits 0 while `tier-home.md` and `.claude/skills/arch/`
-   stay absent.
+   paths. A bare `--refresh` never deepens — with no `--profile`, a refresh resolves to
+   core depth, re-delivers fixes to what is already on disk and creates nothing new. To
+   refresh and deepen in one pass, ask for it explicitly: `--refresh --profile env`
+   delivers `tier-home.md` and the env skills.
 
 <!-- step: verify-payload -->
 

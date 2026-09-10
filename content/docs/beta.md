@@ -29,8 +29,8 @@ label comes off.
 ## How to enter today
 
 There is no signup. Two ways in, pick by stack: inside Claude Code, the plugin
-(`/plugin marketplace add artyhoo/getff`) wires the TypeScript lanes — see the
-[TypeScript quickstart](/docs/quickstart-ts/); for every lane including Rust and
+(`/plugin marketplace add artyhoo/getff`) wires the `ts-server` / `react-next` lanes —
+see the [TypeScript quickstart](/docs/quickstart-ts/); for every lane including Rust and
 Python, clone the framework repo and run the installer against your project — see the
 [Rust](/docs/quickstart-rust/) and [Python](/docs/quickstart-python/) quickstarts.
 The one-command install path (`npx getff@latest init`) is
