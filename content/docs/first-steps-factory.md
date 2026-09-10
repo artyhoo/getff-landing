@@ -69,8 +69,9 @@ machine runs the aif-handoff operator runtime — the factory payload dead-ends 
 
 7. **Ask the pipeline what to start next** — invoke `/pipeline`. It reads your kickoffs
    plus `.ai-factory/orchestrator-prompts/plan.md` (created on first run), ranks them,
-   and emits a launch table. An empty backlog reports «nothing queued» — that is normal,
-   not an error, and it means you are one kickoff away from a launch table.
+   and emits a launch table. An empty backlog just renders the overview with zero open
+   umbrellas — that is normal, not an error, and it means you are one kickoff away from
+   a launch table.
 
 <!-- step: dispatch-one -->
 

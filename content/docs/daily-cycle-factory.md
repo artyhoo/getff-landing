@@ -37,8 +37,8 @@ Resolve details (tier routing, predicates) live in the preset JSON itself and
 
 Invoke `/pipeline` with no task: it reads your kickoffs plus
 `.ai-factory/orchestrator-prompts/plan.md` (created on first run), ranks them, and
-emits a launch table. An empty backlog reports «nothing queued» — that is normal, not
-an error. The table's ranking is where the tier rubric meets your backlog: design-heavy
+emits a launch table. An empty backlog just renders the overview with zero open
+umbrellas — that is normal, not an error. The table's ranking is where the tier rubric meets your backlog: design-heavy
 rows plan on the top tier; mechanical rows run whole-line on the executor tier.
 
 ## dispatch → harvest — start it, then bring it home

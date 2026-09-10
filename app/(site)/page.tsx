@@ -116,12 +116,12 @@ export default function HomePage() {
         <h2><span className="num">02</span>20 seconds each. No narration needed.</h2>
         <div className="demo-grid">
           <DemoVideo
-            title="git commit — pre-push gate"
+            title="git commit — pre-commit gate"
             poster="/demo/violation-blocked.poster.webp"
             src="/demo/violation-blocked.mp4"
-            label="An agent adds as any; the pre-push hook kills it before CI even wakes up"
+            label="An agent adds as any; the pre-commit hook kills it before CI even wakes up"
           >
-            <span className="arr">→</span> An agent adds <code>as any</code>; the pre-push hook kills it before CI even wakes up.
+            <span className="arr">→</span> An agent adds <code>as any</code>; the pre-commit hook kills it before CI even wakes up.
           </DemoVideo>
           <DemoVideo
             title="make self-audit — doc drift"

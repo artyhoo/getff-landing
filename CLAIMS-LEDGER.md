@@ -45,7 +45,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 12 | content/docs/daily-cycle-rules.md:15-18 | beat 1 — read `AGENTS.md`, then `RULES.md` / `ARCHITECTURE.md` | 1 | [GUIDE §3 @L187-188] |
 | 13 | content/docs/daily-cycle-rules.md:22-23 | «The ESLint custom rules are the earliest channel: they fire in your editor and in `npm run lint`.» | 1 | [GUIDE §3 @L189-190] |
 | 14 | content/docs/daily-cycle-rules.md:28-32 | beat 3 — `bash scripts/audit-ai-docs.sh`, plus `check-rule-globs.sh` / `check-lintstaged-resolves.sh` when layout/deps changed; pre-commit runs lint-staged | 1 | [GUIDE §3 @L191-193] |
-| 15 | content/docs/daily-cycle-rules.md:35-37 | beat 4 — `.husky/pre-push` fires typecheck, `vitest related`, dependency-cruiser; not bypassed with `--no-verify` | 1 | [GUIDE §3 @L194-195] |
+| 15 | content/docs/daily-cycle-rules.md:35-42 | beat 4 — `.husky/pre-push` fires rule-glob liveness, lint-staged resolution, generated-rule-material (Node≥20 routes to the TS-core hook, bash critical-only fallback otherwise); typecheck/tests/depcruise run as `ci.yml` jobs; not bypassed with `--no-verify` | 1 | `packages/core/hooks/pre-push.ts` SECTIONS `owner: consumer` = `rule-globs`/`lint-staged-resolves`/`generated-rule-material` (re-verified at BS3 round 3; zero typecheck/vitest/depcruise occurrences in the hook); trio in `templates/ts-server/github-actions-ci.yml:54-104` delivered as `ci.yml` (`40-configs.sh:448`). NB: the shipped `AI-USAGE-GUIDE.md:195-196` still names the trio at pre-push — framework defect, operator finding |
 | 16 | content/docs/daily-cycle-rules.md:41-43 | beat 5 — CI (`ci-success`) is the last-resort gate | 1 | [GUIDE §3 @L196-197] |
 | 17 | content/docs/daily-cycle-rules.md:43-46 | «when a GitHub Free account exhausts its private-repo Actions-minutes pool, every first-party check fails in ~2 s with zero steps» + `ci-available-probe.sh` classifies `CI UNAVAILABLE` (npm-lane installs only) | 1 | [GUIDE §3 @L197-202] |
 | 18 | content/docs/daily-cycle-rules.md:47-49 | `pre-merge-local.sh` runs every detected lane's gates locally — opt-in, weaker evidence than CI, its verdict says so | 1 | [GUIDE §3 @L203-204] |
@@ -65,7 +65,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 32 | content/docs/daily-cycle-factory.md:17-19 | plan-complete `/arch` kickoff is the case the tier rubric routes whole-pipeline to the executor tier; «the rubric owns the conditions» | 1 | [TIER §2 @L47] (Tier-2 exception incl. its precondition — deferred to the rubric, not restated) |
 | 33 | content/docs/daily-cycle-factory.md:23-27 | presets are named run configurations `/pipeline <task> --preset <name>`, vendored from shipped preset data (read at `94a3a9efcd`; landing carries no mechanical regen check — re-vendor on upgrade) | 1 | [GUIDE §6a] + `.claude/skills/pipeline/references/presets/*.json` @ `94a3a9efcd` |
 | 34 | content/docs/daily-cycle-factory.md:28-31 | preset list (aif mode=autonomous no marker / economy mode=whole-line-executor marker=Z.AI GLM-5.3 SDK / night mode=mode-a-inline / sdd mode=in-session) | 1 | `presets/{aif,economy,night,sdd}.json` @ `94a3a9efcd` (re-vendored at the BS3 round after #1608 repointed the markers) |
-| 35 | content/docs/daily-cycle-factory.md:37-39 | `/pipeline` reads kickoffs + `plan.md`, ranks, emits a launch table; empty backlog reports «nothing queued» — normal | 1 | [GUIDE §2.3 @L170-172] ([SSOT seq.factory.step.run-pipeline]) |
+| 35 | content/docs/daily-cycle-factory.md:37-40 | `/pipeline` reads kickoffs + `plan.md`, ranks, emits a launch table; empty backlog renders the overview with zero open umbrellas — normal | 1 | `.claude/skills/pipeline/SKILL.md` (backlog-plan handling) + `references/output-format.md` §1A («Total open umbrellas: <K>»; no «nothing queued» string exists in the skill — re-probed at BS3 round 3) |
 | 36 | content/docs/daily-cycle-factory.md:40-41 | ranking = tier rubric meeting the backlog: design-heavy rows plan on the top tier; mechanical rows run whole-line on the executor tier | 1 | [TIER §2 @L54-55] |
 | 37 | content/docs/daily-cycle-factory.md:45-48 | dispatch the top row, bring the branch back with `/harvest`; `/aif-doctor` when stalled | 1 | [GUIDE §2.3 @L176-178] ([SSOT seq.factory.step.dispatch-one]) |
 | 38 | content/docs/quickstart-python.md:6-8 | «the Python lane is a pure-bash delivery — no `package.json`, no npm, no Node on the consumer machine» | 1 | [INSTALL py] intro + [W6] assertion (3) (Node-stripped PATH install) |
@@ -93,7 +93,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 60 | content/docs/beta.md:26-27 | «where a capability is missing it degrades in named ways — the matrix is public on the Degradations page» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 61 | content/docs/beta.md:31-33 | «`npx getff@latest init` is **not published yet** — the install command will be announced with the beta» | — | label: planned (U10) |
 | 62 | content/docs/beta.md:30-40 | entry paths (BS3 round: both named) — plugin `/plugin marketplace add artyhoo/getff` wires the TS lanes; clone + installer for every lane incl. Rust and Python; First Steps — core «ends with a rule that has gone red on input planted on purpose» | 1 | plugin/commands/install-enforcement.md step 1 (`ts-server` / `react-next` only) + `install.sh:163-171` (python/cargo/go positionals) + [SSOT seq.core.step.watch-a-rule-fire] |
-| 63 | content/docs/beta.md:42-45 | feedback via issue templates (bug report / beta feedback) at artyhoo/getff `/issues/new/choose` | 1 | kickoff D6 (leg B ships the templates; link resolves either way) + design B-D6 |
+| 63 | content/docs/beta.md:42-45 | feedback via issue templates (bug report / beta feedback) at artyhoo/getff `/issues/new/choose` | 1 | `.github/ISSUE_TEMPLATE/bug-report.yml` + `.github/ISSUE_TEMPLATE/beta-feedback.yml` (paths exist; re-evidenced at BS3 round 3 — task-doc citations removed) |
 | 64 | content/docs/first-steps-core.md:16-17 | «The sequence ends with a rule that has gone red on input planted on purpose» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (plants deliberately-bad input, asserts RED) |
 | 65 | content/docs/first-steps-core.md:18 | «The rules layer ships as a **beta**.» | 5 | label: beta |
 | 66 | content/docs/first-steps-core.md:steps 1-7 | all step content (commands, ordering, titles) | 1 | [SSOT seq.core steps install→research-your-stack] — vendored render, parity-gated (gate row 8); provenance header :9-15 names f49e35311c |
@@ -105,8 +105,8 @@ below cover each page's own connective prose; the step content's evidence is the
 | 72 | content/docs/first-steps-factory.md:16 | «**Experimental.**» | 5 | label: experimental |
 | 73 | content/docs/first-steps-factory.md:21 | «pick this only if this machine runs the aif-handoff operator runtime — the factory payload dead-ends without it.» | 1 | [SSOT seq.factory.step.install] |
 | 74 | content/docs/first-steps-factory.md:steps 1-8 | all step content | 1 | [SSOT seq.factory steps install→dispatch-one] @ `94a3a9efcd` — vendored render, re-vendored at the BS3 round (verify-payload step had drifted); NO mechanical parity gate on the landing (operator finding); provenance header :9-15 |
-| 75 | content/docs/first-steps-factory.md:71-72 | «An empty backlog reports «nothing queued» — that is normal, not an error» | 1 | [SSOT seq.factory.step.run-pipeline] |
-| 76 | content/blog/getff-beta.md:10-11 | «an AI agent reads them as text. It parses your rules the same way it parses everything else — as context, not as constraints.» | 1 | agents.md official FAQ as quoted in the kept post content/blog/executable-agents-md.md:9-10 («the agent simply parses the text you provide») |
+| 75 | content/docs/first-steps-factory.md:71-73 | «An empty backlog just renders the overview with zero open umbrellas — that is normal, not an error» (BS3 round 3: the SSOT's own action text still quotes a «nothing queued» string the shipped skill never emits — framework defect, operator finding; this render deviates from the SSOT body deliberately, marker+title contract intact) | 1 | `references/output-format.md` §1A (re-probed: `grep -rn 'nothing queued' .claude/skills/pipeline/` → no matches) |
+| 76 | content/blog/getff-beta.md:10-11 | «an AI agent reads them as text. It parses your rules the same way it parses everything else — as context, not as constraints.» | 1 | https://agents.md/ FAQ («the agent simply parses the text you provide» — fetched live at the BS3 round 3 audit; same-site-quote citations removed) |
 | 77 | content/blog/getff-beta.md:20-23 | layer-1 lanes: ESLint/husky (npm), gate generation (Rust), pure-bash python lane with no Node | 1 | [W6] + `install.sh:163-171` lanes + [INSTALL py] (repo evidence re-cited at BS3) |
 | 78 | content/blog/getff-beta.md:23-25 | «Install, and you end inside a gate that has gone red on a planted violation — every quickstart ends with exactly that moment» | 1 | [SSOT seq.core.step.watch-a-rule-fire] + [W6] RED arm |
 | 79 | content/blog/getff-beta.md:29 | «for cargo, the demo today is clippy, with cargo-deny on the roadmap» | 4 | F5-4's exact required shape — label: planned (deny arm) |
@@ -114,7 +114,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 81 | content/blog/getff-beta.md:40-42 | factory: kickoff in, fixed tier rubric (who plans / implements / reviews), branches inside compiled gates, harvest back | 1 | [TIER §2] + [SSOT seq.factory] + [GUIDE §2.3] |
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
-| 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | kickoff D6 + design B-D6 |
+| 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
 | 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: quickstart-ts (kept) [F5-1]. cargo arm: **F5-4-conformant** — clippy present tense, cargo-deny explicitly roadmap; same shape as row 79's blog sentence. No `planned` label needed: the sentence now states its own tense |
 | 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:63-69 at head) — F5-2's exact sanctioned form («its own») |
 
@@ -192,3 +192,27 @@ Residual UNVERIFIABLE (unchanged, needs a human, listed in `BS3-GAPS.md`): the t
 claims, the three competitor-capability comparisons, the one-email forward promise, the
 two demo-video captions. The draft announcement (`getff-beta.md`, `draft: true`) was left
 untouched per kickoff §4.
+
+## BS3 round 3 — re-audit GAP fixes (2026-09-10)
+
+Leg A round 2 (cold audit of `31deb04`, 78 claims: 69 VERIFIED / 6 GAP / 3 UNVERIFIABLE)
+returned REVISE. All six fixed:
+
+- pre-push trio (daily-cycle-rules beat 4 + ledger row 15): the consumer pre-push runs
+  rule-glob liveness / lint-staged resolution / generated-rule-material
+  (`pre-push.ts` `owner: consumer` sections); typecheck/tests/depcruise are `ci.yml` jobs
+  (`templates/ts-server/github-actions-ci.yml:54-104` → `40-configs.sh:448`). Framework
+  defect handed to the operator: the shipped `AI-USAGE-GUIDE.md:195-196` and
+  `DESCRIPTION.template.md:61` still name the trio at pre-push — every consumer install
+  inherits that drift (BS3 §4 forbids framework-repo changes here).
+- «nothing queued» (daily-cycle-factory + first-steps-factory + ledger rows 35/75): the
+  string does not exist in the shipped pipeline skill; both pages now describe the real
+  empty-backlog rendering (overview, zero open umbrellas). Framework defect handed to the
+  operator: `first-steps.source.json` seq.factory.run-pipeline action text carries the
+  unanchored phrase; the first-steps-factory render deviates from the SSOT body
+  deliberately (step marker + bold-title contract intact) until the SSOT is fixed.
+- demo caption (page.tsx): `as any` is killed by the pre-commit hook (lint-staged →
+  `no-explicit-any: error`), not pre-push — title, label and caption corrected.
+- ledger method defects (rows 63/76/84 same-site & task-doc citations; rows 15/35/75
+  doc-against-doc verdicts) — all re-evidenced against the repository or the primary
+  source.

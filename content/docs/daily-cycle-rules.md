@@ -33,9 +33,12 @@ its own; these are the checks you run so the hook never surprises you.
 
 ### 4. On push
 
-`.husky/pre-push` fires automatically: typecheck, `vitest related`, dependency-cruiser.
-It is not optional and not to be bypassed with `--no-verify` — a bypassed gate is just
-a lie moved downstream.
+`.husky/pre-push` fires automatically: rule-glob liveness, lint-staged resolution
+and generated-rule-material checks — the TS-core hook routes by what your machine
+can run, with a bash critical-only fallback when Node ≥20 is absent. It is not
+optional and not to be bypassed with `--no-verify` — a bypassed gate is just a
+lie moved downstream. Typecheck, tests and the dependency-cruiser architecture
+check run one channel later, as jobs in the delivered `ci.yml`.
 
 ### 5. On the PR
 
