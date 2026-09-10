@@ -16,8 +16,8 @@ export default function ConsultingPage() {
           If your agents keep breaking conventions you thought were documented,
           I do an enforcement audit — what’s drifting, what’s enforceable,
           what’s prose — and wire the gates in: ESLint/husky/CI for npm
-          stacks, clippy/cargo-deny for Rust. Deterministic, local-first, no LLM
-          bill attached.
+          stacks, clippy for Rust (cargo-deny on the roadmap). Deterministic,
+          local-first, no LLM bill attached.
         </p>
         <p style={{ maxWidth: '55ch' }}>
           Write me: <a href="mailto:hi@getff.ai">hi@getff.ai</a>. Include a repo

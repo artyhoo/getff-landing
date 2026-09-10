@@ -15,7 +15,8 @@ The first layer compiles your conventions into the toolchain gates your project 
 runs: ESLint rules and husky hooks for npm projects, gate generation for Rust. A
 convention that lives as a rule file fails loudly at edit time, pre-commit, pre-push or
 CI — not politely in prose the agent parsed and ignored. Today this layer covers
-TypeScript/JS, Rust and Python stacks, with more toolchains on the roadmap. And the flagship
+TypeScript/JS, Rust, Python and Go stacks, with more toolchains on the roadmap. And the
+flagship
 honest limit: an *executable* AGENTS.md today means **getff's own repo** — generating
 yours from your conventions is the next milestone, not a shipped feature.
 

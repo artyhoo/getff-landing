@@ -13,7 +13,8 @@ names what you can hold us to.
 **Beta — Rules from live docs.** Conventions compiled into native toolchain gates:
 ESLint rules and husky hooks for npm projects, gate generation for Rust, and the
 Node-free bash lane for Python. The gates run today, on your repo — locally where the
-lane ships hooks (npm), and as failing CI gates on every lane.
+lane ships hooks (npm; the Python lane ships a local pre-push rung too), and as failing
+CI gates on every lane.
 What is *not* here yet: generating an executable AGENTS.md from *your* conventions —
 today the executable AGENTS.md you can inspect is [getff's own repo](https://github.com/artyhoo/getff/blob/main/AGENTS.md),
 and making yours is the next milestone. Other toolchains are on the roadmap, not in
@@ -27,9 +28,12 @@ label comes off.
 
 ## How to enter today
 
-There is no signup. The entry path is the [quickstart](/docs/quickstart-ts/): clone the
-framework repo and run the installer against your project — TypeScript/npm, Rust, or
-the Node-free Python lane. The one-command install path (`npx getff@latest init`) is
+There is no signup. Two ways in, pick by stack: inside Claude Code, the plugin
+(`/plugin marketplace add artyhoo/getff`) wires the TypeScript lanes — see the
+[TypeScript quickstart](/docs/quickstart-ts/); for every lane including Rust and
+Python, clone the framework repo and run the installer against your project — see the
+[Rust](/docs/quickstart-rust/) and [Python](/docs/quickstart-python/) quickstarts.
+The one-command install path (`npx getff@latest init`) is
 **not published yet** — the install command will be announced with the beta, and this
 page is where it will appear first.
 

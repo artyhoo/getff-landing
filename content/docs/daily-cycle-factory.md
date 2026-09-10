@@ -21,11 +21,12 @@ the rubric owns the conditions.
 ## preset — pick how the work runs
 
 Launch presets are named run configurations for the pipeline:
-`/pipeline <task> --preset <name>`. The list below is rendered from the shipped preset
-data (`.claude/skills/pipeline/references/presets/*.json`), not hand-maintained:
+`/pipeline <task> --preset <name>`. The list below is vendored from the shipped preset
+data (`.claude/skills/pipeline/references/presets/*.json`, read at framework `staging`
+`94a3a9efcd`; the landing carries no mechanical regen check — re-vendor on upgrade):
 
-- `aif` — Autonomous overnight aif-handoff dispatch (mode=autonomous, marker=Claude Opus (plan+review))
-- `economy` — Cost-conscious whole-line on executor tier (mode=whole-line-executor, marker=Z.AI GLM-5.2 SDK)
+- `aif` — Autonomous overnight aif-handoff dispatch (mode=autonomous, project-default profiles, no marker)
+- `economy` — Cost-conscious whole-line on executor tier (mode=whole-line-executor, marker=Z.AI GLM-5.3 SDK)
 - `night` — Night-mode unattended single-session (mode=mode-a-inline)
 - `sdd` — Interactive single-feature SDD (mode=in-session)
 

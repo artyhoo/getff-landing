@@ -6,8 +6,9 @@ description: "How you live with the rules layer day to day: five beats from befo
 Once the gates are installed, the rules layer is not a thing you visit — it is a loop
 you live in. The shipped AI Usage Guide spells the same loop for AI agents; this page is
 the human-voiced version, with every command spelled exactly as the guide spells it.
-Nothing here needs anything beyond a core install: every command below is shipped by the
-installer at **every** depth.
+Nothing here needs anything beyond a core install — with one lane caveat, stated once:
+the `scripts/` commands below ship on **npm-lane installs only** (python/go/cargo
+installs ship no `scripts/` by construction, per the guide's own qualifier).
 
 ## The five beats
 

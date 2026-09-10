@@ -8,7 +8,7 @@ description: "Add the env profile on top of core: tier criteria on disk and one 
 
   Source:   packages/core/templates/shared/first-steps.source.json
             (schema getff.first-steps/v1, sequence "env")
-  Read at framework commit: f49e35311c
+  Read at framework commit: 94a3a9efcd (staging, 2026-09-10)
   Regen:    re-vendor from the source at the current staging HEAD; do not edit by hand.
 -->
 
@@ -34,8 +34,9 @@ Run it with the profile flag `--profile env`.
 <!-- step: verify-payload -->
 
 2. **Verify the payload landed** — `ls AGENTS.md .ai-factory/ scripts/`, plus
-   `.ai-factory/tier-home.md` and `.claude/skills/arch/`. Those last two are the
-   artefacts `env` adds over `core`, and they are what the rest of this sequence uses.
+   `.ai-factory/tier-home.md` and the five skills `env` adds over `core`:
+   `.claude/skills/arch/`, `night-mode/`, `orchestrator/`, `pipeline/` and `reviewer/`.
+   Those are the artefacts the rest of this sequence uses.
 
 <!-- step: fill-passport -->
 

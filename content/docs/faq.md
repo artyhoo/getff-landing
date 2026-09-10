@@ -11,7 +11,7 @@ An AGENTS.md where every enforceable claim carries an enforcement line (which ga
 
 ### Does getff need an LLM?
 
-No. The enforcement gates it generates are native toolchain gates (ESLint, husky, clippy, cargo-deny) that run deterministically, with no model call in the loop. $0 LLM calls in CI is enforced by a test in getff's own repo, not a marketing claim.
+No. The enforcement gates it generates are native toolchain gates (ESLint, husky, clippy — with cargo-deny on the roadmap) that run deterministically, with no model call in the loop. $0 LLM calls in CI is enforced by a test in getff's own repo, not a marketing claim.
 
 ### Is getff open source?
 
@@ -27,11 +27,11 @@ agnix lints your agent configuration files. getff takes a different problem: mak
 
 ### How is this different from CodeRabbit or Qodo?
 
-CodeRabbit and Qodo do LLM-powered code review, which is a genuinely useful complement, not a replacement. getff's gates are deterministic and cost nothing per run, because they're native toolchain rules (ESLint/husky, clippy/cargo-deny), not a model call.
+CodeRabbit and Qodo do LLM-powered code review, which is a genuinely useful complement, not a replacement. getff's gates are deterministic and cost nothing per run, because they're native toolchain rules (ESLint/husky, clippy — cargo-deny on the roadmap), not a model call.
 
 ### Does it work without Claude Code?
 
-The generated gates do, yes. Once getff compiles your conventions into ESLint rules, husky hooks, clippy lints, or cargo-deny policy, those gates live in your toolchain and run in any editor, any CI, with or without Claude Code.
+The generated gates do, yes. Once getff compiles your conventions into ESLint rules, husky hooks, or clippy lints (cargo-deny policy is a starter config today — enforcement on the roadmap), those gates live in your toolchain and run in any editor, any CI, with or without Claude Code.
 
 ## Next
 

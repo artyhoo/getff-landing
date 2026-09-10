@@ -36,7 +36,8 @@ project/
 ├── .getff/
 │   ├── astgrep-rules/*.yml               ← getff structural rules (no-eval, no-os-system,
 │   │                                       no-datetime[.datetime].now) — framework-owned
-│   └── ruff-bans.toml                    ← stable getff-bans config the CI gate points --config at
+│   ├── ruff-bans.toml                    ← stable getff-bans config the CI gate points --config at
+│   └── hooks/pre-push                    ← local git pre-push rung (skip: GETFF_SKIP_HOOKS=1)
 ├── .github/workflows/getff-python.yml    ← pinned CI gate (getff-namespaced — never your ci.yml)
 └── .getff-python-install.log             ← delivery audit trail (every action + degrade path)
 ```

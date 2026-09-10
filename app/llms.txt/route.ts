@@ -19,7 +19,7 @@ export function GET() {
     .replaceAll('](/', `](${siteOrigin}/`);
   const body = [
     '# getff',
-    '> Compiles codebase conventions into native toolchain gates (ESLint/husky, clippy/cargo-deny). Deterministic, local-first, $0 LLM in CI. Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.',
+    '> Compiles codebase conventions into native toolchain gates (ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap). Deterministic, local-first, $0 LLM in CI. Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.',
     generated,
     '## Source',
     '- [GitHub](https://github.com/artyhoo/getff)',

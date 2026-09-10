@@ -27,20 +27,23 @@ Three properties, each mechanical:
 
 This is not a mock-up. It's the root [`AGENTS.md`](https://github.com/artyhoo/getff/blob/main/AGENTS.md) of the getff repo.
 
-**Claim 1, `AGENTS.md:76`:** "Read configuration through the injected config accessor, never `std::env::var` directly" carries the line:
+**Claim 1, `AGENTS.md:83`:** "Read configuration through the injected config accessor, never `std::env::var` directly" carries the line:
 
 ```
-> Enforced: cargo-clippy-toml ✅ · npm-eslint-declarative — FF7001 (typed rules are not
-> expressible in the no-restricted-syntax declarative class; route to a type-aware backend)
+> Enforced: astgrep-python-yaml — FF7001 (type-aware bans need a type checker; route to the
+> mypy backend (deferred, post-v0)) · cargo-clippy-toml ✅ · npm-eslint-declarative — FF7001
+> (typed rules are not expressible in the no-restricted-syntax declarative class; route to a
+> type-aware backend (post-v0)) · ruff-tidy-imports-toml — FF7001 (type-aware bans need a
+> type checker; route to the mypy backend (deferred, post-v0))
 ```
 
-The ✅ isn't decoration. `packages/core/composition/demo/root-agents-demo.test.ts:97` backs it with the live-fired cell of the cargo capability matrix. And note the second half: where the npm backend *can't* enforce it, the doc says so with an error code (FF7001) instead of pretending.
+The ✅ isn't decoration. It derives from the cargo capability matrix's live-fired cell (`packages/core/backends/cargo/firing.test.ts` — a developer-machine gate, run when cargo is present and not in CI), and `root-agents-demo.test.ts:144-150` asserts the demo region wires exactly that type-aware node. And note the other segments: where a backend *can't* enforce the convention, the doc says so with an error code (FF7001) instead of pretending.
 
-**Claim 2, `AGENTS.md:82`:** the mirror convention for TypeScript ("never `process.env` directly") is enforced by the ESLint backend. The test at `root-agents-demo.test.ts:73` feeds the "Never (fires)" example (`const url = process.env.DATABASE_URL;`) to the real generated `no-restricted-syntax` rule and asserts it fires; `:86` asserts the "Always (clean)" accessor form stays silent. If someone edits the example into something the rule no longer catches, the suite goes red.
+**Claim 2, `AGENTS.md:89`:** the mirror convention for TypeScript ("never `process.env` directly") is enforced by the ESLint backend. The test at `root-agents-demo.test.ts:120-131` feeds the "Never (fires)" example (`const url = process.env.DATABASE_URL;`) to the real generated `no-restricted-syntax` rule and asserts it fires; `:133-143` asserts the "Always (clean)" accessor form stays silent. If someone edits the example into something the rule no longer catches, the suite goes red.
 
-**Claim 3, `AGENTS.md:26-51`:** the rule index (20 rules, each with class and enforcement channel) sits inside a generated region. `scripts/render-rule-index.mjs --check` re-renders it from the actual rule files and exits 1 on any drift, wired into the pre-push hook (`packages/core/hooks/pre-push.ts:792-799`). You physically can't push an AGENTS.md whose rule table disagrees with the rules on disk.
+**Claim 3, `AGENTS.md:26-60`:** the rule index (29 rules, each with class and enforcement channel) sits inside a generated region. `scripts/render-rule-index.mjs --check` re-renders it from the actual rule files and exits 1 on any drift, wired into the pre-push hook (`packages/core/hooks/pre-push.ts:1351-1352`). You physically can't push an AGENTS.md whose rule table disagrees with the rules on disk.
 
-On top of all three sits a ratchet: `root-agents-demo.test.ts:41` re-composes the whole demo region and requires the committed bytes to be equal. One `make self-audit` (`Makefile:3`) runs the lot.
+On top of all three sits a ratchet: `root-agents-demo.test.ts:51-64` re-composes the whole demo region and requires the committed bytes to be equal. One `make self-audit` (`Makefile:3`) runs the lot. Line numbers verified against the framework's `staging` at `94a3a9efcd` — they move as the repo grows; the claims and the tests that fire them do not.
 
 ## What it looks like when the doc drifts
 

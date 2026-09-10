@@ -3,7 +3,7 @@ import { CopyButton } from './components/CopyButton';
 import { DemoVideo } from './components/DemoVideo';
 
 const description =
-  'getff compiles your conventions into native toolchain gates (ESLint/husky for npm, clippy/cargo-deny for cargo). Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.';
+  'getff compiles your conventions into native toolchain gates (ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap). Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.';
 
 export const metadata: Metadata = {
   title: { absolute: 'getff — Docs lie. Tests don’t.' },
@@ -63,7 +63,8 @@ export default function HomePage() {
                 <span className="term-title">make self-audit</span>
               </div>
               <div className="term-body"><pre><span className="c-prompt">$</span> git clone https://github.com/artyhoo/getff
-<span className="c-prompt">$</span> cd getff &amp;&amp; make self-audit
+<span className="c-prompt">$</span> cd getff &amp;&amp; npm install
+<span className="c-prompt">$</span> make self-audit
 <span className="c-pass"># green: every AGENTS.md claim verified</span>
 <span className="c-comment"># now break any enforcement line, run it again</span>
 <span className="c-prompt">$</span> make self-audit
@@ -142,7 +143,7 @@ export default function HomePage() {
           </li>
           <li>
             <span className="step-n">02</span>
-            <span className="body"><strong>getff compiles it</strong> into native gates: ESLint/husky for npm, clippy/cargo-deny for cargo. No custom runtime, no LLM in the loop.</span>
+            <span className="body"><strong>getff compiles it</strong> into native gates: ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap. No custom runtime, no LLM in the loop.</span>
           </li>
           <li>
             <span className="step-n">03</span>
@@ -160,7 +161,8 @@ export default function HomePage() {
             <CopyButton />
           </div>
           <div className="term-body"><pre><span className="c-prompt">$</span> <span data-copy-text>git clone https://github.com/artyhoo/getff</span>
-<span className="c-prompt">$</span> <span data-copy-text>cd getff &amp;&amp; make self-audit</span>        <span className="c-pass"># green: every AGENTS.md claim verified</span>
+<span className="c-prompt">$</span> <span data-copy-text>cd getff &amp;&amp; npm install</span>
+<span className="c-prompt">$</span> <span data-copy-text>make self-audit</span>            <span className="c-pass"># green: every AGENTS.md claim verified</span>
 <span className="c-comment"># now open AGENTS.md, break any enforcement line, run it again</span>
 <span className="c-prompt">$</span> <span data-copy-text>make self-audit</span>                    <span className="c-fail"># red: the gate names the claim that lied</span></pre></div>
         </div>
@@ -187,7 +189,7 @@ export default function HomePage() {
           <div className="frame-label"><span className="c-prompt">$</span> getff --limits</div>
           <ul className="limits">
             <li><span>Executable AGENTS.md today = <strong>this repo’s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</span></li>
-            <li><span>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky) and <strong>Rust</strong> gate generation (clippy/cargo-deny). Other toolchains are on the roadmap, not in the box.</span></li>
+            <li><span>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky), <strong>Rust</strong> (clippy today, cargo-deny on the roadmap), plus installer lanes for <strong>Python</strong> (ast-grep + ruff, Node-free) and <strong>Go</strong> (golangci-lint bans + pinned CI gate). Java and the rest are on the roadmap, not in the box.</span></li>
             <li><span>Source-available (<strong>FSL-1.1-ALv2</strong>), not OSI open source. Every release becomes Apache-2.0 after 2 years. We say this first, on purpose.</span></li>
           </ul>
         </div>

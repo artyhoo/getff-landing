@@ -8,7 +8,7 @@ description: "The factory profile: one task driven through the dispatch pipeline
 
   Source:   packages/core/templates/shared/first-steps.source.json
             (schema getff.first-steps/v1, sequence "factory")
-  Read at framework commit: f49e35311c
+  Read at framework commit: 94a3a9efcd (staging, 2026-09-10)
   Regen:    re-vendor from the source at the current staging HEAD; do not edit by hand.
 -->
 
@@ -31,8 +31,9 @@ machine runs the aif-handoff operator runtime — the factory payload dead-ends 
 <!-- step: verify-payload -->
 
 2. **Verify the payload landed** — `ls .claude/skills/`. On top of env you should see
-   `pipeline`, `dispatcher`, `harvest`, `aif-doctor`, `night-mode`, `story` and
-   `claude-glm-executor-handoff`. These are the pipeline's moving parts; the sequence
+   `dispatcher`, `aif-doctor`, `harvest`, `story` and `claude-glm-executor-handoff`.
+   (`pipeline` and `night-mode` are NOT factory additions — they arrive with env+ and
+   are already there.) These are the pipeline's moving parts; the sequence
    below uses four of them by name.
 
 <!-- step: fill-passport -->
