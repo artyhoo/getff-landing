@@ -81,7 +81,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 48 | content/docs/quickstart-python.md:80-88 | research loop: practice record → `--from-practice` renders to `.getff/rules-research/<entryId>.yml`; next install/`--refresh` joins into `.getff/astgrep-rules/`; generated rule fires RED on planted call, silent on conforming shape; non-direct-dep practice rejected to research-only, no rule written | 1 | [W6] assertions (5),(6),(7),(8),(9) |
 | 49 | content/docs/quickstart-python.md:91-92 | «**generating** a researched rule needs Node … the install itself, and everything above, stays Node-free.» | 1 | [INSTALL py] scope note + [W6] assertion (3) |
 | 50 | content/docs/quickstart-python.md:97 | «`mypy` and `import-linter` backends are out of scope for the Python lane today.» | 1 | [INSTALL py] scope note — label: planned (future backends) |
-| 51 | content/docs/quickstart-python.md:98-99 | «The one-command public install path (`npx getff@latest init`) is not published yet» | — | label: planned (U10 open; kickoff §4 forbids inventing an entry command) |
+| 51 | content/docs/quickstart-python.md:98-99 | «The one-command public install path (`npx getff@latest init`) is not published yet» | — | probe: registry.npmjs.org `getff` → 0.0.1 placeholder («name reserved. Real release coming soon.», published 2026-06-23, no `bin` field) — label: planned (U10 open; kickoff §4 forbids inventing an entry command) |
 | 52 | content/docs/degradations.md:14 | «**Experimental.**» (first paragraph) | 5 | label: experimental |
 | 53 | content/docs/degradations.md:16-21 + reading note :23-27 | matrix «is copied verbatim — row text unchanged — from the one file that owns it; this page is a pointer, never a second source. Read the rows as evidenced claims, not probe-verified facts» + the reading note resolving the pre-pointer-ization `CLAUDE.md:108/:130` cites to the owner's §2 | 1 | byte-diff of the table vs `packages/core/templates/shared/tier-home.md` §3 performed at the BS3 round-3 audit (all rows byte-identical); NO mechanical gate on the landing — the note is prose, re-checked by hand on re-vendor |
 | 54 | content/docs/degradations.md:23-30 | the 4 matrix rows (no aif runtime / no GLM subscription / no Fable / non-CC harness) | 1 | [TIER §3 @L77-84] — verbatim render, single owner A3 |
@@ -91,7 +91,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 58 | content/docs/beta.md:18-20 | «today the executable AGENTS.md you can inspect is getff's own repo … making yours is the next milestone» + «Other toolchains are on the roadmap, not in the box» | 2 | our repo's AGENTS.md + `make self-audit` — labels: milestone (F5-2) + planned |
 | 59 | content/docs/beta.md:23-24 | «It runs today on a specific operator runtime» | 1 | [SSOT seq.factory.step.install] |
 | 60 | content/docs/beta.md:26-27 | «where a capability is missing it degrades in named ways — the matrix is public on the Degradations page» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
-| 61 | content/docs/beta.md:31-33 | «`npx getff@latest init` is **not published yet** — the install command will be announced with the beta» | — | label: planned (U10) |
+| 61 | content/docs/beta.md:31-33 | «`npx getff@latest init` is **not published yet** — the install command will be announced with the beta» | — | probe: registry.npmjs.org `getff` → 0.0.1 placeholder, no `bin` — label: planned (U10) |
 | 62 | content/docs/beta.md:30-40 | entry paths (BS3 round: both named) — plugin `/plugin marketplace add artyhoo/getff` wires the TS lanes; clone + installer for every lane incl. Rust and Python; First Steps — core «ends with a rule that has gone red on input planted on purpose» | 1 | plugin/commands/install-enforcement.md step 1 (`ts-server` / `react-next` only) + `install.sh:163-171` (python/cargo/go positionals) + [SSOT seq.core.step.watch-a-rule-fire] |
 | 63 | content/docs/beta.md:42-45 | feedback via issue templates (bug report / beta feedback) at artyhoo/getff `/issues/new/choose` | 1 | `.github/ISSUE_TEMPLATE/bug-report.yml` + `.github/ISSUE_TEMPLATE/beta-feedback.yml` (paths exist; re-evidenced at BS3 round 3 — task-doc citations removed) |
 | 64 | content/docs/first-steps-core.md:16-17 | «The sequence ends with a rule that has gone red on input planted on purpose» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (plants deliberately-bad input, asserts RED) |
@@ -113,9 +113,9 @@ below cover each page's own connective prose; the step content's evidence is the
 | 80 | content/blog/getff-beta.md:31-33 | executable AGENTS.md «**still a milestone for your repo**»: the inspectable one is our own, live-fired claims + `make self-audit` | 2 | repo `AGENTS.md` Enforced lines + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — label: milestone (F5-2) |
 | 81 | content/blog/getff-beta.md:40-42 | factory: kickoff in, fixed tier rubric (who plans / implements / reviews), branches inside compiled gates, harvest back | 1 | [TIER §2] + [SSOT seq.factory] + [GUIDE §2.3] |
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
-| 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
+| 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | probe: registry.npmjs.org `getff` → 0.0.1 placeholder, no `bin`; site surface carries no signup form — label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
-| 85 | app/(site)/page.tsx:84 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs`; cargo arm: `templates/cargo/clippy.toml` (shipped ban surface) vs `templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
+| 85 | app/(site)/page.tsx:84 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `packages/core/templates/ts-server/eslint.config.mjs`; cargo arm: `packages/core/templates/cargo/clippy.toml` (shipped ban surface) vs `packages/core/templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `packages/core/templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
 | 86 | app/(site)/page.tsx:89 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | repo `AGENTS.md` Enforced lines (every demo node carries one) + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
@@ -288,3 +288,22 @@ UNVERIFIABLE; the auditor ran live sandbox installs) returned REVISE. All fixed:
 - **ledger hygiene**: row 2 refiled as a wiring/quote-parity note (capability halves
   carry their own repo rows); rows 85/86 line cites refreshed to the branch head
   (:84/:89).
+
+## BS3 round 7 — sixth-audit GAP fixes (2026-09-10)
+
+Leg A round 6 (cold audit of `6b4eed9`, 163 claims: 155 VERIFIED / 2 GAP / 6
+UNVERIFIABLE; **zero GAPs on the public surface** — content/ + app/ fully verified)
+returned REVISE on two ledger-evidence rows. Both fixed here:
+
+- row 85: cargo evidence paths re-prefixed (`templates/cargo/*` →
+  `packages/core/templates/cargo/*` — round-5 typo; the artefacts exist and the claim
+  held throughout).
+- rows 51/61/83: «`npx getff@latest init` not published» re-evidenced with the
+  mechanical probe (registry.npmjs.org `getff` → 0.0.1 «name reserved» placeholder,
+  no `bin` field) instead of task-doc provenance.
+
+The auditor's DECISION-NEEDED (kickoff `Type:` vocabulary exists in three forms —
+consumer contract fix/research/feature vs pipeline parser R-phase/execution-build/…
+vs free-form maintainer corpus) is recorded for the operator: the site follows the
+shipped consumer contract verbatim (Option A); aligning the vocabularies is a
+framework-side change.
