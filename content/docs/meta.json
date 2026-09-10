@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "---Getting Started---",
+    "what-is-getff",
+    "first-steps-core",
+    "first-steps-env",
+    "first-steps-factory",
+    "quickstart-ts",
+    "quickstart-python",
+    "quickstart-rust",
+    "---Rules from live docs (beta)---",
+    "executable-agents-md",
+    "daily-cycle-rules",
+    "limits",
+    "---The AI factory (experimental)---",
+    "factory-overview",
+    "daily-cycle-factory",
+    "degradations",
+    "---Reference---",
+    "faq",
+    "---Beta program---",
+    "beta",
+    "---More---",
+    "[Home](/)",
+    "[Blog](/blog/)",
+    "[Consulting](/consulting/)"
+  ]
+}

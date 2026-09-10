@@ -4,3 +4,10 @@ node_modules/
 dist/
 .astro/
 npm-debug.log*
+.next/
+out/
+.env*
+*.tsbuildinfo
+next-env.d.ts
+.source/
+wwwroot/
