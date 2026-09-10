@@ -37,7 +37,7 @@ This is not a mock-up. It's the root [`AGENTS.md`](https://github.com/artyhoo/ge
 > type checker; route to the mypy backend (deferred, post-v0))
 ```
 
-The ✅ isn't decoration. It derives from the cargo capability matrix's live-fired cell (`packages/core/backends/cargo/firing.test.ts` — a developer-machine gate, run when cargo is present and not in CI), and `root-agents-demo.test.ts:144-150` asserts the demo region wires exactly that type-aware node. And note the other segments: where a backend *can't* enforce the convention, the doc says so with an error code (FF7001) instead of pretending.
+The ✅ isn't decoration. It derives from the cargo capability matrix's live-fired cell (`packages/core/backends/cargo/firing.test.ts` — it runs a real `cargo clippy` wherever cargo is on PATH, CI included, with the workflow installing the pinned toolchain), and `root-agents-demo.test.ts:144-150` asserts the demo region wires exactly that type-aware node. And note the other segments: where a backend *can't* enforce the convention, the doc says so with an error code (FF7001) instead of pretending.
 
 **Claim 2, `AGENTS.md:89`:** the mirror convention for TypeScript ("never `process.env` directly") is enforced by the ESLint backend. The test at `root-agents-demo.test.ts:120-131` feeds the "Never (fires)" example (`const url = process.env.DATABASE_URL;`) to the real generated `no-restricted-syntax` rule and asserts it fires; `:133-143` asserts the "Always (clean)" accessor form stays silent. If someone edits the example into something the rule no longer catches, the suite goes red.
 

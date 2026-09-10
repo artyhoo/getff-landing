@@ -25,7 +25,7 @@ type-aware backend (post-v0)) · ruff-tidy-imports-toml — FF7001 (type-aware b
 type checker; route to the mypy backend (deferred, post-v0))
 ```
 
-Four backends, one verdict each. The ✅ comes from the cargo capability matrix's live-fired cell (`packages/core/backends/cargo/firing.test.ts` — a developer-machine gate, run when cargo is present and not in CI); `root-agents-demo.test.ts:144-150` asserts the demo region wires exactly that type-aware node. Where a backend *can't* enforce the same convention, the doc says so with an error code (FF7001) instead of pretending it's covered.
+Four backends, one verdict each. The ✅ comes from the cargo capability matrix's live-fired cell (`packages/core/backends/cargo/firing.test.ts` — it runs a real `cargo clippy` wherever cargo is on PATH, CI included, with the workflow installing the pinned toolchain); `root-agents-demo.test.ts:144-150` asserts the demo region wires exactly that type-aware node. Where a backend *can't* enforce the same convention, the doc says so with an error code (FF7001) instead of pretending it's covered.
 
 **Claim 2 — `AGENTS.md:89`.** The mirror convention for TypeScript ("never `process.env` directly") is enforced by the ESLint backend. `root-agents-demo.test.ts:120-131` feeds the doc's own "Never (fires)" example (`const url = process.env.DATABASE_URL;`) to the real generated `no-restricted-syntax` rule and asserts it fires; `:133-143` asserts the "Always (clean)" accessor form stays silent. Edit the example into something the rule no longer catches, and the suite goes red.
 

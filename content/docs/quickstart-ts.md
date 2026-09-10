@@ -20,8 +20,10 @@ The plugin never silently mutates your git or CI. The hard layer (hooks + CI gat
 
 Pick one on-purpose violation and commit it:
 
-- Add `as any` somewhere you know it shouldn't be.
-- Read `process.env.SOMETHING` directly instead of going through your config accessor.
+- Add `as any` somewhere you know it shouldn't be — the starter set blocks this one today.
+- Read `process.env.SOMETHING` directly instead of going through your config accessor —
+  nothing fires until you compile that convention into a rule (the `/rule-research` loop
+  below exists for exactly that).
 - Write a test that asserts `true === true` — a tautology that can't fail.
 
 ## 3. Watch the gate fire
@@ -33,10 +35,13 @@ Run your normal git flow (`git add`, `git commit`, or push, depending on which h
 | You wrote | What fires | Channel |
 |---|---|---|
 | `as any` | ESLint `no-explicit-any`-class rule blocks the commit | pre-commit |
-| `process.env.X` direct access | Generated `no-restricted-syntax` rule blocks it, naming the accessor to use instead | pre-commit / pre-push |
-| A tautological test (asserts nothing meaningful) | Flagged for review — tautology detection is heuristic, not a hard gate | review-time flag, not a block |
+| `process.env.X` direct access | Generated `no-restricted-syntax` rule blocks it, naming the accessor to use instead — **once you compile that convention** (`/rule-research`); the starter set ships no env-var ban | when compiled: pre-commit / pre-push |
+| A tautological test (asserts nothing meaningful) | Flagged for review, and the shipped incremental mutation gate in CI (`stryker`, score break 60) fails the build when changed lines are guarded by tests that kill nothing | review-time flag + CI mutation gate |
 
-Two of these three are hard, deterministic blocks. The third is honestly weaker: catching a test that provably tests nothing is a harder, fuzzier problem, so today it's a flag, not a gate. See [Honest limits](/docs/limits/) for the full list of what's shipped versus what's still roadmap.
+All three have a hard channel eventually — two at commit time, the tautology one at CI via
+the mutation gate; the review flag is merely the earliest, broadest net. See
+[Honest limits](/docs/limits/) for the full list of what's shipped versus what's still
+roadmap.
 
 ## Next
 

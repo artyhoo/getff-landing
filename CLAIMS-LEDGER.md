@@ -36,7 +36,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 3 | content/docs/what-is-getff.md:14-16 | «The first layer compiles your conventions into the toolchain gates your project already runs: ESLint rules and husky hooks for npm projects, gate generation for Rust.» | 1 | npm arm: `.husky/` delivery (`setup.d/50-hooks.sh`) + npm-tarball cell; Rust arm: [SSOT seq.core.step.install] (`install.sh cargo` lane; `setup.d/46-cargo.sh` delivers `clippy.toml` + `.github/workflows/getff-cargo.yml`) |
 | 4 | content/docs/what-is-getff.md:18 | «Today this layer covers TypeScript/JS, Rust, Python and Go stacks» (widened at BS3 round 2 — see BS3 section) | 1 | install.sh:163-171 accepts `python \| cargo \| go` positionals; `setup.d/45-python.sh` / `46-cargo.sh` / `47-go.sh`; [W6] (python lane e2e); npm-tarball cell (npm) |
 | 5 | content/docs/what-is-getff.md:18 | «with more toolchains on the roadmap» | 1 | no lane beyond npm/python/cargo/go in `install.sh` case arms — label: planned |
-| 6 | content/docs/what-is-getff.md:19-20 | «an *executable* AGENTS.md today means **getff's own repo** — generating yours from your conventions is the next milestone, not a shipped feature.» | 2 | our repo's AGENTS.md + `make self-audit` demo (app/(site)/page.tsx:63-69 at head, kept BS1 hero) — label: milestone (F5-2 exactly) |
+| 6 | content/docs/what-is-getff.md:19-20 | «an *executable* AGENTS.md today means **getff's own repo** — generating yours from your conventions is the next milestone, not a shipped feature.» | 2 | repo `AGENTS.md` generated regions + Enforced lines; `Makefile:3` self-audit; ratchet `packages/core/composition/demo/root-agents-demo.test.ts:51-64`; negative probe: no consumer-AGENTS.md generator in `install.sh`/`setup.d/` — label: milestone (F5-2 exactly) |
 | 7 | content/docs/what-is-getff.md:22 | «The rules layer ships as a **beta**.» | 5 | label: beta (public-beta label, parent §7 maturity set; design B-D1) |
 | 8 | content/docs/what-is-getff.md:27-28 | «Tasks are tiered by a fixed rubric — who plans, who implements, who reviews — so cheap mechanical work runs on a cheaper model and design-heavy work plans on a stronger one.» | 1 | [TIER §2 @L43-59] (two questions, three tiers, criteria table) |
 | 9 | content/docs/what-is-getff.md:29-31 | «The factory installs on top of the rules layer: the factory profile ships the same rule-proving steps, so dispatched work happens in a repo where those gates are installed and proven.» | 1 | [SSOT seq.factory.step.prove-rules-not-inert] (the proving steps are IN the factory sequence) |
@@ -110,13 +110,13 @@ below cover each page's own connective prose; the step content's evidence is the
 | 77 | content/blog/getff-beta.md:20-23 | layer-1 lanes: ESLint/husky (npm), gate generation (Rust), pure-bash python lane with no Node | 1 | [W6] + `install.sh:163-171` lanes + [INSTALL py] (repo evidence re-cited at BS3) |
 | 78 | content/blog/getff-beta.md:23-25 | «Install, and you end inside a gate that has gone red on a planted violation — every quickstart ends with exactly that moment» | 1 | [SSOT seq.core.step.watch-a-rule-fire] + [W6] RED arm |
 | 79 | content/blog/getff-beta.md:29 | «for cargo, the demo today is clippy, with cargo-deny on the roadmap» | 4 | F5-4's exact required shape — label: planned (deny arm) |
-| 80 | content/blog/getff-beta.md:31-33 | executable AGENTS.md «**still a milestone for your repo**»: the inspectable one is our own, live-fired claims + `make self-audit` | 2 | our repo's AGENTS.md + hero demo (page.tsx:63-69 at head) — label: milestone (F5-2) |
+| 80 | content/blog/getff-beta.md:31-33 | executable AGENTS.md «**still a milestone for your repo**»: the inspectable one is our own, live-fired claims + `make self-audit` | 2 | repo `AGENTS.md` Enforced lines + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — label: milestone (F5-2) |
 | 81 | content/blog/getff-beta.md:40-42 | factory: kickoff in, fixed tier rubric (who plans / implements / reviews), branches inside compiled gates, harvest back | 1 | [TIER §2] + [SSOT seq.factory] + [GUIDE §2.3] |
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
 | 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs`; cargo arm: `templates/cargo/clippy.toml` (shipped ban surface) vs `templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
-| 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:63-69 at head) — F5-2's exact sanctioned form («its own») |
+| 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | repo `AGENTS.md` Enforced lines (every demo node carries one) + `Makefile:3` + ratchet `root-agents-demo.test.ts:51-64` — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
 `app/(site)/page.tsx:80` → `/docs/daily-cycle-rules/` (killer card links killer-layer docs) and
@@ -172,7 +172,7 @@ Per-GAP disposition (G-numbers from `BS3-GAPS.md`):
 | G1 | `page.tsx:5-6` meta/og/twitter/structured-data description → row-85 shape (clippy today, cargo-deny roadmap) |
 | G2 | `llms.txt/route.ts:22` project summary → same shape |
 | G3 | `quickstart-rust.md` — frontmatter + body de-overclaim; banned-dependency bullet replaced (extend `clippy.toml` `disallowed-methods`, the shipped surface); «same way in CI» reworded to the real clippy gate; table's cargo-deny row removed, channels corrected (`cargo clippy` / `getff-cargo.yml`, no pre-push hook on this lane) |
-| G4 | `docs/executable-agents-md.md` — all citations re-anchored at `94a3a9efcd`: AGENTS.md:83/:89/:26-60, 29 rules, enforced line quoted in full (4 segments), npm live-fire at root-agents-demo.test.ts:120-131/:133-143, ratchet :51-64, cargo ✅ provenance corrected (`packages/core/backends/cargo/firing.test.ts` dev-machine gate + :144-150 wiring assertion), pre-push.ts:1351-1352 |
+| G4 | `docs/executable-agents-md.md` — all citations re-anchored at `94a3a9efcd`: AGENTS.md:83/:89/:26-60, 29 rules, enforced line quoted in full (4 segments), npm live-fire at root-agents-demo.test.ts:120-131/:133-143, ratchet :51-64, cargo ✅ provenance corrected (`packages/core/backends/cargo/firing.test.ts` — live-fire wherever cargo is on PATH, CI included; wording fixed at round 5) + :144-150 wiring assertion, pre-push.ts:1351-1352 |
 | G5 | `blog/executable-agents-md.md` — same nine corrections mirrored |
 | G6 | `limits.md` — §2 rewritten: four stacks (Rust bullet now honest about the starter deny.toml and the absent `cargo deny` workflow); frontmatter «two supported stacks» → four |
 | G7 | `page.tsx:190` limits list — four lanes, cargo-deny scoped to roadmap |
@@ -242,3 +242,26 @@ returned REVISE. Dispositions:
   repo; the phantom «gate row 4/8» references deleted; row 15's «zero occurrences»
   precision fixed (maintainer sections/comments only); row 85 dropped from the
   planned-label density list (9 rows).
+
+## BS3 round 5 — fourth-audit GAP fixes (2026-09-10)
+
+Leg A round 4 (cold audit of `be1d32e`, 227 claims: 217 VERIFIED / 8 GAP / 2
+UNVERIFIABLE) returned REVISE. All fixed:
+
+- **firing.test.ts posture** (executable-agents-md docs+blog, ledger G4 note): the cargo
+  live-fire is NOT dev-machine-only — `firing.test.ts:6,38-40` deliberately fires
+  wherever cargo is on PATH, CI included (no `!isCI` guard; the workflow installs the
+  pinned toolchain). Wording corrected everywhere. Framework defect → operator:
+  `root-agents-demo.test.ts`'s own comment (:145-146) still says «gated on cargo
+  present && !CI» — the two test files disagree; firing.test.ts's header is the truth.
+- **quickstart-ts process.env row**: the starter ESLint set bans only `TSEnumDeclaration`
+  (`templates/ts-server/eslint.config.mjs:162-170`) — the accessor rule is
+  generated-from-convention machinery, not out-of-the-box. The break-a-convention bullet
+  and the table row now say so and point at `/rule-research`.
+- **quickstart-ts tautology row**: under-claim — the delivered `ci.yml` ships an
+  incremental mutation gate (`templates/ts-server/github-actions-ci.yml:125-162`,
+  Stryker `thresholds.break: 60` in `stryker.config.json:41-44`) that fails the build on
+  changed lines guarded by tests that kill nothing. Row + summary paragraph corrected.
+- **ledger rows 6/80/86**: the «own repo / self-audit» claims' evidence re-pointed from
+  the site's own hero (same-page circular) to the repository artifacts (AGENTS.md
+  Enforced lines, `Makefile:3`, the ratchet test).
