@@ -45,7 +45,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 12 | content/docs/daily-cycle-rules.md:15-18 | beat 1 — read `AGENTS.md`, then `RULES.md` / `ARCHITECTURE.md` | 1 | [GUIDE §3 @L187-188] |
 | 13 | content/docs/daily-cycle-rules.md:22-23 | «The ESLint custom rules are the earliest channel: they fire in your editor and in `npm run lint`.» | 1 | [GUIDE §3 @L189-190] |
 | 14 | content/docs/daily-cycle-rules.md:28-32 | beat 3 — `bash scripts/audit-ai-docs.sh`, plus `check-rule-globs.sh` / `check-lintstaged-resolves.sh` when layout/deps changed; pre-commit runs lint-staged | 1 | [GUIDE §3 @L191-193] |
-| 15 | content/docs/daily-cycle-rules.md:35-42 | beat 4 — `.husky/pre-push` fires rule-glob liveness, lint-staged resolution, generated-rule-material (Node≥20 routes to the TS-core hook, bash critical-only fallback otherwise); typecheck/tests/depcruise run as `ci.yml` jobs; not bypassed with `--no-verify` | 1 | `packages/core/hooks/pre-push.ts` SECTIONS `owner: consumer` = `rule-globs`/`lint-staged-resolves`/`generated-rule-material` (re-verified at BS3 round 3; zero typecheck/vitest/depcruise occurrences in the hook); trio in `templates/ts-server/github-actions-ci.yml:54-104` delivered as `ci.yml` (`40-configs.sh:448`). NB: the shipped `AI-USAGE-GUIDE.md:195-196` still names the trio at pre-push — framework defect, operator finding |
+| 15 | content/docs/daily-cycle-rules.md:35-42 | beat 4 — `.husky/pre-push` fires rule-glob liveness, lint-staged resolution, generated-rule-material (Node≥20 routes to the TS-core hook, bash critical-only fallback otherwise); typecheck/tests/depcruise run as `ci.yml` jobs; not bypassed with `--no-verify` | 1 | `packages/core/hooks/pre-push.ts` SECTIONS `owner: consumer` = `rule-globs`/`lint-staged-resolves`/`generated-rule-material` — typecheck/vitest/depcruise appear in the hook only inside maintainer-owner sections and comments, never in the consumer registry (precision fixed at BS3 round 4); trio in `templates/ts-server/github-actions-ci.yml:54-104` delivered as `ci.yml` (`40-configs.sh:448`). NB: the shipped `AI-USAGE-GUIDE.md:195-196` still names the trio at pre-push — framework defect, operator finding |
 | 16 | content/docs/daily-cycle-rules.md:41-43 | beat 5 — CI (`ci-success`) is the last-resort gate | 1 | [GUIDE §3 @L196-197] |
 | 17 | content/docs/daily-cycle-rules.md:43-46 | «when a GitHub Free account exhausts its private-repo Actions-minutes pool, every first-party check fails in ~2 s with zero steps» + `ci-available-probe.sh` classifies `CI UNAVAILABLE` (npm-lane installs only) | 1 | [GUIDE §3 @L197-202] |
 | 18 | content/docs/daily-cycle-rules.md:47-49 | `pre-merge-local.sh` runs every detected lane's gates locally — opt-in, weaker evidence than CI, its verdict says so | 1 | [GUIDE §3 @L203-204] |
@@ -83,7 +83,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 50 | content/docs/quickstart-python.md:97 | «`mypy` and `import-linter` backends are out of scope for the Python lane today.» | 1 | [INSTALL py] scope note — label: planned (future backends) |
 | 51 | content/docs/quickstart-python.md:98-99 | «The one-command public install path (`npx getff@latest init`) is not published yet» | — | label: planned (U10 open; kickoff §4 forbids inventing an entry command) |
 | 52 | content/docs/degradations.md:14 | «**Experimental.**» (first paragraph) | 5 | label: experimental |
-| 53 | content/docs/degradations.md:16-21 | matrix «is copied verbatim — row text unchanged — from the one file that owns it; this page is a pointer, never a second source. Read the rows as evidenced claims, not probe-verified facts» | 1 | [TIER §3 @L69-75] (sequencing-honesty note) + [GUIDE §4 @L251-253]; byte-exact copy verified at gate (row 4 checks) |
+| 53 | content/docs/degradations.md:16-21 + reading note :23-27 | matrix «is copied verbatim — row text unchanged — from the one file that owns it; this page is a pointer, never a second source. Read the rows as evidenced claims, not probe-verified facts» + the reading note resolving the pre-pointer-ization `CLAUDE.md:108/:130` cites to the owner's §2 | 1 | byte-diff of the table vs `packages/core/templates/shared/tier-home.md` §3 performed at the BS3 round-3 audit (all rows byte-identical); NO mechanical gate on the landing — the note is prose, re-checked by hand on re-vendor |
 | 54 | content/docs/degradations.md:23-30 | the 4 matrix rows (no aif runtime / no GLM subscription / no Fable / non-CC harness) | 1 | [TIER §3 @L77-84] — verbatim render, single owner A3 |
 | 55 | content/docs/degradations.md:32-35 | «The authoritative rows live in your install at `.ai-factory/tier-home.md` §3. That file installs at `env` and `factory` depth only — on a `core` install it is absent by design» | 1 | [GUIDE §4 @L249-250] + [SSOT seq.env.step.read-tier-home] |
 | 56 | content/docs/beta.md:7-8 | «the rules layer is the **beta**, the factory layer is **experimental**» | 5 | label: beta + experimental (parent §7 maturity set, design B-D1) |
@@ -96,7 +96,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 63 | content/docs/beta.md:42-45 | feedback via issue templates (bug report / beta feedback) at artyhoo/getff `/issues/new/choose` | 1 | `.github/ISSUE_TEMPLATE/bug-report.yml` + `.github/ISSUE_TEMPLATE/beta-feedback.yml` (paths exist; re-evidenced at BS3 round 3 — task-doc citations removed) |
 | 64 | content/docs/first-steps-core.md:16-17 | «The sequence ends with a rule that has gone red on input planted on purpose» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (plants deliberately-bad input, asserts RED) |
 | 65 | content/docs/first-steps-core.md:18 | «The rules layer ships as a **beta**.» | 5 | label: beta |
-| 66 | content/docs/first-steps-core.md:steps 1-7 | all step content (commands, ordering, titles) | 1 | [SSOT seq.core steps install→research-your-stack] — vendored render, parity-gated (gate row 8); provenance header :9-15 names f49e35311c |
+| 66 | content/docs/first-steps-core.md:steps 1-7 | all step content (commands, ordering, titles) | 1 | [SSOT seq.core steps install→research-your-stack] @ `94a3a9efcd` — vendored render, re-pinned at BS3 round 4 with TWO documented deviations (install step: the SSOT still ties `-y` to core, the real default is env since 2026-08-18, install.sh:645-650; fill-passport: the SSOT's `<PLACEHOLDER>` token does not exist in the template — fields are `<…>`); NO mechanical parity gate on the landing; provenance header names the deviations |
 | 67 | content/docs/first-steps-core.md:64 | «an installed rule that has never been seen to fire is an unproven claim» | 1 | [SSOT seq.core.step.watch-a-rule-fire] (same sentence, source) |
 | 68 | content/docs/first-steps-env.md:17 | «**Experimental.**» | 5 | label: experimental |
 | 69 | content/docs/first-steps-env.md:steps 1-6 | all step content | 1 | [SSOT seq.env steps install→arch-one-idea] @ `94a3a9efcd` — vendored render, re-vendored at the BS3 round (verify-payload step had drifted); NO mechanical parity gate on the landing (operator finding); provenance header :9-15 |
@@ -115,7 +115,7 @@ below cover each page's own connective prose; the step content's evidence is the
 | 82 | content/blog/getff-beta.md:44-45 | «where a capability is absent it degrades in named ways — the degradation matrix is public» | 1 | [TIER §3 @L77-84] rendered at content/docs/degradations.md |
 | 83 | content/blog/getff-beta.md:55-56 | no signup/waitlist; «`npx getff@latest init` is not published» | — | label: planned (U10); entry = clone + installer ([INSTALL]) |
 | 84 | content/blog/getff-beta.md:61-63 | feedback via issue templates on artyhoo/getff | 1 | `.github/ISSUE_TEMPLATE/{bug-report,beta-feedback}.yml` (re-evidenced at BS3 round 3) |
-| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: quickstart-ts (kept) [F5-1]. cargo arm: **F5-4-conformant** — clippy present tense, cargo-deny explicitly roadmap; same shape as row 79's blog sentence. No `planned` label needed: the sentence now states its own tense |
+| 85 | app/(site)/page.tsx:83 | «Conventions compiled into native toolchain gates — ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap.» (left panel card, reworded at BS3 — see FINDING-L1 resolution) | 1, 4 | npm arm: `setup.d/50-hooks.sh` (`.husky/` delivery) + `templates/ts-server/eslint.config.mjs`; cargo arm: `templates/cargo/clippy.toml` (shipped ban surface) vs `templates/cargo/deny.toml` (starter, no active bans) + no `cargo deny` step in `templates/cargo/github-actions-ci.yml` — **F5-4-conformant**, states its own tense, no `planned` label needed |
 | 86 | app/(site)/page.tsx:88 | «Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.» (right panel card, BS1 copy) | 2 | our own repo as the demo: getff AGENTS.md + `make self-audit` (page.tsx:63-69 at head) — F5-2's exact sanctioned form («its own») |
 
 **Wiring record (not claims — no rows):** the two panel `href` re-points demanded by B-D2 are
@@ -126,7 +126,7 @@ landing diff accounted for in full.
 
 ## Label density
 
-Rows carrying a pure or partial **planned / milestone** label: 5, 6, 50, 51, 58, 61, 79, 80, 83, 85 → 10 rows (86 numbered rows total; the two href re-points are recorded as wiring below the table, not as rows).
+Rows carrying a pure or partial **planned / milestone** label: 5, 6, 50, 51, 58, 61, 79, 80, 83 → 9 rows (86 numbered rows total; row 85 dropped from this list at BS3 round 4 — its F5-4-conformant wording states its own tense; the two href re-points are recorded as wiring below the table, not as rows).
 Rows carrying **experimental / beta** labels: 7, 10, 21, 30, 52, 56, 65, 68, 72 → 9 rows.
 
 ## Findings raised while writing this ledger
@@ -216,3 +216,29 @@ returned REVISE. All six fixed:
 - ledger method defects (rows 63/76/84 same-site & task-doc citations; rows 15/35/75
   doc-against-doc verdicts) — all re-evidenced against the repository or the primary
   source.
+
+## BS3 round 4 — third-audit GAP fixes (2026-09-10)
+
+Leg A round 3 (cold audit of `98f87a6`, 75 claims: 69 VERIFIED / 6 GAP / 2 UNVERIFIABLE)
+returned REVISE. Dispositions:
+
+- **#33 `-y`/core-depth** (first-steps-core step 1): the installer's non-interactive
+  default was raised core→env on 2026-08-18 (`install.sh:645-650`, commit `1cff911468`);
+  the render now commands `--profile core` explicitly and states the real default.
+  Framework defect → operator: `first-steps.source.json` seq.core.step.install still
+  says «`-y` (default; equivalently `--profile core`)».
+- **#36 `<PLACEHOLDER>` token** (all three first-steps fill-passport steps): the shipped
+  `DESCRIPTION.template.md` carries `<PROJECT_NAME>`-style fields, no literal
+  `<PLACEHOLDER>`; wording changed to «`<…>` placeholder field». Framework defect →
+  operator: the SSOT fill-passport action uses the same phantom token.
+- **#46 stale CLAUDE.md cites in the vendored degradation matrix**: rows are
+  verbatim-locked to `tier-home.md` §3 (row 53's byte-parity property), so the fix is a
+  page-side reading note resolving `CLAUDE.md:108/:130` to the owner's §2. Framework
+  defect → operator: `tier-home.md` §3 itself carries the stale cites.
+- **#69 draft stack list** (blog/getff-beta.md:27): «TypeScript/JS, Rust and Python» →
+  «…, Python and Go» — body-only edit, `draft: true` frontmatter untouched (containment
+  re-checked post-edit).
+- **#76/#77 ledger method defects**: rows 53/66/85 re-evidenced against the framework
+  repo; the phantom «gate row 4/8» references deleted; row 15's «zero occurrences»
+  precision fixed (maintainer sections/comments only); row 85 dropped from the
+  planned-label density list (9 rows).

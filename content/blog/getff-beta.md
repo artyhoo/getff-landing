@@ -24,7 +24,7 @@ fast-path with no Node on your machine. Install, and you end inside a gate that 
 gone red on a planted violation — every quickstart ends with exactly that moment, on
 purpose, because a gate nobody has seen fire is an unproven claim.
 
-This layer is the **beta**: it works today on TypeScript/JS, Rust and Python stacks.
+This layer is the **beta**: it works today on TypeScript/JS, Rust, Python and Go stacks.
 Two honest limits travel with it. Gate generation for other toolchains is on the
 roadmap, not in the box — for cargo, the demo today is clippy, with cargo-deny on the
 roadmap. And the flagship idea — an AGENTS.md whose every claim is executable — is

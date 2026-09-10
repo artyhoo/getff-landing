@@ -8,8 +8,11 @@ description: "Install getff at core depth and end with a rule that has gone red 
 
   Source:   packages/core/templates/shared/first-steps.source.json
             (schema getff.first-steps/v1, sequence "core")
-  Read at framework commit: f49e35311c
+  Read at framework commit: 94a3a9efcd (staging, 2026-09-10)
   Regen:    re-vendor from the source at the current staging HEAD; do not edit by hand.
+  Deviation: the source's install step still ties `-y` to core depth — the installer's
+  non-interactive default was raised to env on 2026-08-18 (install.sh:645-650). This
+  render states the real behaviour; see CLAIMS-LEDGER.md BS3 round 4.
 -->
 
 Core is the rules layer at its smallest: install the gates, then prove on your own machine
@@ -27,11 +30,14 @@ The sequence's goal, from the source: install → a rule provably fires on your 
 
 <!-- step: install -->
 
-1. **Install at core depth** — from your project root run `bash <getff>/setup -y <stack>`.
+1. **Install at core depth** — from your project root run
+   `bash <getff>/setup --profile core <stack>`.
    The stacks are `ts-server`, `react-next`, `react-spa` and `react-native`; omit the
    stack to auto-detect. (`install.sh python`, `install.sh cargo` and `install.sh go`
-   are separate non-npm lanes, each an explicit positional.) The `-y` flag is the default
-   profile — the shallowest install, and everything later in getff stacks on top of it.
+   are separate non-npm lanes, each an explicit positional.) Note the interactive
+   default depth is `env` (raised from `core` on 2026-08-18): `-y` answers the prompts
+   with that default, so this rules-only walk passes `--profile core` explicitly —
+   everything later in getff stacks on top of it.
 
 <!-- step: verify-payload -->
 
@@ -42,7 +48,7 @@ The sequence's goal, from the source: install → a rule provably fires on your 
 
 <!-- step: fill-passport -->
 
-3. **Fill the project passport** — replace every `<PLACEHOLDER>` in
+3. **Fill the project passport** — replace every `<…>` placeholder field in
    `.ai-factory/DESCRIPTION.md` (domain, stack, constraints, non-goals). This is the file
    `AGENTS.md` sends every future session to first, so a passport left unfilled degrades
    every later session. Ten minutes here is the highest-leverage ten minutes of the

@@ -40,7 +40,7 @@ Run it with the profile flag `--profile env`.
 
 <!-- step: fill-passport -->
 
-3. **Fill the project passport** — replace every `<PLACEHOLDER>` in
+3. **Fill the project passport** — replace every `<…>` placeholder field in
    `.ai-factory/DESCRIPTION.md`. If you installed straight to `env` this is the same
    passport step as core's; if you deepened an existing install, it is worth re-reading
    what you wrote there before the design contour starts reading it.

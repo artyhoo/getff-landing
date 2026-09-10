@@ -38,7 +38,7 @@ machine runs the aif-handoff operator runtime — the factory payload dead-ends 
 
 <!-- step: fill-passport -->
 
-3. **Fill the project passport** — replace every `<PLACEHOLDER>` in
+3. **Fill the project passport** — replace every `<…>` placeholder field in
    `.ai-factory/DESCRIPTION.md`. Dispatched workers read this passport too — a vague
    one sends every dispatched task out with a vague brief.
 
