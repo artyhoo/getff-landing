@@ -18,6 +18,11 @@ audit scripts · G npm packages + presets · H runtime-bridge (aif dispatch) · 
 go-lane**, **plugin** (marketplace install), **clone** (present only in the framework repo itself — not
 delivered to a consumer install).
 
+**Row-id format (for E2+ tooling):** ids are `<letter><number>` with exactly ONE exception — `D24b`, the
+suffix-qualified second half of the D24 dynamic-check pair (utils pair + ESM marker). A strict
+`<letter><number>` parse undercounts family D by one (D = 27 rows: 23 MISSING / 2 PARTIAL / 2 documented);
+accept a trailing `[a-z]` suffix or match `D24b` literally — the MISSING roll-up lists it explicitly.
+
 **Revision note (same day, same pin):** families A and D were amended after a T7 enumeration-gap sweep —
 four `setup.d/` entries the A-preamble `ls` shows but the first pass did not row (A21-A24), and the
 `_zcode-emit` hook the D-preamble `ls` shows but the first pass did not row (D25). Families G-I were authored
@@ -26,6 +31,13 @@ settings.json) and H24 (the orchestrator-prompts staging homes), and corrected E
 session-bootstrap files (the inject hook consumes the top-level digest, not the template). No row was
 dropped or re-scoped; counts only grew. `.claude/worktrees/` (runtime git state) and `node_modules/` are
 deliberately not rowed — runtime artifacts, not capabilities.
+
+**Revision note 2 (same day, same pin, post-review round 1):** the MISSING-roll-up **prose id lists** were
+reconciled with their own tally tables — H24 moved from the H MISSING prose list into the PARTIAL prose list,
+where its row and the tally table already had it (no tally number changed: Σ stays 252 = 183 MISSING +
+28 PARTIAL + 41 documented). Also added here: the row-id-format note for `D24b` above, and F42's coverage-quote
+elision is now marked `[…]` with the elided text named in its row. The prose lists are now machine-cross-checked
+against the census rows (gate row 8, rework round 1).
 
 ---
 
@@ -378,7 +390,7 @@ shipped `scripts/` audit payload). The rules corpus is framework-internal discip
 | F39 | clone | render-zcode-parity-rollup.mjs — zcode parity rollup | `scripts/render-zcode-parity-rollup.mjs:1` «#!/usr/bin/env node»; `scripts/render-zcode-parity-rollup.mjs:3` « * render-zcode-parity-rollup — PROPOSAL renderer (maintainer sign-off pending; S3 D3, P1).»| F30 | MISSING |
 | F40 | clone | render-harness-config.mjs — harness config renderer | `scripts/render-harness-config.mjs:1` «#!/usr/bin/env node» (touched in drift window); `scripts/render-harness-config.mjs:3` « * render-harness-config — derive per-harness runtime config from ONE neutral SSOT.»| — | MISSING |
 | F41 | clone | render-install-roster.mjs — install roster renderer | `scripts/render-install-roster.mjs:1` «#!/usr/bin/env node»; `scripts/render-install-roster.mjs:3` « * render-install-roster — deterministic consumer install roster for INSTALL-FOR-AI.md»| A | MISSING |
-| F42 | npm-lane (--full) | `packages/core/install/rule-bootstrap-cli.ts` — the deterministic research→rule factory entry | `setup.d/80-rule-bootstrap.sh:7` «#   FileResearchClient + FileGenerateClient → generate.ts factory → install() → rules-lock.json»; `setup.d/80-rule-bootstrap.sh:8` «# Payload: packages/core/install/rule-bootstrap-cli.ts (the shared entry).» | A18, B3, C12 | PARTIAL /docs/quickstart-python/ — «Author a practice record … and run the bootstrap CLI with `--from-practice`: a valid record renders to `.getff/rules-research/<entryId>.yml`» (python-lane flow documented; the shared CLI itself not named) |
+| F42 | npm-lane (--full) | `packages/core/install/rule-bootstrap-cli.ts` — the deterministic research→rule factory entry | `setup.d/80-rule-bootstrap.sh:7` «#   FileResearchClient + FileGenerateClient → generate.ts factory → install() → rules-lock.json»; `setup.d/80-rule-bootstrap.sh:8` «# Payload: packages/core/install/rule-bootstrap-cli.ts (the shared entry).» | A18, B3, C12 | PARTIAL /docs/quickstart-python/ — «Author a practice record […] and run the bootstrap CLI with `--from-practice`: a valid record renders to `.getff/rules-research/<entryId>.yml`» ([…] marks an editorial elision: the page's parenthetical «(provenance-cited, from your framework's real docs)» at content/docs/quickstart-python.md:82-83; python-lane flow documented; the shared CLI itself not named) |
 | F43 | npm-lane | scripts/audit-ai-docs.sh — the daily drift + code-vs-docs gate | `setup.d/40-configs.sh:14` «copy_safe "$PKG_ROOT/packages/core/audit-self/audit-ai-docs.sh" "$PROJECT_ROOT/scripts/audit-ai-docs.sh"» (copy); `packages/core/audit-self/audit-ai-docs.sh:1` (source) | A13 | documented /docs/daily-cycle-rules/ — «`bash scripts/audit-ai-docs.sh` — drift + code-vs-docs probes» |
 | F44 | npm-lane | scripts/audit-r4.ts — R4 audit probe | `setup.d/40-configs.sh:17` «copy_safe "$PKG_ROOT/packages/core/probes/audit-r4.ts" "$PROJECT_ROOT/scripts/audit-r4.ts"»; `setup.d/40-configs.sh:18` «# cih-s3 F3 "+V": glob-liveness gate — fails if a custom rule matches zero source files»| F43 | MISSING |
 | F45 | npm-lane | scripts/check-rule-globs.sh — fails when a shipped rule matches zero files | `setup.d/40-configs.sh:20` (copy); `packages/core/hooks/pre-push.ts:940` «if (existsSync(resolve(REPO_ROOT, 'scripts/check-rule-globs.sh'))) {» (pre-push consumer gate) | D22 | documented /docs/first-steps-core/ — «4. **Prove the rules are not inert on your layout** — `bash scripts/check-rule-globs.sh`» |
@@ -560,16 +572,17 @@ Tally per family (`MISSING` / `PARTIAL` / `documented`; total 252 items across 9
 - **H (18):** H3 (claim), H4 (park), H5 (openQuestion), H6 (answer), H7 (questions), H9 (ensure-parallel),
   H10 (await), H11 (aifHttp), H12 (cliEntry), H13 (backend+types), H16 (AifFireBackend), H17 (ManualBackend),
   H18 (idempotency), H19 (kickoff), H20 (aifWsStatus), H21 (vendor subset), H22 (operator scripts), H23
-  (test suite), H24 (orchestrator-prompts staging homes)
+  (test suite)
 - **I (5):** I5 (using-getff), I6 (installing-enforcement), I7 (tool-bootstrapping twin), I8 (agent twins),
   I9 (fetch-and-wire)
 
-**PARTIAL (27) — the named page needs its missing detail added (secondary E2-E5 scope):**
+**PARTIAL (28) — the named page needs its missing detail added (secondary E2-E5 scope):**
 A8 (no Go quickstart; no per-file detail), A16 (gate named, reconciliation stage + orphan warning not), B4
 (named, behavior not), B6 (posture only via vendored rows), B11 (entry point named, scope not), B15 (getff
 skill itself unnamed), C12 (fallback path named, role not), D1 (23 hook registrations unenumerated), D22
 (full owner-section map missing), E1 (config file unnamed), E4 (template artifact unnamed), E9 (SSOT role
 unexplained), E24/E25 (files unnamed), F20 (rule file unnamed), F26 (rule file unnamed), F42 (shared CLI
 unnamed), F52 (script unnamed), G1 (package payload layout), H1 (CLI surface), H2 (invocation path), H14
-(env-var override), H15 (REST mechanics), I1 (strict flag + description), I2 (manifest + license), I3
+(env-var override), H15 (REST mechanics), H24 (consumer staging path documented; the framework's own
+staging home not), I1 (strict flag + description), I2 (manifest + license), I3
 (command name absent site-wide), I4 (skill unnamed).

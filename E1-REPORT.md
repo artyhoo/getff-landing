@@ -107,12 +107,77 @@ wording is the maturity labels already ledgered ("beta", "experimental"). **No n
 | 5 | Coverage claim-checked (spot 10 rows) | manual + 60/60 sweep | Spot rows across families, each sentence-verified on the named page: A8 «**Go** — golangci-lint ban configuration plus a pinned CI gate» PARTIAL /docs/limits/ · B12 «then bring the finished branch back with `/harvest`» documented /docs/daily-cycle-factory/ · C12 «(or read `.claude/agents/rule-researcher.md` …)» PARTIAL /docs/first-steps-core/ · D22 «wired into the pre-push hook (`packages/core/hooks/pre-push.ts:1351-1352`)» PARTIAL /docs/executable-agents-md/ · E21 «a `cargo-deny` starter policy file with no active bans» documented /docs/quickstart-rust/ · E32 «ruff-bans.toml ← stable getff-bans config the CI gate points --config at» documented /docs/quickstart-python/ · F36 «`scripts/render-rule-index.mjs --check` re-renders it … exits 1 on any drift» documented /docs/executable-agents-md/ · G8 «vendored from the shipped preset data (`.claude/skills/pipeline/references/presets/*.json` …)» documented /docs/daily-cycle-factory/ · H15 «**C3 probe class: model-tier availability enumerator** over `runtime-bridge/runtime-profiles` resolution + `AifHandoffBackend.ts` …» PARTIAL /docs/degradations/ · I3 «The hard layer (hooks + CI gates) is one explicit opt-in command …» PARTIAL /docs/quickstart-ts/. Full sweep: 60/60 coverage quotes found verbatim on their named pages |
 | 6 | Intersection listed; every touched row re-verified | D2.1/D2.2 | W1 intersection = 52 rows (listed in D2.1) → **52/52 VERIFIED, 0 GAP**, each via a fresh quoted probe; W2 intersection = 9 rows → 8 transfer byte-identical + 1 re-probed at `1c9d711cee` (VERIFIED) |
 | 7 | 7 defects re-measured with dispositions | D2.3 | 1 GAP-carried · 2 GAP-carried · 3 GAP-carried · 4 GAP-carried · 5 GAP-carried · 6 GAP-carried · 7 GAP-carried — each with its quoted probe in D2.3 |
-| 8 | MISSING roll-up matches tables | cross-check | ALL OK — per-family (items, MISSING, PARTIAL, documented) equal the computed tables; Σ roll-up (252, 183, 28, 41) == computed (252, 183, 28, 41) |
+| 8 | MISSING roll-up matches tables | cross-check | Initial pass: tally tables == computed per-row counts; Σ (252, 183, 28, 41) == computed — **but it compared tables↔rows only and never swept the roll-up's prose id lists, where the review gate then found drift (F-9)**. Strengthened in rework round 1 to a mechanical prose↔rows↔tables↔Σ cross-check; fresh output after the fix: `9× prose==rows OK; B2 in B MISSING prose: true; H24 in H MISSING prose: false \| H24 in PARTIAL prose: true; Σ computed 252/183/28/41 == Σ table; ROLL-UP CROSS-CHECK: ALL OK` (script + full per-family output in the Rework round 1 section) |
 | 9 | No claims outside the two files | `git diff --name-only origin/main` | `E1-REPORT.md` + `ENCYCLOPEDIA-CENSUS.md` — the two paths only |
 | 10 | T7 counter-prompt ran and reported | this report §T7 | §T7 present (`grep -c '^## T7' E1-REPORT.md` → `1`): four attack classes actually run — delivery-arm sweep (found D26/H24/E39), 60/60 slug-sweep, pin-consistency (caught the stale planning premise, F-4/F-5), count-fitting (found A21-A24/D25 gaps, now mechanically closed) |
 
 (GATE-RUN-n placeholders are replaced by the actual quoted outputs immediately after the final commit — every
 gate row is executed, none described; the amended commit carries the real outputs.)
+
+---
+
+## Rework round 1 — review-gate findings (2026-09-11, same census pin `a1337cb301`, same base `f34fdd2`)
+
+The auto-review gate returned 3 blocking findings on the initial GREEN. Each is dispositioned below with the
+probe that closes it (T2/T3). **No census row changed id, status, anchors, or count** — the tally tables were
+right throughout; only prose placement, a header note, and one quote's elision marker changed.
+
+**[5d4b4ebaf9e2] roll-up prose id lists vs their own tally tables.**
+- *H24 — real, fixed.* The H MISSING prose list enumerated 19 ids under the header "H (18)", including H24,
+  while H24's row (`ENCYCLOPEDIA-CENSUS.md:497`) and the tally table (H PARTIAL=5) say PARTIAL; the PARTIAL
+  prose list was headed "(27)" and omitted it while the table said 28. Fixed: H24 moved into the PARTIAL prose
+  list (header → **28**, entry: «H24 (consumer staging path documented; the framework's own staging home
+  not)»); the H bullet now enumerates exactly its 18 MISSING ids under "H (18)".
+- *B2 — premise does not hold at HEAD `9856b18`; recorded, not "fixed".* B2 (ai-doc) IS enumerated in the
+  B MISSING list: `ENCYCLOPEDIA-CENSUS.md` line 557 reads «- **B (33):** B1 (template-audit), B2 (ai-doc),
+  B7 (orchestrator), …» — 8 named ids + B17-B41 (25) = 33 == bullet header == tally table. The mechanical
+  sweep reports `B2 in B MISSING prose: true`. (The reviewer's snapshot may predate the T19 amendment commit
+  `9856b18`, which rewrote 366 census lines including the roll-up.)
+
+**[7e7d44b875dd] non-numeric row id `D24b`.** Header note added — renumbering was rejected because it would
+ripple through satellites, the roll-up, and this report for zero informational gain. The census header now
+carries: «**Row-id format (for E2+ tooling):** ids are `<letter><number>` with exactly ONE exception — `D24b`,
+the suffix-qualified second half of the D24 dynamic-check pair (utils pair + ESM marker). A strict
+`<letter><number>` parse undercounts family D by one (D = 27 rows: 23 MISSING / 2 PARTIAL / 2 documented);
+accept a trailing `[a-z]` suffix or match `D24b` literally — the MISSING roll-up lists it explicitly.»
+
+**[2423264e7625] unmarked editorial ellipsis in F42's coverage quote.** The quote now reads «Author a practice
+record **[…]** and run the bootstrap CLI with `--from-practice`: …» and its row names the elided text: «[…]
+marks an editorial elision: the page's parenthetical «(provenance-cited, from your framework's real docs)» at
+content/docs/quickstart-python.md:82-83». Consistency sweep over every OTHER coverage quote containing `…`:
+B15/I4 («`/rule-research`, `/arch`, `/pipeline`, …») and E8 («every `<…>` placeholder field») carry the pages'
+OWN ellipsis characters verbatim (`content/docs/factory-overview.md:64`, `content/docs/first-steps-core.md:51`)
+— page text, not editorial elisions, left untouched; H15's trailing `…` is the reviewed trailing-truncation
+case. F42 remains the only mid-sentence editorial elision, now marked.
+
+**Gate row 8 re-run (strengthened, full output):** mechanical cross-check — ids extracted from the roll-up
+prose (ranges `B17-B41` et al. expanded; parenthetical commentary such as «all but C12» excluded; escaped
+`\|` table pipes treated as content) and compared set-wise against census-row coverage statuses, the tally
+tables, the bullet headers, and Σ:
+
+```
+A: rows=24 MISSING=13(prose 13, hdr 13) PARTIAL=2(prose 2) documented=9 — prose==rows OK
+B: rows=41 MISSING=33(prose 33, hdr 33) PARTIAL=4(prose 4) documented=4 — prose==rows OK
+C: rows=23 MISSING=22(prose 22, hdr 22) PARTIAL=1(prose 1) documented=0 — prose==rows OK
+D: rows=27 MISSING=23(prose 23, hdr 23) PARTIAL=2(prose 2) documented=2 — prose==rows OK
+E: rows=39 MISSING=17(prose 17, hdr 17) PARTIAL=5(prose 5) documented=17 — prose==rows OK
+F: rows=56 MISSING=45(prose 45, hdr 45) PARTIAL=4(prose 4) documented=7 — prose==rows OK
+G: rows=9 MISSING=7(prose 7, hdr 7) PARTIAL=1(prose 1) documented=1 — prose==rows OK
+H: rows=24 MISSING=18(prose 18, hdr 18) PARTIAL=5(prose 5) documented=1 — prose==rows OK
+I: rows=9 MISSING=5(prose 5, hdr 5) PARTIAL=4(prose 4) documented=0 — prose==rows OK
+rows parsed: 252 | unclassified: 0
+B2 in B MISSING prose: true
+H24 in H MISSING prose: false | H24 in PARTIAL prose: true
+Σ computed: 252/183/28/41 | Σ table: 252,183,28,41
+ROLL-UP CROSS-CHECK: ALL OK (prose lists == census rows == tally tables == Σ)
+```
+
+Also re-run this round: gate rows 1/9 — `git status --porcelain` → `?? .ai-factory/` + `?? AGENTS.md` only
+(pre-existing untracked container infra); `git diff --stat origin/main` → `E1-REPORT.md` + `ENCYCLOPEDIA-CENSUS.md`
+(2 files, 778 insertions) — exactly the two deliverables, unchanged and passing. Gate row 5's «60/60 coverage
+quotes found verbatim» reads, after this round, as **59 verbatim + 1 marked elision** (F42, elided text named
+in its row) — which also supplies the sweep-scope note the review advised: the 60-row scope is every row whose
+coverage cell quotes a page sentence; rows citing another row's sentence (e.g. D21) resolve to that row's check.
 
 ---
 
@@ -169,6 +234,14 @@ gate row is executed, none described; the amended commit carries the real output
   was replaced with the real `:38` line), E32 re-anchored (it had NO file:line anchors — the item is
   install-time-written, not a template file), plus the additions/corrections listed under T7. Every correction is
   machine-revalidated: 511/511 anchors resolvable, 439/439 quoted lines exact, 60/60 coverage sentences on-page.
+- **F-9 (roll-up prose drift, caught by the review gate, fixed in rework round 1):** the MISSING/PARTIAL **prose
+  id lists** — the E2-E5 dispatch scope — had drifted from the census's own tally tables (H24 in the wrong prose
+  list; the H bullet enumerating 19 ids under an "18" header; the PARTIAL prose headed 27 vs the table's 28).
+  The tables and rows were right throughout; the original gate row 8 compared tables↔rows and never swept the
+  prose lists, so its "ALL OK" overstated. The strengthened mechanical cross-check (prose↔rows↔tables↔Σ) now
+  passes ALL OK and is the roll-up's standing verification. The review's B2 sub-finding was verified as
+  already-correct at HEAD `9856b18` (present, count-exact) rather than blind-"fixed"; the D24b and F42 findings
+  were fixed as requested (header note; `[…]` elision marker with elided text named).
 
 ## Parked questions (for the operator)
 
@@ -187,4 +260,6 @@ gate row is executed, none described; the amended commit carries the real output
 ## Verdict
 
 `E1: GREEN — census 252 items across 9 families, drift 52 rows re-measured (0 GAP), MISSING set explicit`
-(7/7 known defects GAP-carried and re-anchored for the fix dispatch; MISSING=183 / PARTIAL=28 / documented=41).
+(7/7 known defects GAP-carried and re-anchored for the fix dispatch; MISSING=183 / PARTIAL=28 / documented=41.
+Rework round 1 (review gate, same day): roll-up prose lists reconciled + machine-cross-checked ALL OK, D24b
+header note added, F42 elision marked — same numbers, same pin, verdict unchanged.)
