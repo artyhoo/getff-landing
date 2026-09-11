@@ -55,7 +55,9 @@ lists what it does NOT cover.
 ## When you add a convention
 
 Add its executable check in the same change. A convention with no check is not a rule;
-`/rule-research` and `/rule-tests` exist to make that cheap.
+`/rule-research` and `/rule-tests` exist to make that cheap. The framework holds itself to the
+same standard via its own channel-selection rule, `.claude/rules/rule-enforcement-channel-selection.md`
+(Class A, with a companion principle test at `packages/core/principles/31-rule-channel-declaration.test.ts`).
 
 ## Where a rule came from
 
