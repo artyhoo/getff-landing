@@ -96,6 +96,6 @@ One row per capability sentence: `| page | sentence (short) | evidence anchor(s)
 
 ## Ledger tally
 
-- Pages drafted: 45 (28 rule + 5 barrel + 5 render + 7 shipped). Ledger rows: 54 capability-sentence rows above (one-to-three per page by claim load).
+- Pages drafted: 45 (28 rule + 5 barrel + 5 render + 7 shipped). Ledger rows: 61 capability-sentence rows above (41 rule + 7 barrel + 5 render + 8 shipped; one-to-three per page by claim load) + the 4 D2 PARTIAL-fill rows = 65 total.
 - Labels: `planned` ×1 (render-zcode-parity-rollup — renderer pre-CI state, quoted from the script's own header); `deferred-backend` ×1 (the FF-routing row shared by the barrel pages — FF7001 refusals quoted from the capability matrices and registry).
 - Every row's anchors were quoted or mechanically checked at the working pin during drafting (T12 discipline); the gate's §3 sweep re-resolves them (gate row 4).
