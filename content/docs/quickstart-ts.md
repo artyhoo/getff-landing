@@ -16,6 +16,14 @@ Inside Claude Code, in your project's directory:
 
 The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command — nothing fires until you turn it on.
 
+For the record, the two commands above resolve against two manifests: the in-repo
+marketplace manifest (`.claude-plugin/marketplace.json`) declares exactly one plugin
+named `getff` sourced from `./plugin`, with `strict: true`; and the plugin manifest it
+points at (`plugin/.claude-plugin/plugin.json`) carries the name, description, version
+and the FSL-1.1-ALv2 license. The opt-in command itself is named
+`/getff:install-enforcement` — it fetches the project's own official installer,
+runs it dry-run first, and asks for explicit `[y/N]` consent before anything applies.
+
 For the record, the plugin's soft layer is fully enumerated in its wiring manifest: at framework pin `b069c593` the `plugin/hooks/hooks.json` registers 20 hook registrations over 7 event blocks (UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SessionStart, SubagentStart) covering 17 distinct hook scripts — every one opt-in with the plugin install, each with its own reference page under Reference (e.g. [deps-hash-check](/docs/reference/deps-hash-check)).
 
 ## 2. Break a convention on purpose

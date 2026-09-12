@@ -26,6 +26,12 @@ the Python one.
 
 The sequence's goal, from the source: install → a rule provably fires on your code.
 
+Why a JSON file sits under the template tree at all: `first-steps.source.json` is the
+SINGLE SOURCE OF TRUTH for the First-Steps sequences — two renders (the installer's
+site pages like this one, and the AI-facing sequences in the delivered
+`AI-USAGE-GUIDE.md`) both read from it, and NEITHER render is the source. One file
+keeps the human page and the agent guide from drifting apart step-by-step.
+
 ## The seven steps
 
 <!-- step: install -->

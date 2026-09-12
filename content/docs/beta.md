@@ -36,6 +36,11 @@ Python, clone the framework repo and run the installer against your project — 
 The one-command install path (`npx getff@latest init`) is
 **not published yet** — the install command will be announced with the beta, and this
 page is where it will appear first.
+(What that path will run: the `getff` package is
+the only registry-published artifact of the workspace, and its `bin/getff` hands `init`
+args to the same installer the clone path runs — the tarball lays its payload out
+exactly like the repository root, so the installer's relative reads are unchanged, with
+every assembled file tracked in a committed `MANIFEST.sha256` that `prepack` drift-checks.)
 
 From install, the shortest path to the point of the product is
 [First Steps — core](/docs/first-steps-core/): it ends with a rule that has gone red on
