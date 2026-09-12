@@ -89,6 +89,12 @@ keeps the human page and the agent guide from drifting apart step-by-step.
    delivered a curated starter set; researching stack-specific rules from live
    documentation is the next step of the same lifecycle, not a later project.
 
+The agent behind that command is `rule-researcher`: it detects the project's stack,
+researches best-practices and anti-patterns from canonical official docs, and authors two
+committed JSON files — a ResearchPlan and a GenerateSelection — that the deterministic
+factory turns into a real ESLint rule + paired-negative test
+(`agents/rule-researcher.md:3-11`).
+
 ## Where this goes next
 
 The daily loop these gates put you in is one screen long: [Daily cycle — rules](/docs/daily-cycle-rules/).

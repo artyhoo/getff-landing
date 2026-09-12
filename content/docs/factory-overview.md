@@ -65,6 +65,12 @@ work on any harness — nothing in them is harness-specific. Skills
 harnesses they do not auto-activate — you read the matching `SKILL.md` by hand when the
 topic comes up. What a missing piece does to the factory is itemized on
 [Degradations](/docs/degradations/).
+
+One more skill ships to every tier, always: `getff` — the product's own entry skill, whose
+activation triggers cover "treating any codebase rule as an executable test" and whose body
+carries the 5-layer framework summary (`skills/getff/SKILL.md:3,10`). The installer copies
+it from the repo-root `skills/` (not `.claude/skills/`) and rewrites its cross-references to
+upstream blob URLs so they do not dangle on a consumer tree (`setup.d/10-skills.sh:22-27`).
 (Plugin-install consumers get a sibling set in the
 marketplace payload — the product skill `getff` plus `using-getff`,
 `installing-enforcement` and `tool-bootstrapping` — which follow the same

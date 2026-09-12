@@ -12,6 +12,7 @@ An AGENTS.md where every enforceable claim carries an enforcement line (which ga
 ### Does getff need an LLM?
 
 No. The enforcement gates it generates are native toolchain gates (ESLint, husky, clippy — with cargo-deny on the roadmap) that run deterministically, with no model call in the loop. $0 LLM calls in CI is enforced by a test in getff's own repo, not a marketing claim.
+The enforcing rule lives at `.claude/rules/no-paid-llm-in-ci.md` in the framework repo (Class A: an edit-time rule for anything touching `.github/workflows/**` or `.github/actions/**`, with a companion principle test).
 
 ### Is getff open source?
 
