@@ -56,6 +56,9 @@ lists what it does NOT cover.
 
 Add its executable check in the same change. A convention with no check is not a rule;
 `/rule-research` and `/rule-tests` exist to make that cheap.
+The framework holds itself to the same standard via its own channel-selection rule,
+`.claude/rules/rule-enforcement-channel-selection.md` (Class A, with a companion principle
+test at `packages/core/principles/31-rule-channel-declaration.test.ts`).
 
 `/rule-tests` is the repair half of that pair: for an EXISTING generated rule whose firing
 test material is missing, broken, or needs a bypass variant, it edits the test material only —

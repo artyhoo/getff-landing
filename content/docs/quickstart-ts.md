@@ -16,6 +16,8 @@ Inside Claude Code, in your project's directory:
 
 The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command — nothing fires until you turn it on.
 
+For the record, the plugin's soft layer is fully enumerated in its wiring manifest: at framework pin `b069c593` the `plugin/hooks/hooks.json` registers 20 hook registrations over 7 event blocks (UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SessionStart, SubagentStart) covering 17 distinct hook scripts — every one opt-in with the plugin install, each with its own reference page under Reference (e.g. [deps-hash-check](/docs/reference/deps-hash-check)).
+
 ## 2. Break a convention on purpose
 
 Pick one on-purpose violation and commit it:
@@ -37,6 +39,10 @@ Run your normal git flow (`git add`, `git commit`, or push, depending on which h
 | `as any` | ESLint `no-explicit-any`-class rule blocks the commit | pre-commit |
 | `process.env.X` direct access | Generated `no-restricted-syntax` rule blocks it, naming the accessor to use instead — **once you compile that convention** (`/rule-research`); the starter set ships no env-var ban | when compiled: pre-commit / pre-push |
 | A tautological test (asserts nothing meaningful) | Flagged for review, and the shipped incremental mutation gate in CI (`stryker`, score break 60) fails the build when changed lines are guarded by tests that kill nothing | review-time flag + CI mutation gate |
+
+The mutation gate is the shipped script `scripts/run-generated-rule-mutation.sh` (source:
+`packages/core/synthesizer/run-generated-rule-mutation.sh` in the framework repo) — the same
+script the npm lane installs and CI invokes.
 
 All three have a hard channel eventually — two at commit time, the tautology one at CI via
 the mutation gate; the review flag is merely the earliest, broadest net. See

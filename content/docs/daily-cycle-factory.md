@@ -40,6 +40,11 @@ Invoke `/pipeline` with no task: it reads your kickoffs plus
 emits a launch table. An empty backlog just renders the overview with zero open
 umbrellas — that is normal, not an error. The table's ranking is where the tier rubric meets your backlog: design-heavy
 rows plan on the top tier; mechanical rows run whole-line on the executor tier.
+That consumer staging dir is the template-stage-created twin of the framework's own
+staging home: in the framework repo the in-flight umbrella kickoffs live under
+`.claude/orchestrator-prompts/<umbrella>/kickoff.md` (see `setup.d/LAYERS.md:121`), while
+consumers get an empty `.ai-factory/orchestrator-prompts/` created by the installer
+(`setup.d/30-templates.sh:17`).
 
 ## dispatch → harvest — start it, then bring it home
 
@@ -47,6 +52,12 @@ Dispatch the launch table's top row, then bring the finished branch back with
 `/harvest`. The worker works on its own branch inside your compiled gates. If a task
 stalls or the runtime misbehaves,
 `/aif-doctor` is the diagnostic entry point.
+Under the hood the dispatch beat is the runtime-bridge CLI
+`tsx .claude/vendor/runtime-bridge/src/cli/dispatch.ts <kickoff-path> [--force]`
+(`packages/runtime-bridge/src/cli/dispatch.ts:4`), invoked for you by the PostToolUse
+hook when a kickoff's first line is `<!-- bridge: auto -->`, or run manually on demand —
+it exits 0 on every dispatch outcome (including the ManualBackend fallback), 2 when the
+dispatch spec itself is invalid, 1 on a call defect (`dispatch.ts:32-38`).
 
 Its scope is the aif-handoff runtime itself — a task stuck or crash-looping, new tasks
 staying backlog at capacity, a broken runtime — and it stays invokable even when the

@@ -31,6 +31,8 @@ Four backends, one verdict each. The ✅ comes from the cargo capability matrix'
 
 **Claim 3 — `AGENTS.md:26–60`.** The rule index (29 rules, each with a class and enforcement channel) sits inside a generated region. `scripts/render-rule-index.mjs --check` re-renders it from the actual rule files on disk and exits 1 on any drift — wired into the pre-push hook (`packages/core/hooks/pre-push.ts:1351-1352`). You physically cannot push an AGENTS.md whose rule table disagrees with the rules on disk.
 
+That hook is owner-scoped section by section: `SectionOwner = 'consumer' | 'maintainer' | 'both'` (`packages/core/hooks/pre-push.ts:749`) — `'maintainer'` sections run on the framework repo only and are dropped from the consumer's copy (the shipped hook's section map differs from the framework's by design; `setup.d/50-hooks.sh:60-63` records the retirement of one such maintainer-only section), and `composeSections()` fails closed on an absent/invalid owner (`pre-push.ts:704`) rather than guessing.
+
 On top of all three sits a ratchet: `root-agents-demo.test.ts:51-64` re-composes the whole demo region and requires the committed bytes to be equal. One `make self-audit` runs the lot.
 
 Line numbers above are verified against the framework repo's `staging` branch at `94a3a9efcd` — they move as the repo grows; the claims and the tests that fire them do not.
