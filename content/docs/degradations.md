@@ -51,6 +51,13 @@ backend they talk to is chosen by `RUNTIME_BRIDGE_MODE` (`manual` / `aif-handoff
 `aif-handoff` backend dispatches over REST on port 3009 (`packages/runtime-bridge/src/AifHandoffBackend.ts:4-5`
 — "DISPATCH = REST (:3009)"), which is the channel the rows above call the dispatcher.
 
+The «window slides» posture the rows cite is the `night-mode` skill's — shipped on the
+env+ tier arm (`setup.d/lib.sh:62`), triggered «Use when running a task FULLY AUTONOMOUSLY
+(overnight / unattended) as an orchestrator» (`.claude/skills/night-mode/SKILL.md:3`). Its
+model posture assigns each role a relative capability tier, never a hard-coded model name,
+and fills the seat with whatever the active harness offers — the window slides to the
+available set (`.claude/skills/night-mode/SKILL.md:17`).
+
 ## Next
 
 Where the tiers come from: [Overview — multi-model pipeline](/docs/factory-overview/).

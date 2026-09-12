@@ -59,6 +59,12 @@ hook when a kickoff's first line is `<!-- bridge: auto -->`, or run manually on 
 it exits 0 on every dispatch outcome (including the ManualBackend fallback), 2 when the
 dispatch spec itself is invalid, 1 on a call defect (`dispatch.ts:32-38`).
 
+Its scope is the aif-handoff runtime itself — a task stuck or crash-looping, new tasks
+staying backlog at capacity, a broken runtime — and it stays invokable even when the
+dispatcher is NOT running (`.claude/skills/aif-doctor/SKILL.md:3`). The install also
+delivers executable heal helpers and keeps them executable when the gated suite was
+installed (`setup.d/10-skills.sh:188`).
+
 ## Next
 
 Why work routes to different tiers at all: [Overview — multi-model pipeline](/docs/factory-overview/).

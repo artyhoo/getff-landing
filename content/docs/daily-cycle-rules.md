@@ -60,6 +60,12 @@ The framework holds itself to the same standard via its own channel-selection ru
 `.claude/rules/rule-enforcement-channel-selection.md` (Class A, with a companion principle
 test at `packages/core/principles/31-rule-channel-declaration.test.ts`).
 
+`/rule-tests` is the repair half of that pair: for an EXISTING generated rule whose firing
+test material is missing, broken, or needs a bypass variant, it edits the test material only —
+never the rule artifact — fires the rule under repair in single-rule isolation so the verdict
+is unambiguous, and quotes the tool's own output verbatim
+(`.claude/skills/rule-tests/SKILL.md:3,16`).
+
 ## Where a rule came from
 
 `.ai-factory/RULES.md` is the rule list, and the enforcement channel per rule is named
