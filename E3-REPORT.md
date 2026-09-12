@@ -40,7 +40,7 @@ Date: 2026-09-12 (work started 2026-09-11) · Branch: `feature/beta-docs-encyclo
 | 6 | Ledger | `grep -c '^| [a-zA-Z]' ENCYCLOPEDIA-LEDGER-E3.md` per family | D 31 + H 35 = **66 rows**; capability sentences rowed page×claim; 1 explicit **experimental** label (D25); 0 planned | PASS |
 | 7 | Wiring end-to-end | `grep -c docs/reference out/llms.txt` → **41**; `find out/docs/reference -maxdepth 1 -name '*.md' \| wc -l` → **41**; `ls app/docs/reference/*.md/route.ts \| wc -l` → **41**; search: `python3 -m http.server 8099` in `out/` + `node scripts/verify-search.mjs http://localhost:8099/api/search "two-phase dispatch claim create release" reference/bridge-claim` → **exit=0**, top hit `type=page url=/docs/reference/bridge-claim`; llms-full.txt: 42 `docs/reference` hits | PASS |
 | 8 | Build green | `export npm_config_cache=/tmp/npm-cache-9b26d0 && npm install --include=dev && rm -rf .next && npm run build` | first run FAILED (YAML frontmatter colon in 8 unquoted descriptions — fixed by quoting all 41, Finding F4); re-run tail (verbatim): `├ ○ /docs/reference/zcode-emit-helper.md` / `├ ○ /docs/what-is-getff.md` / `├ ○ /llms-full.txt` / `├ ○ /llms.txt` / `├ ○ /rss.xml` / `├ ○ /sitemap-0.xml` / `└ ○ /sitemap-index.xml` / `○  (Static)  prerendered as static content` / `●  (SSG)     prerendered as static HTML (uses generateStaticParams)` — all 41 `/docs/reference/*` routes + llms + sitemap prerendered | PASS (after F4 fix, pre-gate) |
-| 9 | No styling/restyle/announce-touch | `git status --porcelain \| grep -E '\.(css)\.\|announcement'` | no css/announcement touches; `.tsx` confined to `app/docs/reference/` twin routes | PASS |
+| 9 | No styling/restyle/announce-touch | `git status --porcelain \| grep -E '\.(css\|tsx)\|announcement'` | no css/announcement touches; `.tsx` confined to `app/docs/reference/` twin routes | PASS |
 | 10 | T7 + T19 reported | this report §T7/§T19 | below | PASS |
 
 ## T7 — adversarial counter-prompt («what would make these machinery pages look documented when they are not?»)
@@ -71,6 +71,22 @@ Mechanical half: the anchor/schema sweep (4 runs total; final: **SWEEP ALL-PASS 
 - P1: Should the census's D1/D25 rows be amended upstream (E6 consolidation stage) or annotated in place? (F2/F3 owners.)
 - P2: `_zcode-emit` header comment vs its one real adopter — framework-repo fix (out of E3 scope: no framework writes).
 
+## Rework round 1 (review gate, 2026-09-12)
+
+Blocking finding [3a2e5a57e058]: the D1 PARTIAL fill at `content/docs/quickstart-ts.md:19` linked `[Reference](/docs/reference)` — a bare-folder URL with no backing page (`content/docs/reference/` has no `index.md`, so static export emits no `out/docs/reference/index.html` and the link 404s on the live site). Fixed by re-pointing the sentence at a concrete reference page, keeping the fill sentence-level:
+
+- before: `…each with its own reference page under [Reference](/docs/reference).`
+- after: `…each with its own reference page under Reference (e.g. [deps-hash-check](/docs/reference/deps-hash-check)).`
+
+`deps-hash-check` is one of the 17 hook scripts the sentence enumerates (fires at UserPromptSubmit; `plugin/hooks/deps-hash-check`), so the exemplar link is semantically apt, not just resolvable. Re-verification:
+
+- `grep -rn '/docs/reference)' content/ app/` → **empty** (was exactly 1 hit, quickstart-ts.md:19); full bare-folder scan over `content/docs/**/*.md` → every other internal link targets a concrete page or a top-level trailing-slash page.
+- Build re-run per the container facts (`npm_config_cache=/tmp/npm-cache-9b26d0`, `npm install --include=dev`, `rm -rf .next`) → green; `out/docs/reference/deps-hash-check.html` + `deps-hash-check.md` present; built quickstart page carries the new link.
+
+Also applied (advisory, cosmetic): §3 row 9's quoted grep pattern had lost its `tsx` alternation (`'\.(css)\.\|announcement'`) — restored to the pattern actually run (`'\.(css\|tsx)\|announcement'`); the row's conclusion was independently confirmed correct by the reviewer and is unchanged.
+
 ## Verdict
 
 `E3: GREEN — 41/41 pages drafted (D+H MISSING), 7/7 PARTIAL filled, 66 ledger rows, build green, wiring proven`
+
+`E3 rework round 1: GREEN — blocking finding 3a2e5a57e058 (bare-folder link) fixed; gate rows re-verified`
