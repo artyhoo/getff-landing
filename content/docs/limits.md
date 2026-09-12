@@ -15,6 +15,7 @@ Open [getff's AGENTS.md](https://github.com/artyhoo/getff/blob/main/AGENTS.md) a
 - **Rust** — clippy lint configuration, generated the same way. The `cargo-deny` policy file ships as a starter config with no active bans, and no shipped workflow runs `cargo deny` — that enforcement is on the roadmap.
 - **Python** — a Node-free bash lane: ast-grep structural rules plus a ruff fast-path, a local pre-push rung, and a pinned CI gate.
 - **Go** — golangci-lint ban configuration plus a pinned CI gate, delivered by the installer's go lane.
+  - Per-file, that lane delivers `packages/core/templates/go/.golangci.yml` (the ban surface — currently the `forbidigo` ban on `os.Getenv`) and a pinned `.github/workflows/getff-go.yml` gate, from `setup.d/47-go.sh` (the go analog of the cargo stage); on a fresh dir both land verbatim, while a pre-existing `.golangci.yml` makes the lane REFUSE-LOUDLY and ship `getff-golangci.yml` instead — inert until you opt in. There is no Go quickstart page yet; the files are the detail.
 
 Other toolchains (Java, …) are not in the box. If your stack isn't one of the four above, getff has nothing to install for you today.
 
