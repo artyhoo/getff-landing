@@ -113,6 +113,7 @@ mark claims that hold for SOME lanes only (the census `ships-to` discipline).
 | E17 | covered-by-E2 | skill-context aif-rules-check == C23's same file; sibling stage E2 drafts it |
 
 Tally: 39/39 pages rowed above — A 13 pages (a3, a9–a11, a15, a17–a24), E 14 pages (e2, e3, e6, e7, e10, e11,
-e14, e19, e22, e34, e36–e39), G 7 pages (g2–g7, g9), I 5 pages (i5–i9) = **82 capability-sentence rows** +
+e14, e19, e22, e34, e36–e39), G 7 pages (g2–g7, g9), I 5 pages (i5–i9) = **78 capability-sentence rows**
+(A 29, E 28, G 11, I 10 — header-excluding count: `grep -cE '^\| [a-z]+[0-9]+[a-z0-9-]* \|'` → 78) +
 **3 covered-by-E2 records** (E15–E17). Every row carries its pin anchor or an explicit
 `lane-partial`/`experimental`/`planned` label.
