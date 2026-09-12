@@ -88,6 +88,8 @@ lands, joins, and fires RED on a planted call while staying silent on the confor
 shape — and a practice record citing a package that is not a direct dependency is
 rejected to research-only, with no rule written. See
 [Daily cycle — rules](/docs/daily-cycle-rules/) for where research sits in the loop.
+(The shared CLI entry behind that step is `packages/core/install/rule-bootstrap-cli.ts` in the
+framework repo, installed by the `--full` gate's `setup.d/80-rule-bootstrap.sh` step.)
 
 One honest scope note: **generating** a researched rule needs Node (the framework
 checkout you cloned has it) — the install itself, and everything above, stays
