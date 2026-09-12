@@ -16,6 +16,8 @@ Inside Claude Code, in your project's directory:
 
 The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command — nothing fires until you turn it on.
 
+For the record, the plugin's soft layer is fully enumerated in its wiring manifest: at framework pin `b069c593` the `plugin/hooks/hooks.json` registers 20 hook registrations over 7 event blocks (UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SessionStart, SubagentStart) covering 17 distinct hook scripts — every one opt-in with the plugin install, each with its own reference page under [Reference](/docs/reference).
+
 ## 2. Break a convention on purpose
 
 Pick one on-purpose violation and commit it:
