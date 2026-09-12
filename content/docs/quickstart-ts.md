@@ -38,6 +38,10 @@ Run your normal git flow (`git add`, `git commit`, or push, depending on which h
 | `process.env.X` direct access | Generated `no-restricted-syntax` rule blocks it, naming the accessor to use instead — **once you compile that convention** (`/rule-research`); the starter set ships no env-var ban | when compiled: pre-commit / pre-push |
 | A tautological test (asserts nothing meaningful) | Flagged for review, and the shipped incremental mutation gate in CI (`stryker`, score break 60) fails the build when changed lines are guarded by tests that kill nothing | review-time flag + CI mutation gate |
 
+The mutation gate is the shipped script `scripts/run-generated-rule-mutation.sh` (source:
+`packages/core/synthesizer/run-generated-rule-mutation.sh` in the framework repo) — the same
+script the npm lane installs and CI invokes.
+
 All three have a hard channel eventually — two at commit time, the tautology one at CI via
 the mutation gate; the review flag is merely the earliest, broadest net. See
 [Honest limits](/docs/limits/) for the full list of what's shipped versus what's still
