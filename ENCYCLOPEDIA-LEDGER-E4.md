@@ -89,9 +89,9 @@ One row per capability sentence: `| page | sentence (short) | evidence anchor(s)
 
 | page (existing) | sentence (short) | evidence anchor(s) at pin |
 |---|---|---|
-| /docs/faq/ (F20) | Added: the enforcing rule lives at `.claude/rules/no-paid-llm-in-ci.md` (Class A, workflows/actions scope, companion principle test) | fill at `content/docs/faq.md:14`; rule file `.claude/rules/no-paid-llm-in-ci.md` |
-| /docs/daily-cycle-rules/ (F26) | Added: the framework holds itself to the same standard via `.claude/rules/rule-enforcement-channel-selection.md` + principle 31 test | fill at `content/docs/daily-cycle-rules.md:57-60`; `packages/core/principles/31-rule-channel-declaration.test.ts` |
-| /docs/quickstart-python/ (F42) | Added: the shared CLI entry behind `--from-practice` is `packages/core/install/rule-bootstrap-cli.ts`, installed by `setup.d/80-rule-bootstrap.sh` | fill at `content/docs/quickstart-python.md:84-87`; `setup.d/80-rule-bootstrap.sh:7-8` |
+| /docs/faq/ (F20) | Added: the enforcing rule lives at `.claude/rules/no-paid-llm-in-ci.md` (Class A, workflows/actions scope, companion principle test) | fill at `content/docs/faq.md:15`; rule file `.claude/rules/no-paid-llm-in-ci.md` |
+| /docs/daily-cycle-rules/ (F26) | Added: the framework holds itself to the same standard via `.claude/rules/rule-enforcement-channel-selection.md` + principle 31 test | fill at `content/docs/daily-cycle-rules.md:59-61`; `packages/core/principles/31-rule-channel-declaration.test.ts` |
+| /docs/quickstart-python/ (F42) | Added: the shared CLI entry behind `--from-practice` is `packages/core/install/rule-bootstrap-cli.ts`, installed by `setup.d/80-rule-bootstrap.sh` | fill at `content/docs/quickstart-python.md:91-92`; `setup.d/80-rule-bootstrap.sh:7-8` |
 | /docs/quickstart-ts/ (F52) | Added: the mutation gate is the shipped script `scripts/run-generated-rule-mutation.sh` (source `packages/core/synthesizer/`) | fill at `content/docs/quickstart-ts.md:41-43`; source file present at pin |
 
 ## Ledger tally

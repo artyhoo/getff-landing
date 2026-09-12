@@ -82,14 +82,14 @@ The delivered set is a curated starter set — the research loop is how it grows
 that. Author a practice record (provenance-cited, from your framework's real docs) and
 run the bootstrap CLI with `--from-practice`: a valid record renders to
 `.getff/rules-research/<entryId>.yml`, and the next install or `--refresh` joins it
-into `.getff/astgrep-rules/`, where `sgconfig.yml` already points. (The shared CLI entry behind
-that step is `packages/core/install/rule-bootstrap-cli.ts` in the framework repo, installed by the
-`--full` gate's `setup.d/80-rule-bootstrap.sh` step.) The same matrix cell
+into `.getff/astgrep-rules/`, where `sgconfig.yml` already points. The same matrix cell
 exercises this end to end on a Python project: a rule generated from a cited practice
 lands, joins, and fires RED on a planted call while staying silent on the conforming
 shape — and a practice record citing a package that is not a direct dependency is
 rejected to research-only, with no rule written. See
 [Daily cycle — rules](/docs/daily-cycle-rules/) for where research sits in the loop.
+(The shared CLI entry behind that step is `packages/core/install/rule-bootstrap-cli.ts` in the
+framework repo, installed by the `--full` gate's `setup.d/80-rule-bootstrap.sh` step.)
 
 One honest scope note: **generating** a researched rule needs Node (the framework
 checkout you cloned has it) — the install itself, and everything above, stays
