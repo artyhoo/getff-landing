@@ -51,15 +51,21 @@ This round added the 23 missing pages (16 existed from round 1, quality bar kept
 | I3 | quickstart-ts.md | names the command `/getff:install-enforcement` + its dry-run/consent flow |
 | I4 | factory-overview.md | names plugin skill `getff` + the sibling set (using-getff, installing-enforcement, tool-bootstrapping) |
 
-Diff shape of the fills: `git diff --numstat origin/main` over the six pages shows additions only — the
-few `-` lines are paragraph-final lines extended in place (each `-` line reappears identically at the head of
-its `+` replacement; no original wording removed or reworded). Checked line-by-line for all six files.
+Diff shape of the fills (post rework round 3): `git diff --numstat origin/main` over the six pages shows
+pure appends — zero deletions. The interim tree had extended five paragraph-final lines in place
+(`beta.md` ×1, `daily-cycle-rules.md` ×3, `factory-overview.md` ×1 → git -/+ replaces); round 3 restored each
+original line byte-identical to `origin/main` and re-homed the added sentences as NEW soft-wrapped lines in
+the same markdown paragraph, so rendered output is unchanged. Proofs (all quoted in §Rework-3 below):
+whole-branch numstat deletions column = 0; origin-line survival loop `grep -qxF` → 0 MISSING on all three
+pages (56 + 69 + 67 origin lines checked); whitespace-collapsed rendered-text equality → IDENTICAL ×3.
 
 ### D3 — `ENCYCLOPEDIA-LEDGER-E5.md`
 
 Written at branch root: **78 capability-sentence rows** (A 29, E 28, G 11, I 10 — grep-verified count) +
-3 covered-by-E2 records. Row shape: `| page | sentence (short) | evidence anchor(s) at pin |`, with
-`lane-partial` labels where the claim is lane-scoped.
+3 covered-by-E2 records + **12 PARTIAL fill rows** (a dedicated fills section, one row per filled census id,
+each anchored at the landing-tree line numbers ON THIS BRANCH — re-anchored to the post-fix positions when
+rework round 3 re-homed the five spliced lines as pure appends). Row shape: `| page | sentence (short) |
+evidence anchor(s) at pin |`, with `lane-partial` labels where the claim is lane-scoped.
 
 ### D4 — this report
 
@@ -67,14 +73,16 @@ Written at branch root: **78 capability-sentence rows** (A 29, E 28, G 11, I 10 
 
 | # | Check | Command | Output |
 |---|---|---|---|
-| 1 | Diff shape | `git status --porcelain`; `git diff --stat origin/main` | Tracked modifications: exactly the 6 PARTIAL pages + `content/docs/meta.json` (the pre-existing 1-line nav entry) = `7 files changed, 37 insertions(+), 5 deletions(-)` (the 5 are extended paragraph-final lines, see D2). New trees: `content/docs/reference/` (40 files = 39 pages + meta.json) and `app/docs/reference/` (39 twin routes). Untracked and **deliberately left out of every commit**: `AGENTS.md`, `.ai-factory/` (aif install artifacts, not E5 deliverables) |
+| 1 | Diff shape | `git status --porcelain`; `git diff --stat origin/main` | Tracked modifications: exactly the 6 PARTIAL pages + `content/docs/meta.json` (the pre-existing 1-line nav entry) = `7 files changed, 37 insertions(+)` — post rework round 3: **0 deletions** (the interim tree's 5 deletions were the spliced paragraph-final lines; see §Rework-3). New trees: `content/docs/reference/` (40 files = 39 pages + meta.json) and `app/docs/reference/` (39 twin routes). Whole-branch `git diff origin/main --numstat | awk '{d+=$2} END {print d}'` → `0`. Untracked and **deliberately left out of every commit**: `AGENTS.md`, `.ai-factory/` (aif install artifacts, not E5 deliverables) |
 | 2 | Census coverage | id-by-id read-back vs the census family tables (A 24-row, E 39-row, G 9-row, I 9-row tables) | A: 13 MISSING all drafted (A3–A20 in round 1 + A21–A24 this round); 2 PARTIAL (A8, A16) filled. E: 14 MISSING drafted + E15–E17 covered-by-E2; 5 PARTIAL (E1, E4, E9, E24, E25) filled. G: 7 MISSING all drafted; 1 PARTIAL (G1) filled. I: 5 MISSING all drafted; 4 PARTIAL (I1–I4) filled. **39 + 3 + 12 accounted** |
 | 3 | Page schema | sweep: frontmatter + provenance pin + Status/Ships-to/Fires-at + the four sections, over all 39 | `SCHEMA PASS: 39/39` — «(no failures)». Provenance pin identical on all 39: `provenance: framework @ aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650` (stamp dates differ honestly by authoring day: 2026-09-11 on 16 round-1 pages, 2026-09-12 on 23 rework pages) |
 | 4 | Anchors | sweep: unique `path:line` refs ≥2 AND ≥1 «quoted» per page | `ANCHOR PASS (generic path:line regex): 39/39` — «(all ≥2 anchors, ≥1 quoted)». Spot-quote: `e22-cargo-lints-toml.md` anchors `packages/core/templates/cargo/Cargo.lints.toml:11` — «disallowed_methods = "deny"» — matches the file at the pin byte-for-byte |
 | 5 | Lane honesty | read-back sweep; three exemplars | Exemplar 1 (e7): «consumer install ships AGENTS.md, NEVER CLAUDE.md» anchored to `setup.d/lib.sh:118`. Exemplar 2 (e37): storybook scaffold gated `if [ "$STACK" = "react-next" ]` — react-spa/react-native/python/cargo/go get none, quoted with the `fi` line. Exemplar 3 (a22): manifest is npm-lane surface; python/cargo/go lanes never read it; aif-handoff row factory-only. Template pages name the consumer-visible render path (e36 rendered RULES.md, e34 append target, e39 top-level digest) |
-| 6 | Ledger | count vs rows | header-excluding count `grep -cE '^\| [a-z]+[0-9]+[a-z0-9-]* \|' ENCYCLOPEDIA-LEDGER-E5.md` → `78`; per-family `awk` over the section ranges → `E=28 A=29 I=10 G=11 total=78` — 78 data rows + 3 covered-by-E2 records; every capability sentence rowed or labeled; tally quoted in the ledger tail. (Rework round 2: round 1 quoted `grep -c '^| [a-z]'` → 82, but that pattern also matches the section-header rows (`| page |` ×4, `| id | record | why |` ×1) — one header per family inflated each count by exactly 1 → 30/29/12/11. Recount with a header-excluding pattern corrects to 78 = 29/28/11/10; no data rows changed) |
+| 6 | Ledger | count vs rows | header-excluding count `grep -cE '^\| [a-z]+[0-9]+[a-z0-9-]* \|' ENCYCLOPEDIA-LEDGER-E5.md` → `78`; per-family `awk` over the section ranges → `E=28 A=29 I=10 G=11 total=78` — 78 data rows + 3 covered-by-E2 records; every capability sentence rowed or labeled; tally quoted in the ledger tail. (Rework round 2: round 1 quoted `grep -c '^| [a-z]'` → 82, but that pattern also matches the section-header rows (`| page |` ×4, `| id | record | why |` ×1) — one header per family inflated each count by exactly 1 → 30/29/12/11. Recount with a header-excluding pattern corrects to 78 = 29/28/11/10; no data rows changed). (Rework round 3: the ledger gained a dedicated 12-row PARTIAL-fills section anchored
+at the post-fix landing-tree line numbers; uppercase census ids do not match the header-excluding grep, so
+the 78 count is mechanically unchanged — re-run post-edit → `78`) |
 | 7 | Wiring | grep registries + built artifacts; one slug end-to-end | End-to-end for `a21-layers`: root `content/docs/meta.json:21` `"reference",` → `content/docs/reference/meta.json:15` `"a21-layers",` → `app/docs/reference/a21-layers.md/route.ts:16` `source.getPage(['reference', 'a21-layers'])` → built twin `out/docs/reference/a21-layers.md` (header quoted in §7 of the build output) → `out/llms.txt` entry `[setup.d/LAYERS.md — the layer registry (A21)](https://getff.ai/docs/reference/a21-layers)` → `out/llms-full.txt:1272` → search index `out/api/search` contains `reference/a21-layers`. Totals: 39/39 twin routes registered in the build route table; `grep -c "docs/reference" out/llms.txt` → 39; unique reference slugs in llms.txt → 39 |
-| 8 | Build green | `npm ci --include=dev` then `npm run build` | «✓ Compiled successfully in 474ms» → «Generating static pages (121/121)» → route table lists all 39 `/docs/reference/<slug>.md` routes + `/llms.txt` + `/llms-full.txt`. Build FAILED on the first attempt with `NODE_ENV=production` exported (container baseline; TypeError `useContext` during prerender) — re-run with `unset NODE_ENV` → green, twice. Recorded as a container-env finding below |
+| 8 | Build green | `npm ci --include=dev` then `npm run build` | Round-3 re-run (post fill re-home): `unset NODE_ENV` → «✓ Compiled successfully in 500ms» → «✓ Generating static pages using 15 workers (121/121) in 658ms» → route table lists all 39 `/docs/reference/<slug>.md` routes + `/llms.txt` + `/llms-full.txt`; exit=0. (Original round: «✓ Compiled successfully in 474ms» → «Generating static pages (121/121)»; build FAILED on the first attempt with `NODE_ENV=production` exported — container baseline, TypeError `useContext` during prerender — re-run with `unset NODE_ENV` → green, twice. Recorded as a container-env finding below) |
 | 9 | No styling/restyle/announce-touch | `git diff --name-only origin/main \| grep -E '\.(css\|tsx)$\|announcement'` | empty — no `.css`/`.tsx`/announcement files modified at all (twin routes are NEW `route.ts` files, not modifications) |
 | 10 | T7 + T19 reported | this report | §T7 and §T19 below |
 
@@ -133,6 +141,44 @@ first mis-stated the per-family page counts; re-counted (13+14+7+5=39) and fixed
 - **Q-E5-1 (operator):** the vendored-render parity mechanism (census E1 defect 7 context) stays parked with
   E1's findings — not this stage's to fix; e36's render-vs-copy split is documented as shipped behavior.
 - **Q-E5-2 (operator):** E15–E17 verification is E6's, per kickoff; this stage only records covered-by-E2.
+
+## Rework round 3 (2026-09-12) — additive-only fills, ZERO deletions branch-wide
+
+Host acceptance finding (E4 rework-round-2 precedent, same convention): the branch carried 5 deletions vs
+`origin/main` — the fills in `beta.md` (×1), `daily-cycle-rules.md` (×3), `factory-overview.md` (×1) had been
+spliced into EXISTING paragraph-final lines, so git recorded -/+ replaces instead of pure appends. Fix
+applied, then each proof with command + output:
+
+1. **Original lines restored byte-identical to `origin/main`; added sentences re-homed as NEW lines in the
+   same markdown paragraph.** Applied by script (asserted each spliced line = origin line + one separating
+   space + added text, then split at the boundary). Post-fix per-page numstat:
+   `git diff origin/main --numstat -- content/docs/beta.md content/docs/daily-cycle-rules.md content/docs/factory-overview.md`
+   → `5 0` / `11 0` / `5 0`.
+2. **Whole-branch numstat: 0 deletions** — `git diff origin/main --numstat | awk '{d+=$2; i+=$1} END {print "insertions="i, "deletions="d}'`
+   → `insertions=2799 deletions=0` (measured at fix time; the subsequent ledger/report prose edits are pure
+   additions to files that are NEW on this branch, so the deletions column stays 0 by construction).
+3. **Origin-line survival loop: 0 MISSING on all three pages** — every `origin/main` line piped through
+   `grep -qxF` against the working tree: `beta.md: 56 origin lines checked, 0 MISSING`;
+   `daily-cycle-rules.md: 69 origin lines checked, 0 MISSING`; `factory-overview.md: 67 origin lines checked,
+   0 MISSING`.
+4. **Rendered output unchanged** — whitespace-collapsed full-text equality, pre-fix HEAD vs worktree
+   (`git show HEAD:<page> | tr '\n' ' ' | tr -s ' '` vs same for the worktree file, `cmp -s`) →
+   `IDENTICAL rendered text` ×3: the only change is a newline↔space boundary inside paragraphs (soft-wrap).
+5. **Ledger fill-row anchors at the new line numbers** — the ledger gained a dedicated 12-row PARTIAL-fills
+   section (see D3) whose anchors cite post-fix landing-tree positions: G1 → `content/docs/beta.md:39-43`,
+   A16 → `content/docs/daily-cycle-rules.md:61-64`, E1 → `:37-39`, E4 → `:20-23`, I4 →
+   `content/docs/factory-overview.md:68-72`, A8/E24/E25 → `content/docs/limits.md:18`, E9 →
+   `content/docs/first-steps-core.md:29-33`, I1 → `content/docs/quickstart-ts.md:19-21`, I2 → `:22-23`,
+   I3 → `:23-25`. (Pre-round-3 ledger/report carried NO landing-page line anchors at all:
+   `grep -nE "content/docs/[a-z-]+\.md:[0-9]" ENCYCLOPEDIA-LEDGER-E5.md E5-REPORT.md` → NONE FOUND — so no
+   stale anchor could survive; the section is the fill-row anchor record.)
+6. **Rebuild green + wiring re-proven** — §3 row 8 round-3 re-run: `unset NODE_ENV` → «✓ Compiled
+   successfully in 500ms» → «✓ Generating static pages using 15 workers (121/121) in 658ms», exit=0;
+   `grep -c "docs/reference" out/llms.txt` → 39; the `a21-layers` end-to-end of §3 row 7 re-verified
+   (registry → twin route → built twin → llms.txt ×1 → llms-full.txt ×1 → search ×1). The re-homed fill
+   sentences flow into the build: `CI-orphan` (×1), the `MANIFEST.sha256`/`prepack` drift-check phrase, the
+   rules-as-tests-trigger-surface phrase and "a refresh never overwrites your edits" are all present in
+   `out/llms-full.txt`.
 
 ## Verdict
 

@@ -16,7 +16,8 @@ installs ship no `scripts/` by construction, per the guide's own qualifier).
 
 Read `AGENTS.md`, then the `.ai-factory/` doc it points at for your task: `RULES.md`
 for what is enforced, `ARCHITECTURE.md` for layer direction. Thirty seconds of reading
-is cheaper than a rewrite the gates force later. (For the record: the `AGENTS.md` an
+is cheaper than a rewrite the gates force later.
+(For the record: the `AGENTS.md` an
 install lands is rendered from the shipped template artifact
 `packages/core/templates/shared/AGENTS.md.template` by the templates stage — after
 first landing the file is yours, and a refresh never overwrites your edits.)
@@ -32,7 +33,8 @@ it means the convention you wrote down is holding against the change you are mak
 `bash scripts/audit-ai-docs.sh` — drift + code-vs-docs probes. When you touched layout
 or added a package, also `bash scripts/check-rule-globs.sh` and
 `bash scripts/check-lintstaged-resolves.sh`. The pre-commit hook runs lint-staged on
-its own; these are the checks you run so the hook never surprises you. (The lint-staged
+its own; these are the checks you run so the hook never surprises you.
+(The lint-staged
 run reads the delivered `.lintstagedrc.json` at your repo root — a copy_safe seed, so a
 config you authored before installing is kept as-is.)
 
@@ -55,7 +57,8 @@ in ~2 s with zero steps. `bash scripts/ci-available-probe.sh` (shipped on npm-la
 installs only) classifies that state as `CI UNAVAILABLE` instead of misreporting RED.
 `bash scripts/pre-merge-local.sh` runs every detected lane's gates on the merge result
 locally before you push — opt-in, and weaker evidence than CI: its verdict says so and
-lists what it does NOT cover. (CI hygiene itself is reconciled at install time by
+lists what it does NOT cover.
+(CI hygiene itself is reconciled at install time by
 `setup.d/60-ci.sh`: it warns when a kept workflow hardcodes a Node major that differs
 from `.nvmrc`, and it prints a `CI-orphan` warning when a rule-enforcement gate runs in
 `npm run validate` but appears in no kept workflow under `.github/workflows/`.)

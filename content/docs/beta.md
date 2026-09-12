@@ -35,7 +35,8 @@ Python, clone the framework repo and run the installer against your project — 
 [Rust](/docs/quickstart-rust/) and [Python](/docs/quickstart-python/) quickstarts.
 The one-command install path (`npx getff@latest init`) is
 **not published yet** — the install command will be announced with the beta, and this
-page is where it will appear first. (What that path will run: the `getff` package is
+page is where it will appear first.
+(What that path will run: the `getff` package is
 the only registry-published artifact of the workspace, and its `bin/getff` hands `init`
 args to the same installer the clone path runs — the tarball lays its payload out
 exactly like the repository root, so the installer's relative reads are unchanged, with

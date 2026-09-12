@@ -64,7 +64,8 @@ work on any harness — nothing in them is harness-specific. Skills
 (`/rule-research`, `/arch`, `/pipeline`, …) auto-activate on Claude Code; on other
 harnesses they do not auto-activate — you read the matching `SKILL.md` by hand when the
 topic comes up. What a missing piece does to the factory is itemized on
-[Degradations](/docs/degradations/). (Plugin-install consumers get a sibling set in the
+[Degradations](/docs/degradations/).
+(Plugin-install consumers get a sibling set in the
 marketplace payload — the product skill `getff` plus `using-getff`,
 `installing-enforcement` and `tool-bootstrapping` — which follow the same
 auto-activate-or-read-by-hand split; the skill named `getff` is the product-framing

@@ -112,8 +112,37 @@ mark claims that hold for SOME lanes only (the census `ships-to` discipline).
 | E16 | covered-by-E2 | skill-context aif-review == C22's same file; sibling stage E2 drafts it |
 | E17 | covered-by-E2 | skill-context aif-rules-check == C23's same file; sibling stage E2 drafts it |
 
+## PARTIAL fills (D2) — capability sentences added to EXISTING pages
+
+One row per filled census id, anchored at the landing-tree line numbers on this branch. Anchors cite
+the POST-FIX positions: rework round 3 re-homed the five spliced fill sentences as pure appends
+(original paragraph-final lines restored byte-identical to `origin/main`, added sentences kept as
+new soft-wrapped lines in the same paragraph), so whole-branch numstat shows 0 deletions and
+rendered output is unchanged (whitespace-collapsed text equality, checked per file).
+
+| id | page | sentence (short) | anchor(s) (landing tree, this branch) |
+|---|---|---|---|
+| A8 | limits.md | go-lane per-file detail: `.golangci.yml` (forbidigo ban on os.Getenv) + pinned `getff-go.yml`; REFUSE-LOUDLY → `getff-golangci.yml`; "no Go quickstart page yet; the files are the detail" | `content/docs/limits.md:18` |
+| E24 | limits.md | names `.golangci.yml` explicitly | `content/docs/limits.md:18` |
+| E25 | limits.md | names the pinned `.github/workflows/getff-go.yml` gate | `content/docs/limits.md:18` |
+| A16 | daily-cycle-rules.md | `setup.d/60-ci.sh` reconciles CI hygiene at install: .nvmrc↔workflow Node-major WARN + `CI-orphan` warning | `content/docs/daily-cycle-rules.md:61-64` |
+| E1 | daily-cycle-rules.md | delivered `.lintstagedrc.json` is a copy_safe seed; a consumer config authored before installing is kept | `content/docs/daily-cycle-rules.md:37-39` |
+| E4 | daily-cycle-rules.md | delivered AGENTS.md is rendered from `packages/core/templates/shared/AGENTS.md.template`; refresh never overwrites | `content/docs/daily-cycle-rules.md:20-23` |
+| E9 | first-steps-core.md | `first-steps.source.json` is the SSOT — two renders read it, neither render is the source | `content/docs/first-steps-core.md:29-33` |
+| G1 | beta.md | `getff` package payload: only registry-published artifact; `bin/getff` → same installer; tarball == repo-root layout; `MANIFEST.sha256` prepack drift-check | `content/docs/beta.md:39-43` |
+| I1 | quickstart-ts.md | `.claude-plugin/marketplace.json`: one plugin `getff`, source `./plugin`, `strict: true` | `content/docs/quickstart-ts.md:19-21` |
+| I2 | quickstart-ts.md | `plugin/.claude-plugin/plugin.json` carries name/description/version + FSL-1.1-ALv2 license | `content/docs/quickstart-ts.md:22-23` |
+| I3 | quickstart-ts.md | `/getff:install-enforcement` fetches the official installer, dry-run first, explicit `[y/N]` consent | `content/docs/quickstart-ts.md:23-25` |
+| I4 | factory-overview.md | plugin sibling set (`using-getff`, `installing-enforcement`, `tool-bootstrapping`) mirrors the auto-activate-or-read-by-hand split | `content/docs/factory-overview.md:68-72` |
+
+These 12 rows sit OUTSIDE the 78 reference-page rows tallied below: the header-excluding grep pattern
+(`^\| [a-z]+[0-9]+...`) matches only the lowercase page-slug rows, so the 78 count is unaffected.
+
 Tally: 39/39 pages rowed above — A 13 pages (a3, a9–a11, a15, a17–a24), E 14 pages (e2, e3, e6, e7, e10, e11,
 e14, e19, e22, e34, e36–e39), G 7 pages (g2–g7, g9), I 5 pages (i5–i9) = **78 capability-sentence rows**
 (A 29, E 28, G 11, I 10 — header-excluding count: `grep -cE '^\| [a-z]+[0-9]+[a-z0-9-]* \|'` → 78) +
-**3 covered-by-E2 records** (E15–E17). Every row carries its pin anchor or an explicit
-`lane-partial`/`experimental`/`planned` label.
+**3 covered-by-E2 records** (E15–E17) + **12 PARTIAL fill rows** (D2 fills, section above, anchored at
+post-fix landing-tree line numbers). Every row carries its pin anchor or an explicit
+`lane-partial`/`experimental`/`planned` label. (Rework round 3: the fill rows were added when the five
+spliced fill sentences were re-homed as pure appends — 0 deletions branch-wide; the fill rows' uppercase
+census ids do not match the header-excluding grep, so the 78 reference-page count above is unchanged.)
