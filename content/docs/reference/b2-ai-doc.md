@@ -27,7 +27,7 @@ The `## The standard` section carries the judgment calls the wrapper actually ow
 ## Anchors
 
 - `.claude/skills/ai-doc/SKILL.md:2` — `name: ai-doc`
-- `.claude/skills/ai-doc/SKILL.md:3` — `description: Use when creating or fixing an AI-facing doc/rule/skill/agent in this repo (SKILL.md, .claude/rules/*, agents/*, CLAUDE.md, AGENTS.md) — to apply the project's context-hygiene + rule-as-test + AI-agnostic authoring standard. …`
+- `.claude/skills/ai-doc/SKILL.md:3` — `description: "Use when creating or fixing an AI-facing doc/rule/skill/agent in this repo (SKILL.md, .claude/rules/*, agents/*, CLAUDE.md, AGENTS.md) — to apply the project's context-hygiene + rule-as-test + AI-agnostic authoring standard. … скилл."`
 - `.claude/skills/ai-doc/SKILL.md:6` — `<!-- @harness-posture: portable — prose-only authoring standard; no harness primitives; … -->`
 - `.claude/skills/ai-doc/SKILL.md:15` — `Composes existing skills; does NOT reinvent. For the authoring mechanics invoke`
 - `.claude/skills/ai-doc/SKILL.md:26` — `- **Rule = test = code at the earliest channel** (zero standing context); prose lives on-demand/path-scoped. …`

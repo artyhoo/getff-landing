@@ -33,4 +33,4 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `packages/core/templates/shared/hooks-package.json:2` — «  "type": "module"»
 - `setup.d/50-hooks.sh:58` — «copy_safe "$PKG_ROOT/packages/core/templates/shared/hooks-package.json" "$PROJECT_ROOT/packages/core/hooks/package.json"»
 - `setup.d/50-hooks.sh:53-55` — «# with ERR_REQUIRE_CYCLE_MODULE *at module load*, before any §7/§1.7 check runs (every git push aborts» «# with a stack trace). Ship a hooks-scoped {"type":"module"} marker so the shipped .ts loads as ESM —»
-- `setup.d/50-hooks.sh:56` — «# collide with a consumer's own packages/core package or be picked up as a workspace member.»
+- `setup.d/50-hooks.sh:57` — «# collide with a consumer's own packages/core package or be picked up as a workspace member.»

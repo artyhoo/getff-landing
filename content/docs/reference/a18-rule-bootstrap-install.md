@@ -32,5 +32,5 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `setup.d/80-rule-bootstrap.sh:7` — «#   FileResearchClient + FileGenerateClient → generate.ts factory → install() → rules-lock.json»
 - `setup.d/80-rule-bootstrap.sh:15` — «# path never sets FULL. Degrades on absence (no node / missing CLI / no research files) and»
 - `setup.d/80-rule-bootstrap.sh:18` — «# Decision B: research artefacts ABSENT → degrade + guidance, ship no rule (NEVER the stub on the»
-- `setup.d/80-rule-bootstrap.sh:25` — «# Gate: rule-bootstrapping only runs on the --full / yes pass.»
+- `setup.d/80-rule-bootstrap.sh:24` — «# Gate: rule-bootstrapping only runs on the --full / yes pass.»
 - `setup.d/80-rule-bootstrap.sh:36` — «  printf '  [80-rule-bootstrap] node not found — skipping (degrade-on-absent)\n'»

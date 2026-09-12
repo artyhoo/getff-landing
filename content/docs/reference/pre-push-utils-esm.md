@@ -29,11 +29,11 @@ Imported by pre-push.ts (D22) and the checks (D23, D24); the copy list they ride
 
 ## Anchors
 
-- `setup.d/50-hooks.sh:27` — «  utils/run-check.ts \» (continuation list :26-34 also names utils/git.ts at :28)
+- `setup.d/50-hooks.sh:28` — «  utils/run-check.ts \» (continuation list :26-34 also names utils/git.ts at :28)
 - `setup.d/50-hooks.sh:53` — «# no "type" → CJS default → tsx's `require(esm)` bridge hits Node ≥22 cycle detection and the hook dies»
 - `setup.d/50-hooks.sh:58` — «copy_safe "$PKG_ROOT/packages/core/templates/shared/hooks-package.json" "$PROJECT_ROOT/packages/core/hooks/package.json"»
 - `packages/core/hooks/utils/run-check.ts:2` — « * run-check.ts — testable external-command runner for the pre-push hook.»
-- `packages/core/hooks/utils/run-check.ts:13` — « * Difference from upstream: we add a **timeout** case Aider omits — a hung»
+- `packages/core/hooks/utils/run-check.ts:12` — « * Difference from upstream: we add a **timeout** case Aider omits — a hung»
 - `packages/core/hooks/utils/git.ts:2` — « * git.ts — thin git helpers for the pre-push hook (Wave 10.2).»
 - `packages/core/hooks/utils/git.ts:10` — « * push range `origin/main..HEAD` rather than the whole tree.»
 - `packages/core/templates/shared/hooks-package.json:2` — «  "type": "module"»

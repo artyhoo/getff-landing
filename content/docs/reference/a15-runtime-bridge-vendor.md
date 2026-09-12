@@ -34,5 +34,5 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `setup.d/55-runtime-bridge-vendor.sh:11` — «#   1. Copies the vendored runtime-bridge subset from»
 - `setup.d/55-runtime-bridge-vendor.sh:16` — «#      $PKG_ROOT/packages/runtime-bridge/vendor/hooks/runtime-bridge-dispatch.sh»
 - `setup.d/55-runtime-bridge-vendor.sh:22` — «#   - Register the PostToolUse hook in .claude/settings.json — that is the»
-- `setup.d/55-runtime-bridge-vendor.sh:27` — «#     no-op even if the file is present).»
+- `setup.d/55-runtime-bridge-vendor.sh:29` — «#     no-op even if the file is present).»
 - `setup.d/55-runtime-bridge-vendor.sh:36` — «#   - PROFILE=env      → skip (env depth lacks the aif-handoff operator runtime).»

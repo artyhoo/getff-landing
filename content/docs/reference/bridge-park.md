@@ -31,6 +31,6 @@ Writes the shared OPEN-QUESTION anchor (H5); its parks are read back by question
 
 - `packages/runtime-bridge/src/cli/park.ts:3` — «* CLI park entrypoint — the agent-side "I hit a hard fork, stop and ask" half.»
 - `packages/runtime-bridge/src/cli/park.ts:5` — «* Usage (the autonomous agent runs this on a genuine BLOCKING fork it cannot default):»
-- `packages/runtime-bridge/src/cli/park.ts:9` — «*   - paused:true is THE stop — the coordinator candidate query filters paused=false,»
-- `packages/runtime-bridge/src/cli/park.ts:16` — « * Config: base URL precedence RUNTIME_BRIDGE_AIF_URL ?? API_BASE_URL ?? http://localhost:3009.»
+- `packages/runtime-bridge/src/cli/park.ts:10` — «*   - paused:true is THE stop — the coordinator candidate query filters paused=false,»
+- `packages/runtime-bridge/src/cli/park.ts:18` — « * Config: base URL precedence RUNTIME_BRIDGE_AIF_URL ?? API_BASE_URL ?? http://localhost:3009.»
 - `packages/runtime-bridge/src/cli/park.ts:22` — «* Exit codes: 0 parked; 1 bad args or REST error (message on stderr).»

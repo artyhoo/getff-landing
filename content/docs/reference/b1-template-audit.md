@@ -36,7 +36,7 @@ A `## Promotion trigger` section (`.claude/skills/template-audit/SKILL.md:38`) c
 <!-- the file:line list, each anchor with its line's content quoted at authoring time -->
 
 - `.claude/skills/template-audit/SKILL.md:2` — `name: template-audit`
-- `.claude/skills/template-audit/SKILL.md:3` — `description: Use when auditing rendered templates via local advisory review. Triggers: template, audit, render, generated docs, AGENTS.md, paraphrase, cue placement, local advisory, template-render, audit-template.`
+- `.claude/skills/template-audit/SKILL.md:3` — `description: 'Use when auditing rendered templates via local advisory review. Triggers: template, audit, render, generated docs, AGENTS.md, paraphrase, cue placement, local advisory, template-render, audit-template.'`
 - `.claude/skills/template-audit/SKILL.md:6` — `<!-- @harness-posture: portable — prose advisory audit checklist; no harness primitives -->`
 - `.claude/skills/template-audit/SKILL.md:13` — `Session-bound advisory audit. **FREE under Claude Code subscription.** No API key. Not blocking.`
 - `.claude/skills/template-audit/SKILL.md:20` — `npm --prefix packages/core run test:template-render`

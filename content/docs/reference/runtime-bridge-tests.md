@@ -33,4 +33,4 @@ Tests every H-family module H2-H19; the symlink guard pins cliEntry (H12); `aif-
 - `packages/runtime-bridge/test/aif-park.test.ts:1` — «// packages/runtime-bridge/test/aif-park.test.ts»
 - `packages/runtime-bridge/test/cli-symlink-entry.test.ts:1` — «// packages/runtime-bridge/test/cli-symlink-entry.test.ts»
 - `packages/runtime-bridge/test/dispatch-import-no-sideeffect.test.ts:1` — «/**»
-- `packages/runtime-bridge/src/cli/cliEntry.ts:11` — « * /tmp → /private/tmp) made the guard false and the CLI exited 0 having done nothing,»
+- `packages/runtime-bridge/src/cli/cliEntry.ts:10` — « * /tmp → /private/tmp) made the guard false and the CLI exited 0 having done nothing,»

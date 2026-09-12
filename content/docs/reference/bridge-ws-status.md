@@ -31,6 +31,6 @@ Substrate of awaitDone (H13) and await.ts (H10); snapshots share aifHttp (H11); 
 
 - `packages/runtime-bridge/src/aifWsStatus.ts:2` — «* aifWsStatus — WebSocket-based status consumer for aif-handoff tasks.»
 - `packages/runtime-bridge/src/aifWsStatus.ts:5` — «* SW-C SCHEMA DISCOVERY (kickoff §SCHEMA DISCOVERY FIRST requirement)»
-- `packages/runtime-bridge/src/aifWsStatus.ts:13` — «*   → ws://localhost:3009/ws  (SAME port as API/REST server; different from MCP stdio)»
+- `packages/runtime-bridge/src/aifWsStatus.ts:12` — «*   → ws://localhost:3009/ws  (SAME port as API/REST server; different from MCP stdio)»
 - `packages/runtime-bridge/src/aifWsStatus.ts:24` — «*   "backlog" | "planning" | "plan_ready" | "implementing" |»
 - `packages/runtime-bridge/vendor/README.md:40` — «| `src/aifWsStatus.ts`               | AifHandoffBackend → `./aifWsStatus.js`                            |»

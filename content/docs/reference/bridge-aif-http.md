@@ -31,6 +31,6 @@ The REST substrate under dispatch (H2), claim (H3), park (H4), answer (H6), ques
 
 - `packages/runtime-bridge/src/cli/aifHttp.ts:3` — «* Shared aif-handoff REST helpers — the SINGLE request implementation for every CLI in»
 - `packages/runtime-bridge/src/cli/aifHttp.ts:5` — «* mapping (connection → unavailable, 429 → quota_exceeded, other → dispatch_failed) and»
-- `packages/runtime-bridge/src/cli/aifHttp.ts:11` — «/** The subset of an aif-handoff task these CLIs read/mutate (GET /tasks/:id). */»
+- `packages/runtime-bridge/src/cli/aifHttp.ts:12` — «/** The subset of an aif-handoff task these CLIs read/mutate (GET /tasks/:id). */»
 - `packages/runtime-bridge/src/cli/aifHttp.ts:26` — «   * the fallback record when git's own worktree list has no entry for the branch; measuring»
 - `packages/runtime-bridge/vendor/README.md:66` — «`cli/aifHttp.ts`, already vendored for dispatch. The copy stays import-closed — every relative»

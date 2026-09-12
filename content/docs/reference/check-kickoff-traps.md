@@ -26,6 +26,6 @@ USES `.claude/rules/ai-laziness-traps.md` §3 as the spec; complements principle
 ## Anchors
 
 - `plugin/hooks/check-kickoff-traps:1` — «#!/usr/bin/env bash»
-- `plugin/hooks/check-kickoff-traps:2` — «# PostToolUse gate — kickoff T-enumeration floor (Wave N8 C2, ai-laziness-traps §3).»
+- `plugin/hooks/check-kickoff-traps:3` — «# PostToolUse gate — kickoff T-enumeration floor (Wave N8 C2, ai-laziness-traps §3).»
 - `plugin/hooks/check-kickoff-traps:26` — «# additionalContext (exit 2 swallowed as HookRunFailed); exit 0.»
 - `plugin/hooks/hooks.json:57` — «"PostToolUse": [» (the check-kickoff-traps arm)

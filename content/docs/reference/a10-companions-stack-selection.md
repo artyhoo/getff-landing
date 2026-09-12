@@ -34,4 +34,4 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `setup.d/15-companions-stack.sh:6` — «# This layer provides the static stack-aware selection; the actual installs are»
 - `setup.d/15-companions-stack.sh:10` — «#   react-next   → next package present»
 - `setup.d/15-companions-stack.sh:19` — «# R1 hard gate: no AIF-engine mapping, no live registry call — static table only (umbrella §9).»
-- `setup.d/15-companions-stack.sh:34` — «  [ "$stacks_field" = "*" ] && return 0   # unknown stack: include all companions»
+- `setup.d/15-companions-stack.sh:32-33` — «  [ "$stacks_field" = "*" ] && return 0» «  [ "$detected" = "unknown" ] && return 0  # unknown stack: include all companions»

@@ -29,6 +29,6 @@ Sibling of dispatch (H2, the hook-facing half), park/answer/questions (H4, H6, H
 
 - `packages/runtime-bridge/src/cli/claim.ts:2` — «* CLI claim entrypoint — the operator/skill-facing half of two-phase dispatch.»
 - `packages/runtime-bridge/src/cli/claim.ts:5` — «*   tsx packages/runtime-bridge/src/cli/claim.ts create <kickoff-path>»
-- `packages/runtime-bridge/src/cli/claim.ts:12` — « * entrypoint exits NON-ZERO on failure and never falls back to ManualBackend: a»
-- `packages/runtime-bridge/src/cli/claim.ts:17` — « * `create` prints the TaskHandle as one line of JSON on stdout so a caller can capture»
+- `packages/runtime-bridge/src/cli/claim.ts:14` — « * entrypoint exits NON-ZERO on failure and never falls back to ManualBackend: a»
+- `packages/runtime-bridge/src/cli/claim.ts:18` — « * `create` prints the TaskHandle as one line of JSON on stdout so a caller can capture»
 - `packages/runtime-bridge/vendor/README.md:75` — «`src/cli/claim.ts` was admitted 2026-08-18 under the same criterion, on the same trigger: the»
