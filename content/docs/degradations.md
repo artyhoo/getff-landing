@@ -40,6 +40,13 @@ installs at `env` and `factory` depth only — on a `core` install it is absent 
 design, because tier routing presupposes the multi-model contour that `core` does not
 ship.
 
+The «window slides» posture the rows cite is the `night-mode` skill's — shipped on the
+env+ tier arm (`setup.d/lib.sh:62`), triggered «Use when running a task FULLY AUTONOMOUSLY
+(overnight / unattended) as an orchestrator» (`.claude/skills/night-mode/SKILL.md:3`). Its
+model posture assigns each role a relative capability tier, never a hard-coded model name,
+and fills the seat with whatever the active harness offers — the window slides to the
+available set (`.claude/skills/night-mode/SKILL.md:17`).
+
 ## Next
 
 Where the tiers come from: [Overview — multi-model pipeline](/docs/factory-overview/).

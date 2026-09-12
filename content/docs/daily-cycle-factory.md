@@ -48,6 +48,12 @@ Dispatch the launch table's top row, then bring the finished branch back with
 stalls or the runtime misbehaves,
 `/aif-doctor` is the diagnostic entry point.
 
+Its scope is the aif-handoff runtime itself — a task stuck or crash-looping, new tasks
+staying backlog at capacity, a broken runtime — and it stays invokable even when the
+dispatcher is NOT running (`.claude/skills/aif-doctor/SKILL.md:3`). The install also
+delivers executable heal helpers and keeps them executable when the gated suite was
+installed (`setup.d/10-skills.sh:188`).
+
 ## Next
 
 Why work routes to different tiers at all: [Overview — multi-model pipeline](/docs/factory-overview/).
