@@ -26,7 +26,7 @@ Two channels deliver the discipline: this hook (write-time, per-write nudge) and
 ## Anchors
 
 - `plugin/hooks/inject-memory-codification:1` — «#!/usr/bin/env bash»
-- `plugin/hooks/inject-memory-codification:2` — «# PostToolUse memory-codification reminder — path-scoped just-in-time delivery of»
-- `plugin/hooks/inject-memory-codification:4` — «# @dual-pair: memory-codification-writemoment»
+- `plugin/hooks/inject-memory-codification:3` — «# PostToolUse memory-codification reminder — path-scoped just-in-time delivery of»
+- `plugin/hooks/inject-memory-codification:5` — «# @dual-pair: memory-codification-writemoment»
 - `plugin/hooks/inject-memory-codification:23` — «command -v jq >/dev/null 2>&1 || exit 0   # graceful no-op without jq»
 - `plugin/hooks/hooks.json:57` — «"PostToolUse": [» (the inject-memory-codification arm, matcher `Write`)

@@ -34,4 +34,4 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `setup.d/30-templates.sh:27` — «copy_safe "$PKG_ROOT/packages/preset-react-native/RULES.md" "$PROJECT_ROOT/.ai-factory/RULES.md"»
 - `setup.d/40-configs.sh:367-368` — «copy_safe "$PKG_ROOT/packages/preset-react-native/templates/$_rn_eslint" "$_ws_abs/eslint.config.mjs"» «copy_safe "$PKG_ROOT/packages/preset-react-native/templates/eslint.config.rn-common.mjs" "$_ws_abs/eslint.config.rn-common.mjs"»
 - `setup.d/40-configs.sh:497` — «copy_safe "$PKG_ROOT/packages/preset-react-native/templates/eslint.config.rn-common.mjs" "$PROJECT_ROOT/eslint.config.rn-common.mjs"»
-- `packages/preset-react-native/package.json:16-18` — «"@react-native/eslint-config": "^0.86.0",» «"eslint-config-expo": "^56.0.4",» «"eslint-plugin-react-native-a11y": "^3.5.1",»
+- `packages/preset-react-native/package.json:16-20` — «"@react-native/eslint-config": "^0.86.0",» «"eslint-config-expo": "^56.0.4",» «"eslint-plugin-react-native-a11y": "^3.5.1",»

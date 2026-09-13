@@ -35,4 +35,4 @@ Carries the vendored forms of H2-H12, H14, H15, H17, H18, H19, H20; omits H10 an
 - `packages/runtime-bridge/vendor/README.md:16` — «## What this is — COPY, not a dependency»
 - `packages/runtime-bridge/vendor/README.md:28` — «The copy is the **complete transitive import closure of `cli/dispatch.ts`** — verified at copy»
 - `packages/runtime-bridge/vendor/README.md:84` — «- `src/AifFireBackend.ts`, `src/index.ts` — referenced only outside the dispatch closure.»
-- `packages/runtime-bridge/vendor/README.md:100` — «| `RUNTIME_BRIDGE_MODE`           | `manual` / `aif-handoff` / `auto` (auto falls back to ManualBackend if aif-handoff unreachable)       | yes (or `--mode` flag)   |»
+- `packages/runtime-bridge/vendor/README.md:99` — «| `RUNTIME_BRIDGE_MODE`           | `manual` / `aif-handoff` / `auto` (auto falls back to ManualBackend if aif-handoff unreachable)       | yes (or `--mode` flag)   |»

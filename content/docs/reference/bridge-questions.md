@@ -37,4 +37,4 @@ Reader side of the park loop: consumes parks written by park.ts (H4) and the anc
 - `packages/runtime-bridge/src/cli/questions.ts:5` — «*   tsx packages/runtime-bridge/src/cli/questions.ts [--project <id>] [--json]»
 - `packages/runtime-bridge/src/cli/questions.ts:20` — «*   - status === 'blocked_external', OR»
 - `packages/runtime-bridge/src/cli/questions.ts:30` — «*   0 — success, even when zero tasks are parked.»
-- `packages/runtime-bridge/vendor/README.md:59` — «| `src/cli/questions.ts` | `dispatcher`, `pipeline` | none new (no sibling imports)        |»
+- `packages/runtime-bridge/vendor/README.md:61` — «| `src/cli/questions.ts` | `dispatcher`, `pipeline` | none new (no sibling imports)        |»

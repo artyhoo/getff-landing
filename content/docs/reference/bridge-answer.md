@@ -33,6 +33,6 @@ Resolves what park.ts (H4) created; the parks it consumes are surfaced by questi
 
 - `packages/runtime-bridge/src/cli/answer.ts:2` — «* CLI answer entrypoint — the "push the resolved answer back + resume" half of the bridge.»
 - `packages/runtime-bridge/src/cli/answer.ts:5` — «*   tsx packages/runtime-bridge/src/cli/answer.ts --task <id> --answer "<text>" [--decision request_changes] [--json]»
-- `packages/runtime-bridge/src/cli/answer.ts:20` — «*   1. aif status is EVENT-only — `POST /tasks/:id/events { event }` drives transitions;»
+- `packages/runtime-bridge/src/cli/answer.ts:21` — «*   1. aif status is EVENT-only — `POST /tasks/:id/events { event }` drives transitions;»
 - `packages/runtime-bridge/src/cli/answer.ts:53` — «* Exit codes:»
-- `packages/runtime-bridge/vendor/README.md:58` — «| `src/cli/answer.ts`    | `dispatcher`, `night-mode`, `pipeline` | none new (`backend.ts` already here) |»
+- `packages/runtime-bridge/vendor/README.md:60` — «| `src/cli/answer.ts`    | `dispatcher`, `night-mode`, `pipeline` | none new (`backend.ts` already here) |»

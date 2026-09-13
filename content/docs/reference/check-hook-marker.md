@@ -26,7 +26,7 @@ USES `.claude/rules/dual-implementation-discipline.md` §6 as spec; CI companion
 ## Anchors
 
 - `plugin/hooks/check-hook-marker:1` — «#!/usr/bin/env bash»
-- `plugin/hooks/check-hook-marker:2` — «# PostToolUse gate — delivery-channel marker on touched hooks (Wave N8 C4).»
+- `plugin/hooks/check-hook-marker:3` — «# PostToolUse gate — delivery-channel marker on touched hooks (Wave N8 C4).»
 - `plugin/hooks/check-hook-marker:12` — «# `# @cc-only-rationale: <reason>` (CC-only, with a reason). Missing → exit 1.»
 - `plugin/hooks/check-hook-marker:54` — «_adv_violation() { if _is_zcode; then _emit_ctx "PostToolUse" "$1"; else printf '%s\n' "$1" >&2; exit 2; fi; }»
 - `plugin/hooks/hooks.json:57` — «"PostToolUse": [» (the check-hook-marker arm)

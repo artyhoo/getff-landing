@@ -25,8 +25,8 @@ USES the shared emit prelude at `plugin/hooks/lib/hook-emit.sh` (one definition 
 
 ## Anchors
 
-- `plugin/hooks/validate-prompt:1` — «# Wave 7 sub-wave 7.2.b — PostToolUse hook: validate batch-spec on orchestrator-prompts.»
-- `plugin/hooks/validate-prompt:2` — «# Fires on Edit|Write tool calls. Input: hook JSON via stdin (tool_input.file_path).»
-- `plugin/hooks/validate-prompt:3` — «# Exits 0 silently on pass or unmatched path; non-zero + diagnostic on red.»
+- `plugin/hooks/validate-prompt:2` — «# Wave 7 sub-wave 7.2.b — PostToolUse hook: validate batch-spec on orchestrator-prompts.»
+- `plugin/hooks/validate-prompt:3` — «# Fires on Edit|Write tool calls. Input: hook JSON via stdin (tool_input.file_path).»
+- `plugin/hooks/validate-prompt:4` — «# Exits 0 silently on pass or unmatched path; non-zero + diagnostic on red.»
 - `plugin/hooks/validate-prompt:13` — «# non-zero exits; JSON additionalContext reaches the model. CC VIOLATION path: exit 2 +»
 - `plugin/hooks/validate-prompt:87` — «[[ "${AIF_VALIDATE_PROMPT:-1}" == "0" ]] && exit 0»

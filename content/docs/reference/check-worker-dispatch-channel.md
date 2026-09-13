@@ -26,6 +26,6 @@ USES the shared `29-worker-dispatch-channel` matcher (bin + CI test); spec: the 
 ## Anchors
 
 - `plugin/hooks/check-worker-dispatch-channel:1` — «#!/usr/bin/env bash»
-- `plugin/hooks/check-worker-dispatch-channel:2` — «# PostToolUse gate — M6 edit-time channel for `#worker-dispatch-via-subagent`.»
-- `plugin/hooks/check-worker-dispatch-channel:3` — «# On Edit|Write|MultiEdit of a `.claude/orchestrator-prompts/<umbrella>/kickoff.md`,»
+- `plugin/hooks/check-worker-dispatch-channel:3` — «# PostToolUse gate — M6 edit-time channel for `#worker-dispatch-via-subagent`.»
+- `plugin/hooks/check-worker-dispatch-channel:4` — «# On Edit|Write|MultiEdit of a `.claude/orchestrator-prompts/<umbrella>/kickoff.md`,»
 - `plugin/hooks/hooks.json:57` — «"PostToolUse": [» (the check-worker-dispatch-channel arm)

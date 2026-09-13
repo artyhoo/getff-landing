@@ -38,4 +38,4 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 - `setup.d/lib.sh:65` — «PRETTIERIGNORE_BEGIN='# >>> rules-as-tests-aif (managed) >>>'»
 - `setup.d/40-configs.sh:132` — «merge_prettierignore "$PKG_ROOT/packages/core/templates/shared/.prettierignore" "$PROJECT_ROOT/.prettierignore"»
 - `install.sh:1321` — «merge_prettierignore "$PKG_ROOT/packages/core/templates/shared/.prettierignore" "$PROJECT_ROOT/.prettierignore"»
-- `setup.d/lib.sh:1386-1387` — «# No consumer file → greenfield: copy byte-identical (defer entirely to copy_safe).» … «copy_safe "$src" "$dst"»
+- `setup.d/lib.sh:1385-1387` — «# No consumer file → greenfield: copy byte-identical (defer entirely to copy_safe).» … «copy_safe "$src" "$dst"»

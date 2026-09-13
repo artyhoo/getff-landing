@@ -25,8 +25,8 @@ USES the consumer's `.claude/rules/` corpus and its generated rule index; ADAPTS
 
 ## Anchors
 
-- `plugin/hooks/inject-matching-rule:1` — «# Plugin-relocated PostToolUse rule-injector — path-scoped just-in-time delivery of»
-- `plugin/hooks/inject-matching-rule:3` — «# @dual-pair: rule-path-scoping»
+- `plugin/hooks/inject-matching-rule:2` — «# Plugin-relocated PostToolUse rule-injector — path-scoped just-in-time delivery of»
+- `plugin/hooks/inject-matching-rule:4` — «# @dual-pair: rule-path-scoping»
 - `plugin/hooks/inject-matching-rule:33` — «command -v jq >/dev/null 2>&1 || exit 0   # graceful no-op without jq»
 - `plugin/hooks/inject-matching-rule:40` — «case "$TOOL" in Edit|Write|MultiEdit) ;; *) exit 0 ;; esac»
 - `plugin/hooks/hooks.json:57` — «"PostToolUse": [» (the inject-matching-rule arm)

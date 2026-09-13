@@ -27,8 +27,8 @@ ADAPTS the SubagentStart arm of `.claude/hooks/inject-project-digest.sh` (same d
 
 ## Anchors
 
-- `plugin/hooks/inject-subagent-context:1` — «# Backup digest-injection for harnesses WITHOUT the SubagentStart hook event (zcode).»
-- `plugin/hooks/inject-subagent-context:3` — «# @cc-only-rationale: SubagentDigest zcode-fallback backup — CC+ZCode dual-harness via inline»
+- `plugin/hooks/inject-subagent-context:2` — «# Backup digest-injection for harnesses WITHOUT the SubagentStart hook event (zcode).»
+- `plugin/hooks/inject-subagent-context:4` — «# @cc-only-rationale: SubagentDigest zcode-fallback backup — CC+ZCode dual-harness via inline»
 - `plugin/hooks/inject-subagent-context:37` — «_is_zcode || exit 0   # CC: the SubagentStart primary handles digest injection; stay silent here»
 - `plugin/hooks/inject-subagent-context:44` — «case "$TOOL_NAME" in Agent | Task) ;; *) exit 0 ;; esac»
 - `plugin/hooks/hooks.json:37` — «"PreToolUse": [» (the `Agent|Task` matcher arm)

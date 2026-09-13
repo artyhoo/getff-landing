@@ -32,6 +32,6 @@ At framework pin `aa87d0a47a6d8502f983cc9fe7284bd5dcb3d650`:
 
 - `setup.d/70-deps.sh:2` — «# setup.d/70-deps.sh — §7 package.json scripts merge + §8 dev-dep install + §8b tsx-at-root.»
 - `setup.d/70-deps.sh:13` — «# install.sh historically left scripts as a manual INSTALL.md §3 step, so consumers landed»
-- `setup.d/70-deps.sh:17` — «# The referenced devDependencies (eslint, dependency-cruiser,»
+- `setup.d/70-deps.sh:16` — «# only adds keys the consumer lacks). The referenced devDependencies (eslint, dependency-cruiser,»
 - `setup.d/70-deps.sh:20` — «if [ -f "$PROJECT_ROOT/package.json" ]; then»
 - `setup.d/70-deps.sh:24` — «    echo "▶ Merging canonical scripts → package.json (non-destructive)"»
