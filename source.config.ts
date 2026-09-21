@@ -1,4 +1,5 @@
-import { defineCollections, defineDocs } from 'fumadocs-mdx/config';
+import { defineCollections, defineConfig, defineDocs } from 'fumadocs-mdx/config';
+import { remarkMdxMermaid } from 'fumadocs-core/mdx-plugins';
 import { z } from 'zod';
 
 export const docs = defineDocs({
@@ -22,4 +23,14 @@ export const blog = defineCollections({
     draft: z.boolean().default(false),
     canonicalUrl: z.string().optional(),
   }),
+});
+
+export default defineConfig({
+  mdxOptions: {
+    // Function form so the fumadocs preset's own remark plugins are preserved
+    // and the mermaid fence rewrite runs after them (R6). `remarkMdxMermaid`
+    // rewrites ```mermaid fences into <Mermaid chart="…"/> nodes, which the
+    // component map below resolves to the build-time SVG server component.
+    remarkPlugins: (plugins) => [...plugins, remarkMdxMermaid],
+  },
 });
