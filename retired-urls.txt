@@ -1,0 +1,17 @@
+# retired-urls.txt — enumerated URLs with NO successor page (R7/D37).
+# A retired URL is NOT stubbed: it returns 404 from cutover day
+# (P-AC: the unneeded keeps no place) and must not be referenced from any
+# framework surface (README.md, docs/**, llms-head.txt,
+# packages/core/README.md) — scripts/check-redirects.mjs --framework-full
+# enforces that (D37/D51(5)).
+#
+# FORMAT: one URL per line, then whitespace + a reason on the SAME line:
+#   /docs/some-old-page   removed in S2; successor content lives at /docs/x/
+# Blank lines and #-prefixed lines are comments.
+#
+# INTENTIONALLY EMPTY at S1 BUILD (2026-09-21): retiring happens at the S2
+# cutover. The two inventory OPEN rows — /docs/beta and /docs/reference —
+# are OPERATOR decisions (stub target or retirement) and are deliberately
+# NOT recorded here: inventing a disposition for an OPEN row is a
+# falsifier (kickoff §6/§9 T-S1-A). This file ships empty so its format
+# and its enforcement arm exist before the first real entry lands.
