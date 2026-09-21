@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
 import { CopyButton } from './components/CopyButton';
 import { DemoVideo } from './components/DemoVideo';
+import { MaturityStackLine } from '@/components/maturity-stack-line';
+import { getHeroCopy } from '@/lib/hero-copy';
+
+// Hero copy is the content session's (S0b): props live in the PINNED
+// docs/site/hero-copy.json, validated at build time by lib/hero-copy.ts
+// (D28 §5.9; the component + FS8 guard are the S1 landing items, D51 (3)).
+const hero = getHeroCopy();
 
 const description =
   'getff compiles your conventions into native toolchain gates (ESLint/husky for npm; for cargo, the demo today is clippy, with cargo-deny on the roadmap). Its own AGENTS.md is executable: every claim carries a live-fired enforcement status.';
@@ -46,9 +53,18 @@ export default function HomePage() {
             </p>
 
             <div className="cta-row">
-              <a className="btn primary" href="/docs/quickstart-ts/">Get started</a>
-              <a className="btn ghost" href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">Open the executable AGENTS.md</a>
+              <a className="btn primary" href={hero.cta.primary.href}>{hero.cta.primary.label}</a>
+              <a className="btn ghost" href={hero.cta.secondary.href}>{hero.cta.secondary.label}</a>
             </div>
+
+            {/* §5.9: quiet agent line under the CTAs + CopyButton */}
+            <p className="agent-line fineprint" data-copy-root>
+              {hero.agentLine.text}{' '}
+              <span className="agent-copy">
+                <span data-copy-text className="visually-hidden">{hero.agentLine.copyValue}</span>
+                <CopyButton />
+              </span>
+            </p>
 
             <p className="fineprint">
               Source-available (FSL-1.1-ALv2 → Apache-2.0 after 2 years).
@@ -147,7 +163,9 @@ export default function HomePage() {
           </li>
           <li>
             <span className="step-n">03</span>
-            <span className="body"><strong>It fails early</strong> — <span className="chan-chain"><span className="chan">edit-time</span><span className="arr">→</span><span className="chan">pre-commit</span><span className="arr">→</span><span className="chan">pre-push</span><span className="arr">→</span><span className="chan chan-last">CI</span></span>. CI is the last resort, not the first.</span>
+            <span className="body"><strong>It fails early</strong> — <span className="chan-chain"><span className="chan">edit-time</span><span className="arr">→</span><span className="chan">pre-commit</span><span className="arr">→</span><span className="chan">pre-push</span><span className="arr">→</span><span className="chan chan-last">CI</span></span>. CI is the last resort, not the first.
+              {/* §5.9: step 3 gains the how-it-works link (hero-copy.json howItWorksLink) */}
+              {' '}<a className="step-link" href={hero.howItWorksLink.href}><span className="arr">→</span> {hero.howItWorksLink.label}</a></span>
           </li>
         </ol>
       </section>
@@ -166,21 +184,39 @@ export default function HomePage() {
 <span className="c-comment"># now open AGENTS.md, break any enforcement line, run it again</span>
 <span className="c-prompt">$</span> <span data-copy-text>make self-audit</span>                    <span className="c-fail"># red: the gate names the claim that lied</span></pre></div>
         </div>
-        <p className="fineprint">That AGENTS.md is not a mock. It is the live root doc of this repo.</p>
+        <p className="fineprint">
+          That AGENTS.md is not a mock. It is the live root doc of this repo.{' '}
+          {/* §5.9: the AGENTS.md link moved here from the hero's CTA2 (hero-copy.json feelIt.agentsMdLink) */}
+          <a href="https://github.com/artyhoo/getff/blob/main/AGENTS.md">{hero.feelIt.agentsMdLink.label}</a>
+        </p>
       </section>
 
       <section id="install">
         <h2><span className="num">05</span>Install</h2>
+        {/* §5.9: two blocks — one-command install first, plugin second (hero-copy.json install) */}
+        <h3>{hero.install.oneCommand.heading}</h3>
+        <p>{hero.install.oneCommand.body}</p>
+        <div className="term block">
+          <div className="term-bar">
+            <span className="term-dots"><i></i><i></i><i></i></span>
+            <span className="term-title">bash</span>
+            <CopyButton />
+          </div>
+          <div className="term-body"><pre><span className="c-prompt">$</span> <span data-copy-text>{hero.install.oneCommand.command}</span></pre></div>
+        </div>
+        <h3>{hero.install.plugin.heading}</h3>
+        <p>{hero.install.plugin.body}</p>
         <div className="term block">
           <div className="term-bar">
             <span className="term-dots"><i></i><i></i><i></i></span>
             <span className="term-title">claude</span>
             <CopyButton />
           </div>
-          <div className="term-body"><pre><span data-copy-text>/plugin marketplace add artyhoo/getff
-/plugin install getff@getff</span></pre></div>
+          <div className="term-body"><pre><span data-copy-text>{hero.install.plugin.commands.join('\n')}</span></pre></div>
         </div>
-        <p className="fineprint">The plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command.</p>
+        <p className="fineprint">
+          <a href={hero.install.more.href}>{hero.install.more.label}</a> — the plugin never silently mutates your git or CI. The hard layer (hooks + CI gates) is one explicit opt-in command.
+        </p>
       </section>
 
       <section id="limits">
@@ -188,9 +224,13 @@ export default function HomePage() {
         <div className="limits-frame">
           <div className="frame-label">getff — honest limits</div>
           <ul className="limits">
-            <li><span>Executable AGENTS.md today = <strong>this repo’s own</strong>. Generating <em>yours</em> from <em>your</em> conventions is the next milestone, not a shipped feature.</span></li>
-            <li><span>Stacks today: <strong>TypeScript/JS</strong> (ESLint/husky), <strong>Rust</strong> (clippy today, cargo-deny on the roadmap), plus installer lanes for <strong>Python</strong> (ast-grep + ruff, Node-free) and <strong>Go</strong> (golangci-lint bans + pinned CI gate). Java and the rest are on the roadmap, not in the box.</span></li>
-            <li><span>Source-available (<strong>FSL-1.1-ALv2</strong>), not OSI open source. Every release becomes Apache-2.0 after 2 years. We say this first, on purpose.</span></li>
+            {/* §5.9: the stack line is DATA from the pinned face-facts.json (build-time
+                component) — no stack/maturity word is a literal in this file. */}
+            <MaturityStackLine />
+            {/* §5.9-untouched hand-written bullets, now carried by the pin's limits.handWritten */}
+            {hero.limits.handWritten.map((line) => (
+              <li key={line.slice(0, 24)}><span>{line}</span></li>
+            ))}
           </ul>
         </div>
       </section>

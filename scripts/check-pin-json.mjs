@@ -23,7 +23,7 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { z } from 'zod';
+import { heroCopySchema, faceFactsSchema } from '../lib/pin-schemas.mjs';
 
 const REPO_ROOT = resolve(new URL('..', import.meta.url).pathname);
 const SITE = process.env.FRAMEWORK_DIR ? resolve(process.env.FRAMEWORK_DIR, 'docs/site') : resolve(REPO_ROOT, '.framework', 'docs', 'site');
@@ -35,60 +35,8 @@ let familyCount = 0;
 const info = (msg) => console.log(`[check-pin-json] ${msg}`);
 const fail = (file, msg) => issues.push(`${file}: ${msg}`);
 
-/** Internal-path assertion for hero hrefs (the FS8 hero rule asserts this too). */
-const internalHref = z.string().refine((s) => s.startsWith('/') && !s.startsWith('//'), 'must be an internal path starting with "/"');
-
-// ── 1. hero-copy.json ────────────────────────────────────────────────────────
-const heroCopySchema = z
-  .object({
-    schema: z.literal('getff-hero-copy/1'),
-    cta: z.object({
-      primary: z.object({ label: z.string().min(1), href: internalHref }),
-      secondary: z.object({ label: z.string().min(1), href: internalHref }),
-    }),
-    agentLine: z.object({ text: z.string().min(1), copyValue: z.string().min(1) }),
-    howItWorksLink: z.object({
-      section: z.string().min(1),
-      step: z.number().int().positive(),
-      label: z.string().min(1),
-      href: internalHref,
-    }),
-    install: z.object({
-      section: z.string().min(1),
-      oneCommand: z.object({ heading: z.string().min(1), body: z.string().min(1), command: z.string().min(1) }),
-      plugin: z.object({ heading: z.string().min(1), body: z.string().min(1), commands: z.array(z.string().min(1)).min(1) }),
-      more: z.object({ label: z.string().min(1), href: internalHref }),
-    }),
-    feelIt: z.object({
-      section: z.string().min(1),
-      agentsMdLink: z.object({ label: z.string().min(1) }),
-    }),
-    limits: z.object({
-      section: z.string().min(1),
-      handWritten: z.array(z.string().min(1)).min(1),
-    }),
-  })
-  .passthrough(); // forward-compat: added fields flow through; removals fail closed
-
-// ── 2. face-facts.json (the maturity block the hero §06 line renders) ───────
-const maturityRow = z
-  .object({
-    label: z.string().min(1),
-    definition: z.string().min(1),
-    caveat: z.string().min(1),
-    'verified-at': z.string().min(1),
-    generation: z.string().min(1).optional(), // present on generated stacks, absent on layers
-  })
-  .passthrough();
-const faceFactsSchema = z
-  .object({
-    schema: z.literal('getff.face-facts/v1'),
-    maturity: z.object({
-      layers: z.record(z.string().min(1), maturityRow),
-      stacks: z.record(z.string().min(1), maturityRow),
-    }),
-  })
-  .passthrough();
+// Zod schemas are SHARED with lib/hero-copy.ts via lib/pin-schemas.mjs —
+// one definition, no mirror (the gate and the renderers cannot drift apart).
 
 /** Parse + validate one JSON artefact against a Zod schema; count rows. */
 function zodCheck(relPath, schema, schemaMarker, countRows) {
