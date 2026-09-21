@@ -79,6 +79,15 @@ for (const row of rows) {
     die(`stub target ${destination} (for ${source}) does not exist in out/ — a stub must map to a real target`);
   }
   const fileShaped = /\.[a-z0-9]+$/i.test(source.replace(/\/$/, ''));
+  if (fileShaped) {
+    // A file-shaped stub must be a literal FILE. If a directory already sits
+    // at that path, writeFileSync would die with a bare EISDIR stack — name
+    // the collision instead (the shape contract the coverage gate checks).
+    const asDirPath = resolve(OUT_DIR, source.replace(/^\//, '').replace(/\/$/, ''));
+    if (existsSync(asDirPath) && statSync(asDirPath).isDirectory()) {
+      die(`file-shaped stub ${source} collides with an existing DIRECTORY in out/ — a file-shaped stub must be written as a literal file, not over a directory`);
+    }
+  }
   const target = fileShaped
     ? resolve(OUT_DIR, source.replace(/^\//, '')) // out/docs/b.md — literal file
     : resolve(OUT_DIR, source.replace(/^\//, '').replace(/\/$/, ''), 'index.html'); // out/docs/foo/index.html
