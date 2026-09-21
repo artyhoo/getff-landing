@@ -28,7 +28,11 @@
  *   hero-fs8 — check-hero-fs8.mjs: a stack word planted OUTSIDE the pin-fed
  *     props → RED; the untouched page → GREEN control.
  *   links — check-links.mjs: missing lychee → RED; vacuous sweep → RED; an
- *     unallow-listed dangle in a synthetic export → RED.
+ *     unenumerated dangle in a synthetic export → RED; and (W-1, harvest
+ *     fidelity audit round 1) an UNLISTED dangle of the sibling-.md
+ *     allow-class shape → RED, an UNLISTED dangle under a framework-tree
+ *     prefix → RED (shape ≠ enumeration), and a STALE allow-list member
+ *     (enumerated dangle that no longer fires) → RED, not a NOTE.
  *
  * Fail-closed posture: every case must be RED (or GREEN control, as labelled)
  * or the suite exits non-zero. A gate that cannot be made to fire fails the
@@ -311,6 +315,34 @@ function caseHeroFs8() {
 }
 
 // ── links ────────────────────────────────────────────────────────────────────
+/** Synthetic export of N mutually-linked valid pages (≥ LINK_FLOOR so the
+ * gate's classification stage is reached) carrying NO dangle of its own —
+ * planted dangles go on separate pages, so the case controls exactly what
+ * lychee reports. */
+function syntheticExport(sandbox, n = 505) {
+  const out = join(sandbox, 'out');
+  const links = [];
+  for (let i = 0; i < n; i++) {
+    mkdirSync(join(out, `p${i}`), { recursive: true });
+    writeFileSync(join(out, `p${i}`, 'index.html'), '<!doctype html><html><body>page</body></html>\n');
+    links.push(`<a href="/p${i}/">p${i}</a>`);
+  }
+  writeFileSync(join(out, 'index.html'), `<!doctype html><html><body>${links.join('\n')}</body></html>\n`);
+  return out;
+}
+
+/** One extra page carrying a planted dangle (dir relative to out/). */
+function plantDangle(out, dir, html) {
+  mkdirSync(join(out, dir), { recursive: true });
+  writeFileSync(join(out, dir, 'index.html'), `<!doctype html><html><body>${html}</body></html>\n`);
+}
+
+const runLinkGate = (sandbox, out) => ({
+  cmd: process.execPath,
+  args: [join(REPO_ROOT, 'scripts', 'check-links.mjs')],
+  env: { LYCHEE_BIN: process.env.LYCHEE_BIN ?? 'lychee', OUT_DIR: out },
+});
+
 function caseLinks() {
   const lychee = process.env.LYCHEE_BIN ?? 'lychee';
 
@@ -328,20 +360,41 @@ function caseLinks() {
     return { cmd: process.execPath, args: [join(REPO_ROOT, 'scripts', 'check-links.mjs')], env: { LYCHEE_BIN: lychee, OUT_DIR: out } };
   });
 
-  // RED: an unallow-listed dangle in a synthetic export (≥ LINK_FLOOR unique
-  // links so classification is reached, exactly 1 error, no allow-class)
-  runCase('links', 'unallow-listed dangle in the export', 'red', /match NO allow-class/i, (sandbox) => {
-    const out = join(sandbox, 'out');
-    const N = 505;
-    const links = [];
-    for (let i = 0; i < N; i++) {
-      mkdirSync(join(out, `p${i}`), { recursive: true });
-      writeFileSync(join(out, `p${i}`, 'index.html'), '<!doctype html><html><body>page</body></html>\n');
-      links.push(`<a href="/p${i}/">p${i}</a>`);
-    }
-    links.push('<a href="/definitely-no-such-page-self-test/">broken</a>');
-    writeFileSync(join(out, 'index.html'), `<!doctype html><html><body>${links.join('\n')}</body></html>\n`);
-    return { cmd: process.execPath, args: [join(REPO_ROOT, 'scripts', 'check-links.mjs')], env: { LYCHEE_BIN: lychee, OUT_DIR: out } };
+  // RED: an unenumerated dangle with no allow-class shape at all (≥ LINK_FLOOR
+  // unique links so classification is reached, exactly 1 error)
+  runCase('links', 'unenumerated dangle in the export', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, 'broken', '<a href="/definitely-no-such-page-self-test/">broken</a>');
+    return runLinkGate(sandbox, out);
+  });
+
+  // (W-1a) RED: an UNLISTED dangle of the sibling-.md allow-class SHAPE —
+  // target under docs/reference/ ending in .md. Under the retired prefix
+  // matcher this exact shape passed green; the gate now matches only the
+  // enumerated (source page, target) pairs, so it must fail.
+  runCase('links', 'unlisted sibling-.md-shape dangle (pair not enumerated)', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'self-test-unlisted'), '<a href="unlisted-neighbour.md">broken sibling ref</a>');
+    return runLinkGate(sandbox, out);
+  });
+
+  // (W-1b) RED: an UNLISTED dangle under a framework-tree PREFIX — resolves
+  // to docs/packages/core/<file>, the shape the framework-tree class used to
+  // allow wholesale. Not an enumerated pair → must fail.
+  runCase('links', 'unlisted framework-tree-prefix dangle (pair not enumerated)', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'self-test-unlisted'), '<a href="../../packages/core/self-test-unlisted.ts">broken framework ref</a>');
+    return runLinkGate(sandbox, out);
+  });
+
+  // (W-1c) RED: a STALE allow-list member — an enumerated dangle that no
+  // longer fires (the content was fixed) must FAIL with a delete
+  // instruction, not print a NOTE nobody reads. The synthetic export fires
+  // NO enumerated member, so every member is stale → the gate dies naming
+  // them. (Hermetic: does not depend on the real export's dangle count.)
+  runCase('links', 'stale allow-list member (content fixed, entry kept)', 'red', /did NOT fire this run[\s\S]*DELETE the stale entries/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    return runLinkGate(sandbox, out);
   });
 }
 

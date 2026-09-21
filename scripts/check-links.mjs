@@ -24,12 +24,16 @@
  *
  * POSTURE (the framework's own lychee.toml philosophy, applied where its
  * mechanism cannot reach): every error from the PINNED lychee is classified
- * against named, reasoned allow-classes below; structural classes enumerate
- * their CURRENT members and carry an explicit shrink trigger; one-off
- * artifacts are enumerated exactly. Any error that matches NO class is a
- * FAILURE — the gate is green only when every dangle is accounted for BY
- * NAME, and each CI run prints the full allowed list, so the debt stays
- * visible instead of watched.
+ * against named, reasoned allow-classes below, and every class matches ONLY
+ * its ENUMERATED members — exact (source page, target) pairs measured in the
+ * export. Shape matching (path prefix / extension) was REMOVED (W-1, harvest
+ * fidelity audit round 1, 2026-09-21): a prefix matcher lets any FUTURE
+ * broken link of the same shape pass green, and the S1 RUN half is about to
+ * write ~211 reference pages under /docs/reference/ — exactly where those
+ * shapes live. Any error that matches NO enumerated pair is a FAILURE — the
+ * gate is green only when every dangle is accounted for BY NAME, and each CI
+ * run prints the full allowed list, so the debt stays visible instead of
+ * watched.
  *
  * FAIL-CLOSED ARMS (no vacuous green — attention-is-not-a-mechanism):
  *   · lychee not found → FAIL (CI installs the pinned release; local dev gets
@@ -39,6 +43,10 @@
  *   · vacuity guard: fewer than LINK_FLOOR unique links checked → FAIL (a
  *     glob that misses `out/` exits 0 with zero links — a green gate over
  *     nothing). Floor 500, measured 1170 at pin 9706bdc7117a.
+ *   · unenumerated dangle → FAIL (new broken link of any shape).
+ *   · stale allow-list member → FAIL (an enumerated dangle that no longer
+ *     fires means the content was fixed; the entry must be DELETED, not
+ *     watched — the pair list may only shrink).
  *
  * Output format stability: lychee is VERSION-PINNED in CI (v0.24.2 +
  * sha256, same tarball the framework's audit-self.yml pins), and this
@@ -67,43 +75,46 @@ const die = (msg, items = []) => {
 };
 
 // ── Allow-classes ────────────────────────────────────────────────────────────
-// Each entry: name, why (with owner + shrink trigger), and a matcher over a
-// normalised error {sourcePage, targetPath, status}. Members of structural
-// classes are enumerated so growth is visible in review, not just matched.
+// Each class carries: name, why (with owner + shrink trigger), an ENUMERATED
+// member list, and ONE predicate `matchesMember(normalisedError, member)` that
+// drives BOTH directions — classifying an error (does any member match?) and
+// the stale audit (did this member fire?). One predicate per class means the
+// matcher and the member list cannot drift apart (the W-1 defect: the matcher
+// matched whole path SHAPES while the member list was display-only).
+// All 16 pairs below were measured in the export of the pinned tree: first
+// enumerated at pin 9706bdc7117a, re-measured 2026-09-21 at pin 6f6edf3e0775
+// (staging had advanced; the dangle set was identical: 16 errors / 1170
+// unique links, lychee 0.24.2).
+
+/** An exact inherited dangle: source page (relative to out/) + fragment-free
+ * target path (relative to out/). */
+const pair = (sourcePage, targetPath) => ({ sourcePage, targetPath });
 
 /** Framework-tree relative refs that cannot exist in a static export.
  * Owner: framework content (the prose is authored there); shrink trigger: the
  * framework rewrites those refs as site-absolute /docs/... links, or S2
- * rehomes the referenced surfaces into the export — then delete the class. */
-const FRAMEWORK_TREE_PREFIXES = [
-  'docs/reference/.claude/',
-  'docs/packages/core/',
-  'docs/setup.d/',
-  'docs/reference/hooks/',
-  'docs/reference/docs/',
+ * rehomes the referenced surfaces into the export — then delete the pair. */
+const FRAMEWORK_TREE_DANGLES = [
+  pair('docs/reference/c5-claims-conformance-auditor/index.html', 'docs/reference/.claude/rules/ai-laziness-traps.md'),
+  pair('docs/reference/c11-memory-codification-auditor/index.html', 'docs/reference/.claude/rules/memory-codification.md'),
+  pair('docs/reference/c8-fidelity-auditor/index.html', 'docs/reference/.claude/rules/reviewer-discipline.md'),
+  pair('docs/reference/c2-reviewer-discipline/index.html', 'docs/reference/.claude/rules/reviewer-discipline.md'),
+  pair('docs/reference/c4-capability-reuse-auditor/index.html', 'docs/reference/docs/meta-factory/prior-art-evaluations.md'),
+  pair('docs/reference/rule-build-first-reuse-default/index.html', 'docs/packages/core/principles/11-build-first-reuse-default.test.ts'),
+  pair('docs/reference/rule-ai-laziness-traps/index.html', 'docs/packages/core/principles/12-ai-laziness-traps.test.ts'),
+  pair('docs/reference/rule-companion-install-principle/index.html', 'docs/reference/hooks/inject-matching-rule.sh'),
+  pair('docs/reference/rule-companion-install-principle/index.html', 'docs/setup.d/companions.manifest'),
+  pair('docs/reference/rule-companion-install-principle/index.html', 'docs/setup.d/engine.sh'),
 ];
-const frameworkTreeMembers = [
-  'docs/reference/.claude/rules/memory-codification.md',
-  'docs/reference/.claude/rules/reviewer-discipline.md', // ×2 sources
-  'docs/reference/.claude/rules/ai-laziness-traps.md',
-  'docs/reference/docs/meta-factory/prior-art-evaluations.md',
-  'docs/packages/core/principles/11-build-first-reuse-default.test.ts',
-  'docs/packages/core/principles/12-ai-laziness-traps.test.ts',
-  'docs/reference/hooks/inject-matching-rule.sh',
-  'docs/setup.d/companions.manifest',
-  'docs/setup.d/engine.sh',
-];
-const isFrameworkTreeRef = (e) =>
-  e.targetPath != null &&
-  FRAMEWORK_TREE_PREFIXES.some((p) => e.targetPath.startsWith(p));
 
-/** Sibling raw-`.md` refs inside a reference page's own slug dir (and the
- * hub README.md ref): resolve in the framework docs tree, absent in out/.
- * Same owner + shrink trigger as the framework-tree class. */
-const isSiblingMdRef = (e) =>
-  e.targetPath != null &&
-  (e.targetPath === 'docs/README.md' ||
-    (e.targetPath.startsWith('docs/reference/') && /\.md($|#)/.test(e.targetPath)));
+/** Sibling raw-`.md` / README refs inside reference prose — resolve in the
+ * framework docs tree, absent in out/. Same owner + shrink trigger as the
+ * framework-tree class. */
+const SIBLING_MD_DANGLES = [
+  pair('docs/reference/rule-00-rule-index/index.html', 'docs/README.md'),
+  pair('docs/reference/rule-ai-laziness-digest/index.html', 'docs/reference/rule-ai-laziness-digest/ai-laziness-traps.md'),
+  pair('docs/reference/rule-attention-is-not-a-mechanism/index.html', 'docs/reference/rule-attention-is-not-a-mechanism/ci-tool-pinning.md'),
+];
 
 /** One-off prose autolink artifacts — enumerated EXACTLY (source page + raw
  * target). Matched against url AND status: for an UNPARSEABLE URI lychee
@@ -127,32 +138,39 @@ const EXACT_ARTIFACTS = [
     why: 'angle-bracket placeholder «<file:line>» in prose autolinked to a relative href "line" that resolves nowhere',
   },
 ];
-const isExactArtifact = (e) =>
-  EXACT_ARTIFACTS.some(
-    (a) => e.sourcePage === a.sourcePage && `${e.url} ${e.status}`.includes(a.urlSuffix),
-  );
+
+/** Exact (source page, target path) match — targetPath is already
+ * fragment-free (the normaliser strips it), so README#fragment and README
+ * are one and the same member. */
+const matchesPair = (e, m) => e.sourcePage === m.sourcePage && e.targetPath === m.targetPath;
+/** Matched against url AND status — for unparseable URIs the raw text only
+ * exists in the status string, percent-encoded. */
+const matchesArtifact = (e, a) =>
+  e.sourcePage === a.sourcePage && `${e.url} ${e.status}`.includes(a.urlSuffix);
+
+const formatPair = (m) => `${m.sourcePage} → ${m.targetPath}`;
+const formatArtifact = (a) => `${a.sourcePage} → ${a.urlSuffix}`;
 
 const ALLOW_CLASSES = [
   {
     name: 'framework-tree relative ref (export cannot serve it)',
-    match: isFrameworkTreeRef,
-    members: frameworkTreeMembers,
+    members: FRAMEWORK_TREE_DANGLES,
+    matchesMember: matchesPair,
+    format: formatPair,
     why: 'framework-authored prose references a framework-repo path; editing content is out of S1 BUILD scope — framework content fix / S2 rehome',
   },
   {
     name: 'sibling raw-.md / README ref inside reference prose',
-    match: isSiblingMdRef,
-    members: [
-      'docs/README.md#why-this-exists',
-      'docs/reference/rule-ai-laziness-digest/ai-laziness-traps.md',
-      'docs/reference/rule-attention-is-not-a-mechanism/ci-tool-pinning.md',
-    ],
+    members: SIBLING_MD_DANGLES,
+    matchesMember: matchesPair,
+    format: formatPair,
     why: 'same framework-content class, targets inside the docs tree itself — framework content fix / S2 rehome',
   },
   {
     name: 'one-off unparseable autolink artifact (enumerated exactly)',
-    match: isExactArtifact,
-    members: EXACT_ARTIFACTS.map((a) => `${a.sourcePage} → ${a.urlSuffix}`),
+    members: EXACT_ARTIFACTS,
+    matchesMember: matchesArtifact,
+    format: formatArtifact,
     why: 'content autolink defect, one-off — content fix at S2/framework-side, then delete the entry',
   },
 ];
@@ -228,7 +246,7 @@ const unexpected = [];
 for (const e of errors) {
   const cls = ALLOW_CLASSES.find((c) => {
     try {
-      return c.match(e);
+      return c.members.some((m) => c.matchesMember(e, m));
     } catch {
       return false;
     }
@@ -240,43 +258,46 @@ for (const e of errors) {
 for (const c of ALLOW_CLASSES) {
   const n = allowed.filter((a) => a.class === c.name).length;
   info(`allowed · ${c.name}: ${n} — ${c.why}`);
-  if (DEBUG) for (const m of c.members) info(`  member: ${m}`);
+  if (DEBUG) for (const m of c.members) info(`  member: ${c.format(m)}`);
 }
 
-if (unexpected.length) {
-  die(
-    `${unexpected.length} link error(s) match NO allow-class — new dangle(s) in the export. ` +
-      `Fix the link, or (only if it is the SAME structural class) extend check-links.mjs with reason + owner:`,
-    unexpected.map((e) => `${e.sourcePage} → ${e.url || '(unparseable URI)'} | ${e.status}`),
-  );
-}
-
-// Enumerated-member audit: a class member that no longer fires means the
-// content was FIXED — surface it so the entry gets deleted instead of rotting.
-// Member-matching is per class, mirroring how the class itself matches:
-//   · path classes → member is a fragment-free target path;
-//   · the exact-artifact class → member is "<sourcePage> → <urlSuffix>",
-//     matched the way isExactArtifact matches (url + status, encoded form).
+// Enumerated-member audit: a member that no longer fires means the content
+// was FIXED — the entry must be DELETED (the pair list may only shrink). This
+// is a FAILURE, not a note (W-1, harvest fidelity audit round 1: a warning
+// nobody reads is not a gate — enumerated debt that nobody is forced to
+// delete rots exactly like unenumerated debt). It uses the SAME per-class
+// predicate as classification, in the inverse direction: member → allowed
+// errors, so the two can never disagree.
 const staleMembers = [];
 for (const c of ALLOW_CLASSES) {
   for (const m of c.members) {
-    const fired =
-      c === ALLOW_CLASSES.find((x) => x.match === isExactArtifact)
-        ? allowed.some((a) => {
-            const [page, ...rest] = m.split(' → ');
-            const suffix = rest.join(' → ');
-            return a.sourcePage === page && `${a.url} ${a.status}`.includes(suffix);
-          })
-        : allowed.some((a) => {
-            const key = m.split('#')[0].replace(/ ×2 sources$/, '');
-            return a.targetPath != null && (a.targetPath === key || a.targetPath.startsWith(key));
-          });
-    if (!fired) staleMembers.push(`${c.name}: ${m}`);
+    const fired = allowed.some((a) => a.class === c.name && c.matchesMember(a, m));
+    if (!fired) staleMembers.push(`${c.name}: ${c.format(m)}`);
   }
 }
-if (staleMembers.length) {
-  info(`NOTE: ${staleMembers.length} allow-list member(s) did NOT fire this run — the content was fixed; DELETE these entries:`);
-  for (const s of staleMembers) info(`  ↩ ${s}`);
+
+if (unexpected.length || staleMembers.length) {
+  const reasons = [];
+  if (unexpected.length) {
+    reasons.push(
+      `${unexpected.length} link error(s) match NO enumerated allow-list member — NEW dangle(s) in the export. ` +
+        `Fix the link, or (only if it is the SAME measured inherited debt) enumerate the exact ` +
+        `(source page, target) pair in check-links.mjs with reason + owner:`,
+    );
+  }
+  if (staleMembers.length) {
+    reasons.push(
+      `${staleMembers.length} allow-list member(s) did NOT fire this run — the content was FIXED; ` +
+        `DELETE the stale entries from scripts/check-links.mjs (the list may only shrink):`,
+    );
+  }
+  die(
+    reasons.join('\n'),
+    [
+      ...unexpected.map((e) => `new dangle: ${e.sourcePage} → ${e.url || '(unparseable URI)'} | ${e.status}`),
+      ...staleMembers.map((s) => `stale member: ${s} — delete it`),
+    ],
+  );
 }
 
 const dur = typeof report.duration === 'object' && report.duration !== null

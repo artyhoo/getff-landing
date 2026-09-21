@@ -11,11 +11,15 @@ name: PR pages gate
 #   fetch at the pin (BEFORE npm ci — R5: the postinstall reads
 #     source.config.ts) → second full-surface framework checkout AT THE
 #   SAME RESOLVED SHA (D37/D51(5)) → npm ci → R18 Zod over the fetched
-#   JSON (needs node_modules: it imports zod) → next build →
+#   JSON (needs node_modules: it imports zod) → plant the Mermaid
+#   build-integration fixture (W-2) → next build (renders it) →
 #   write-redirect-stubs → check-redirects --framework-full →
-#   the two Mermaid fixtures (R6) → the gate self-test suite → lychee
-#   --offline over out/ (realised as scripts/check-links.mjs: pinned lychee
-#   + fail-closed classification of the measured inherited dangle classes).
+#   the two Mermaid unit fixtures (R6) → the Mermaid build-integration
+#   fixture (W-2: rendered <svg> asserted in out/ + a gantt fence must fail
+#   a throwaway build) → remove the fixture page → the gate self-test
+#   suite → lychee --offline over out/ (realised as
+#   scripts/check-links.mjs: pinned lychee + fail-closed classification of
+#   the MEASURED, ENUMERATED inherited dangle pairs — W-1).
 #
 # This job is the required check R9's branch protection names.
 
@@ -91,6 +95,15 @@ jobs:
       - name: Zod backstop over the fetched JSON (R18)
         run: node scripts/check-pin-json.mjs
 
+      # ── W-2: the Mermaid build-integration fixture rides THIS build ──────
+      # (no second full build): a valid flowchart fence planted into
+      # content/ is rendered by the real production-config build, and the
+      # verify step below asserts the rendered <svg> in out/ — plus, in a
+      # throwaway copy, that an unsupported `gantt` fence makes next build
+      # exit non-zero. clean removes the planted page even on failure.
+      - name: Plant Mermaid build-integration fixture (W-2)
+        run: node scripts/self-test-mermaid-build.mjs plant
+
       - name: Build (production config; budget < 10 min — measured, not assumed)
         run: |
           # pipefail: without it the pipe's status is tee's (always 0), so a
@@ -108,6 +121,18 @@ jobs:
       # ── R6: the paired-negative Mermaid fixtures, fired in CI ─────────────
       - name: Mermaid fixtures (unsupported type + dropped element must both be RED)
         run: node scripts/self-test-gates.mjs --only mermaid
+
+      # ── W-2: the fence must reach the pipeline, not just the module ───────
+      # (a) the planted valid fence rendered as <svg> in out/ (a plain code
+      #     block means the remark rewrite died while the unit fixtures above
+      #     stayed green); (b) a gantt fence must FAIL a real next build in a
+      #     throwaway copy — measured added time ~20-30s on ubuntu-latest.
+      - name: Mermaid build-integration fixture (svg in out/ + gantt fails a throwaway build)
+        run: node scripts/self-test-mermaid-build.mjs verify
+
+      - name: Remove the Mermaid fixture page (W-2 cleanup, runs even on failure)
+        if: always()
+        run: node scripts/self-test-mermaid-build.mjs clean
 
       - name: Gate self-test suite (executes every gate against planted bad input)
         run: node scripts/self-test-gates.mjs
