@@ -10,4 +10,5 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .source/
+.framework/
 wwwroot/

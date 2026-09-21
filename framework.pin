@@ -1,0 +1,12 @@
+# Framework pin (R3) — one non-comment line: a branch name or a full SHA.
+# Resolved by scripts/fetch-framework.mjs (git ls-remote for branches; a SHA is
+# fetched directly, depth-1, via the server's allow-reachable-sha1-in-want).
+#
+# PINNED TO `staging`, NOT `main` — R3's own falsifier fired (measured
+# 2026-09-21 in the S1 BUILD container): the promote cadence main→docs site has
+# exceeded 14 days while `docs/site/**` changed on staging, and `main`
+# (`8fabc9df124d`) does NOT carry `docs/site/hero-copy.json` (nor
+# face-facts.json / reference/*.json + their schemas), which the S1 build
+# consumes. `staging` (`85f7625be50c`) carries the full tree. Flip back to
+# `main` when the operator resumes promotes (rollout spec R3; P-AD).
+staging
