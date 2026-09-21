@@ -9,9 +9,10 @@ name: PR pages gate
 #
 # Step order is the design's contract:
 #   fetch at the pin (BEFORE npm ci — R5: the postinstall reads
-#     source.config.ts) → R18 Zod over the fetched JSON → second full-surface
-#   framework checkout AT THE SAME RESOLVED SHA (D37/D51(5)) → npm ci →
-#   next build → write-redirect-stubs → check-redirects --framework-full →
+#     source.config.ts) → second full-surface framework checkout AT THE
+#   SAME RESOLVED SHA (D37/D51(5)) → npm ci → R18 Zod over the fetched
+#   JSON (needs node_modules: it imports zod) → next build →
+#   write-redirect-stubs → check-redirects --framework-full →
 #   the two Mermaid fixtures (R6) → the gate self-test suite → lychee
 #   --offline over out/ (realised as scripts/check-links.mjs: pinned lychee
 #   + fail-closed classification of the measured inherited dangle classes).
@@ -57,13 +58,15 @@ jobs:
           echo "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a  $RUNNER_TEMP/lychee.tgz" | sha256sum -c -
           tar -xzf "$RUNNER_TEMP/lychee.tgz" -C "$RUNNER_TEMP" --strip-components=1
           "$RUNNER_TEMP/lychee" --version
+          # The self-test suite's `links` section probes `lychee` by plain name
+          # (LYCHEE_BIN is unset on that step) — without this the required
+          # check is red on every PR (measured at harvest: exit 1 with no
+          # lychee on PATH).
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
       # ── R5 ordering: the pin is materialised BEFORE npm ci ────────────────
       - name: Fetch framework at the pin (before npm ci — R5)
         run: node scripts/fetch-framework.mjs
-
-      - name: Zod backstop over the fetched JSON (R18)
-        run: node scripts/check-pin-json.mjs
 
       - name: Full-surface framework checkout at the SAME resolved SHA (D37/D51(5))
         env:
@@ -81,8 +84,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # R18 runs AFTER npm ci: check-pin-json imports lib/pin-schemas.mjs,
+      # which imports `zod` — on a clean runner there is no node_modules
+      # before this point (measured at harvest: ERR_MODULE_NOT_FOUND). R5 only
+      # requires the FETCH to precede npm ci, not the validation.
+      - name: Zod backstop over the fetched JSON (R18)
+        run: node scripts/check-pin-json.mjs
+
       - name: Build (production config; budget < 10 min — measured, not assumed)
         run: |
+          # pipefail: without it the pipe's status is tee's (always 0), so a
+          # failed `next build` would leave this step green.
+          set -o pipefail
           { time npm run build ; } 2>&1 | tee build-time.txt
           grep -q real build-time.txt
 
