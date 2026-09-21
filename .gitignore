@@ -11,4 +11,8 @@ out/
 next-env.d.ts
 .source/
 .framework/
+# full-surface checkout at the same pin SHA (check-redirects --framework-full)
+.framework-full/
+# local scratch (probe binaries, build trees, evidence logs) — never shipped
+.scratch/
 wwwroot/

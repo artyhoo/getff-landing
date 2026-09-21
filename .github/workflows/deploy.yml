@@ -27,11 +27,38 @@ jobs:
           node-version: "22"
           cache: npm
 
+      # R5 ordering (S1 BUILD): the framework pin is materialised BEFORE
+      # `npm ci` — the postinstall (`fumadocs-mdx`) reads source.config.ts and
+      # the build consumes docs/site/** from .framework/.
+      - name: Fetch framework at the pin (before npm ci — R5)
+        run: node scripts/fetch-framework.mjs
+
+      # D37/D51(5): second full-surface checkout at the SAME resolved SHA, so
+      # the deploy-time redirect coverage gate audits the tree that was built.
+      - name: Full-surface framework checkout at the same resolved SHA
+        env:
+          FRAMEWORK_PIN: ${{ runner.temp }}/framework-pinned.pin
+        run: |
+          set -euo pipefail
+          SHA="$(cat .framework/SHA)"
+          echo "FRAMEWORK_SHA=$SHA" >> "$GITHUB_ENV"
+          printf '%s\n' "$SHA" > "$FRAMEWORK_PIN"
+          node scripts/fetch-framework.mjs --full .framework-full
+          test "$(cat .framework-full/SHA)" = "$SHA"
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         run: npm run build
+
+      # R7/D51(5): the deploy channel gates redirects too, not just the PR —
+      # the old-URL surface must hold on main, at the pin, every deploy.
+      - name: Write redirect stubs (R7, both shapes)
+        run: node scripts/write-redirect-stubs.mjs
+
+      - name: Redirect coverage gate over enumerated old URLs (R7/R21/D37)
+        run: node scripts/check-redirects.mjs --framework-full .framework-full
 
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
