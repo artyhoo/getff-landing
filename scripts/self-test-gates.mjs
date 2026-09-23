@@ -37,7 +37,15 @@
  *     fidelity audit round 1) an UNLISTED dangle of the sibling-.md
  *     allow-class shape → RED, an UNLISTED dangle under a framework-tree
  *     prefix → RED (shape ≠ enumeration), and a STALE allow-list member
- *     (enumerated dangle that no longer fires) → RED, not a NOTE.
+ *     (enumerated dangle that no longer fires) → RED, not a NOTE — with
+ *     every member stale at once, the failure names report-format drift.
+ *     Both halves of the pair key are pinned (round-2 harvest code review):
+ *     an enumerated TARGET from an unlisted source page → RED, an
+ *     enumerated source page with a new target → RED; an autolink whose raw
+ *     target only CONTAINS an enumerated one → RED. And the stale audit is
+ *     pinned per MEMBER, not per class: with exactly one enumerated pair
+ *     firing, that pair must be absent from the stale list while the other
+ *     members of its class stay listed.
  *
  * Fail-closed posture: every case must be RED (or GREEN control, as labelled)
  * or the suite exits non-zero. A gate that cannot be made to fire fails the
@@ -75,7 +83,9 @@ const results = [];
 let sandboxSeq = 0;
 
 /** Run one case. `expect: 'red'` → the spawn must exit non-zero AND the
- * output must match `pattern`; `expect: 'green'` → exit 0. */
+ * output must match `pattern`; `expect: 'green'` → exit 0. An optional
+ * `check(sandbox, summary, output)` from setup() adds case-specific
+ * assertions after the verdict. */
 function runCase(section, name, expect, pattern, setup) {
   // OPAQUE sandbox name — the case name must never leak into the sandbox path,
   // or an assertion pattern could match the path instead of the gate's output
@@ -107,7 +117,7 @@ function runCase(section, name, expect, pattern, setup) {
         summary.evidence = `unexpectedly failed (${r.status}): ${out.split('\n').filter(Boolean).slice(-3).join(' | ').slice(0, 200)}`;
       }
     }
-    if (check) check(sandbox, summary);
+    if (check) check(sandbox, summary, out);
   } catch (err) {
     summary.evidence = `case error: ${err.message}`;
   } finally {
@@ -435,7 +445,75 @@ function caseLinks() {
   // them. (Hermetic: does not depend on the real export's dangle count.)
   runCase('links', 'stale allow-list member (content fixed, entry kept)', 'red', /did NOT fire this run[\s\S]*DELETE the stale entries/i, (sandbox) => {
     const out = syntheticExport(sandbox);
+    return {
+      ...runLinkGate(sandbox, out),
+      // every member is quiet here — the gate must point at format drift
+      // before anyone deletes the whole list
+      check: (dir, summary, output) => {
+        if (summary.ok && !/ALL of them at once/.test(output)) {
+          summary.ok = false;
+          summary.evidence = 'all members stale, but the failure does not name report-format drift';
+        }
+      },
+    };
+  });
+
+  // Both halves of the pair key must be load-bearing: a matcher that only
+  // compared the target (or only the source page) would allow these.
+  // (d) RED: an ENUMERATED target (c8/c2 → .claude/rules/reviewer-discipline.md)
+  // linked from a source page that is not enumerated.
+  runCase('links', 'enumerated target from an unlisted source page', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'self-test-halfpair-src'), '<a href="../.claude/rules/reviewer-discipline.md">rule</a>');
     return runLinkGate(sandbox, out);
+  });
+
+  // (e) RED: an ENUMERATED source page (c8-fidelity-auditor) with a new target.
+  runCase('links', 'enumerated source page with a new target', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'c8-fidelity-auditor'), '<a href="../.claude/rules/self-test-new-target.md">rule</a>');
+    return runLinkGate(sandbox, out);
+  });
+
+  // (g) RED: an autolink artifact is matched on its WHOLE raw target. From
+  // the enumerated c5 page, `file:line-self-test` (→ file:///line-self-test)
+  // merely CONTAINS the enumerated `file:///line` — a substring matcher
+  // would allow it.
+  runCase('links', 'raw target that only contains an enumerated artifact', 'red', /match NO enumerated allow-list member/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'c5-claims-conformance-auditor'), '<a href="file:line-self-test">placeholder</a>');
+    return runLinkGate(sandbox, out);
+  });
+
+  // (f) The stale audit works per MEMBER: plant exactly one enumerated pair
+  // (the real c8 href). It must be classified (no «match NO»), must NOT be
+  // listed stale, and the class's other members MUST still be listed — an
+  // audit that asked «did the class fire?» would list none of them. The c2
+  // member shares the planted TARGET from another source page, so it must
+  // stay stale too (the source half, in the audit direction).
+  const PLANTED = 'docs/reference/c8-fidelity-auditor/index.html → docs/reference/.claude/rules/reviewer-discipline.md';
+  const SAME_TARGET = 'docs/reference/c2-reviewer-discipline/index.html → docs/reference/.claude/rules/reviewer-discipline.md';
+  const CLASS = 'framework-tree relative ref (export cannot serve it)';
+  runCase('links', 'one enumerated pair fires — only the others are stale', 'red', /did NOT fire this run/i, (sandbox) => {
+    const out = syntheticExport(sandbox);
+    plantDangle(out, join('docs', 'reference', 'c8-fidelity-auditor'), '<a href="../.claude/rules/reviewer-discipline.md">rule</a>');
+    return {
+      ...runLinkGate(sandbox, out),
+      check: (dir, summary, output) => {
+        if (!summary.ok) return;
+        const stale = output.split('\n').filter((l) => l.includes('stale member: '));
+        const problems = [];
+        if (/match NO enumerated/.test(output)) problems.push('the planted enumerated pair was not classified');
+        if (stale.some((l) => l.includes(PLANTED))) problems.push('the pair that fired is listed as stale');
+        if (!stale.some((l) => l.includes(`stale member: ${CLASS}: `))) problems.push(`no other member of «${CLASS}» is listed as stale (class-level audit?)`);
+        if (!stale.some((l) => l.includes(SAME_TARGET))) problems.push('the same-target member from another source page is not listed stale (target-only audit?)');
+        if (/ALL of them at once/.test(output)) problems.push('a partial stale set is reported as all-at-once drift');
+        if (problems.length) {
+          summary.ok = false;
+          summary.evidence = problems.join('; ');
+        }
+      },
+    };
   });
 }
 

@@ -15,12 +15,14 @@
  *   · `--include-verbatim=false` (measured) does NOT help: remark turned the
  *     text inside those code spans into real `<a href>` ELEMENTS, which the
  *     verbatim filter no longer sees.
- * The remaining 14 are framework-authored reference prose carrying RELATIVE
- * refs into the framework tree (`.claude/rules/*.md`, `packages/core/**`,
- * `setup.d/**`, sibling `*.md`, `README.md`) — paths that resolve inside the
- * framework repo but do not exist in a static export. Editing that prose is
- * content work (S1 RUN half / framework-side) and is NOT done here; deleting
- * the links from the export would certify an artifact that will not ship.
+ * Of the remaining 14, one is a third autolink artifact (the prose
+ * placeholder `<file:line>` became the href `file:line`, i.e. `file:///line`)
+ * and 13 are framework-authored reference prose carrying RELATIVE refs into
+ * the framework tree (`.claude/rules/*.md`, `packages/core/**`, `setup.d/**`,
+ * sibling `*.md`, `README.md`) — paths that resolve inside the framework repo
+ * but do not exist in a static export. Editing that prose is content work
+ * (S1 RUN half / framework-side) and is NOT done here; deleting the links
+ * from the export would certify an artifact that will not ship.
  *
  * POSTURE (the framework's own lychee.toml philosophy, applied where its
  * mechanism cannot reach): every error from the PINNED lychee is classified
@@ -116,26 +118,29 @@ const SIBLING_MD_DANGLES = [
   pair('docs/reference/rule-attention-is-not-a-mechanism/index.html', 'docs/reference/rule-attention-is-not-a-mechanism/ci-tool-pinning.md'),
 ];
 
-/** One-off prose autolink artifacts — enumerated EXACTLY (source page + raw
- * target). Matched against url AND status: for an UNPARSEABLE URI lychee
- * puts the raw text only in the status string, percent-encoded. Owner:
- * content fix (escape the brace / reword) at S2 or framework-side; shrink
- * trigger: the content fix lands → delete the entry. */
+/** One-off prose autolink artifacts — enumerated EXACTLY (source page + the
+ * whole raw target, compared for equality — never a substring, which would
+ * also admit any longer URL that merely contains it). The raw target is the
+ * reported `url`, except for an UNPARSEABLE URI: lychee reports that with
+ * `url: "error:"` and carries the percent-encoded text only inside the
+ * status's `Cannot parse '…'`. Owner: content fix (escape the brace /
+ * reword) at S2 or framework-side; shrink trigger: the content fix lands →
+ * delete the entry. */
 const EXACT_ARTIFACTS = [
   {
     sourcePage: 'docs/reference/a22-companions-manifest/index.html',
-    urlSuffix: 'localhost:3009%7D/health',
+    rawTarget: 'http://localhost:3009%7D/health',
     why: 'shell `${RUNTIME_BRIDGE_AIF_URL:-http://localhost:3009}` autolinked with the closing brace glued to the URL — unparseable URI',
   },
   {
     sourcePage: 'docs/reference/bridge-park/index.html',
-    urlSuffix: 'localhost:3009.%C2%BB',
+    rawTarget: 'http://localhost:3009.%C2%BB',
     why: 'prose «…localhost:3009.» glued the sentence period onto the URL — unparseable URI',
   },
   {
     sourcePage: 'docs/reference/c5-claims-conformance-auditor/index.html',
-    urlSuffix: 'file:///line',
-    why: 'angle-bracket placeholder «<file:line>» in prose autolinked to a relative href "line" that resolves nowhere',
+    rawTarget: 'file:///line',
+    why: 'angle-bracket placeholder «<file:line>» in prose autolinked to the href "file:line" (file:///line), which resolves nowhere',
   },
 ];
 
@@ -143,13 +148,17 @@ const EXACT_ARTIFACTS = [
  * fragment-free (the normaliser strips it), so README#fragment and README
  * are one and the same member. */
 const matchesPair = (e, m) => e.sourcePage === m.sourcePage && e.targetPath === m.targetPath;
-/** Matched against url AND status — for unparseable URIs the raw text only
- * exists in the status string, percent-encoded. */
-const matchesArtifact = (e, a) =>
-  e.sourcePage === a.sourcePage && `${e.url} ${e.status}`.includes(a.urlSuffix);
+/** The raw target of an error: its url, or — for an unparseable URI
+ * (`url: "error:"`) — the text lychee quotes in `Cannot parse '…'`. */
+const rawTarget = (e) => {
+  if (e.url && e.url !== 'error:') return e.url;
+  const m = /Cannot parse '([^']*)'/.exec(e.status);
+  return m ? m[1] : null;
+};
+const matchesArtifact = (e, a) => e.sourcePage === a.sourcePage && rawTarget(e) === a.rawTarget;
 
 const formatPair = (m) => `${m.sourcePage} → ${m.targetPath}`;
-const formatArtifact = (a) => `${a.sourcePage} → ${a.urlSuffix}`;
+const formatArtifact = (a) => `${a.sourcePage} → ${a.rawTarget}`;
 
 const ALLOW_CLASSES = [
   {
@@ -167,7 +176,7 @@ const ALLOW_CLASSES = [
     why: 'same framework-content class, targets inside the docs tree itself — framework content fix / S2 rehome',
   },
   {
-    name: 'one-off unparseable autolink artifact (enumerated exactly)',
+    name: 'one-off prose autolink artifact (enumerated exactly)',
     members: EXACT_ARTIFACTS,
     matchesMember: matchesArtifact,
     format: formatArtifact,
@@ -258,7 +267,7 @@ for (const e of errors) {
 for (const c of ALLOW_CLASSES) {
   const n = allowed.filter((a) => a.class === c.name).length;
   info(`allowed · ${c.name}: ${n} — ${c.why}`);
-  if (DEBUG) for (const m of c.members) info(`  member: ${c.format(m)}`);
+  for (const m of c.members) info(`  member: ${c.format(m)}`);
 }
 
 // Enumerated-member audit: a member that no longer fires means the content
@@ -286,9 +295,18 @@ if (unexpected.length || staleMembers.length) {
     );
   }
   if (staleMembers.length) {
+    // Every member going quiet in ONE run is the signature of a changed
+    // lychee / report format or a sweep over the wrong tree, not of N
+    // separate content fixes — say so before anyone deletes the list.
+    const total = ALLOW_CLASSES.reduce((n, c) => n + c.members.length, 0);
     reasons.push(
-      `${staleMembers.length} allow-list member(s) did NOT fire this run — the content was FIXED; ` +
-        `DELETE the stale entries from scripts/check-links.mjs (the list may only shrink):`,
+      staleMembers.length === total
+        ? `${staleMembers.length} allow-list member(s) did NOT fire this run — ALL of them at once, which more ` +
+            `likely means lychee version / report-format drift (or a sweep over the wrong tree) than ${total} ` +
+            `content fixes in one go: confirm the pinned lychee (0.24.2) and OUT_DIR first; only if the content ` +
+            `really was fixed, DELETE the stale entries from scripts/check-links.mjs (the list may only shrink):`
+        : `${staleMembers.length} allow-list member(s) did NOT fire this run — the content was FIXED; ` +
+            `DELETE the stale entries from scripts/check-links.mjs (the list may only shrink):`,
     );
   }
   die(
