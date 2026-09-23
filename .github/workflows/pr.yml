@@ -123,10 +123,13 @@ jobs:
         run: node scripts/self-test-gates.mjs --only mermaid
 
       # ── W-2: the fence must reach the pipeline, not just the module ───────
-      # (a) the planted valid fence rendered as <svg> in out/ (a plain code
-      #     block means the remark rewrite died while the unit fixtures above
-      #     stayed green); (b) a gantt fence must FAIL a real next build in a
-      #     throwaway copy — measured added time ~20-30s on ubuntu-latest.
+      # (a) the planted valid fence rendered as a build-time <svg> directly
+      #     inside the Mermaid wrapper in out/ (a shiki figure means the remark
+      #     rewrite died while the unit fixtures above stayed green; an empty
+      #     wrapper means rendering left build time); (b) a gantt fence must
+      #     FAIL a real next build in a throwaway copy. Cost: 43 s measured on
+      #     the S1 harvest host (Mac, 2026-09-23); the ubuntu-latest figure is
+      #     this step's duration in the job log — not assumed here.
       - name: Mermaid build-integration fixture (svg in out/ + gantt fails a throwaway build)
         run: node scripts/self-test-mermaid-build.mjs verify
 

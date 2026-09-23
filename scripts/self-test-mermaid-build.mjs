@@ -15,16 +15,29 @@
  *     → assertAllowed (lib/mermaid-allowlist.ts) → renderMermaid
  *     → build-time SVG in the static export.
  *
- * Three subcommands, wired as separate pr.yml steps:
+ * Three subcommands, wired as separate pr.yml steps (plus one for the
+ * self-test suite):
  *   plant   — write content/docs/mermaid-build-fixture.md (a VALID flowchart
  *             fence) so the REAL production-config build renders it. Runs
  *             BEFORE `next build`; adds no separate build — the page rides
  *             the export the job is already producing, and clean removes it
- *             afterwards so nothing lands in the repo.
+ *             afterwards so nothing lands in the repo. The path is
+ *             .gitignored (a leftover cannot be staged by `git add -A`), and
+ *             plant/clean REFUSE when it is tracked by git: a committed
+ *             fixture must turn this job red, never be overwritten, deleted
+ *             or shipped (deploy.yml builds whatever content/ holds).
  *   verify  — (a) SVG ARM: the built page must carry a RENDERED diagram —
- *             the Mermaid component's `mermaid-svg` wrapper + an `<svg>` —
- *             and NO shiki `language-mermaid` code block (what the fence
- *             would degrade to if the rewrite stopped firing).
+ *             the Mermaid component's `mermaid-svg` wrapper DIRECTLY holding
+ *             a build-time `<svg>` whose text labels are the fixture's own
+ *             (`Start`, `End`) — and NO degraded fence: no shiki `<figure>`
+ *             and no `<pre>` on the page (measured: this pipeline emits no
+ *             `language-*` marker, so a figure + pre is what a fence degrades
+ *             to if the rewrite stops firing). Anchored to the wrapper
+ *             because every docs page carries layout/copy-button `<svg>`
+ *             icons outside it (round-2 code review: an unanchored `<svg`
+ *             test passed on a page with no diagram at all). A client-side
+ *             renderer that kept the wrapper would leave it EMPTY in the
+ *             export — RED here.
  *             (b) GANTT ARM: inject an unsupported-type fence (`gantt`) into
  *             a THROWAWAY copy of the repo and run `next build` there — it
  *             must exit non-zero AND its output must name the allow-list's
@@ -32,6 +45,8 @@
  *             THROUGH the gate rather than for some copy artefact.
  *   clean   — remove the planted page (idempotent; pr.yml runs it under
  *             `if: always()`).
+ *   check-svg <html-file> — the svg-arm assertion alone, over any file: the
+ *             self-test suite feeds it synthetic pages (paired RED cases).
  *
  * Fail-closed: a missing plant, a missing built page, an unrendered fence,
  * and a throwaway build that exits 0 are hard failures. A throwaway build
@@ -59,6 +74,8 @@ const FIXTURE_OUT = join(REPO_ROOT, 'out', 'docs', FIXTURE_SLUG, 'index.html');
 const GANTT_SLUG = 'mermaid-gantt-fixture';
 
 const VALID_CHART = 'flowchart TD\n    A[Start] --> B[End]';
+/** The node labels of VALID_CHART — the rendered <svg> must carry them. */
+const VALID_LABELS = ['Start', 'End'];
 const GANTT_CHART = 'gantt\n    title Plan\n    section A\n    task t :a1, 2026-01-01, 2d';
 
 const fence = (chart) => `\`\`\`mermaid\n${chart}\n\`\`\``;
@@ -74,20 +91,59 @@ const die = (msg) => {
   process.exit(1);
 };
 
+/** Fail-closed: a git that cannot answer is a failure, not «untracked». */
+function isTracked(path) {
+  const rel = relative(REPO_ROOT, path);
+  const r = spawnSync('git', ['ls-files', '--error-unmatch', '--', rel], { cwd: REPO_ROOT, encoding: 'utf8' });
+  if (r.status === 0) return true;
+  if (r.status === 1) return false;
+  die(`cannot ask git whether ${rel} is tracked (exit ${r.status}): ${(r.stderr || r.error?.message || '').trim().slice(0, 200)}`);
+}
+
+const TRACKED_HINT =
+  'the Mermaid build fixture must never be committed (deploy.yml would ship it) — untrack it with `git rm --cached`';
+
 function plant() {
   const t = Date.now();
+  const rel = relative(REPO_ROOT, FIXTURE_PAGE);
+  if (isTracked(FIXTURE_PAGE)) die(`${rel} is TRACKED by git — refusing to overwrite it; ${TRACKED_HINT}`);
   writeFileSync(FIXTURE_PAGE, page(VALID_CHART));
-  info(`planted ${relative(REPO_ROOT, FIXTURE_PAGE)} with a valid flowchart fence (${Date.now() - t}ms) — the real build must render it`);
+  info(`planted ${rel} with a valid flowchart fence (${Date.now() - t}ms) — the real build must render it`);
 }
 
 function clean() {
+  const rel = relative(REPO_ROOT, FIXTURE_PAGE);
+  if (isTracked(FIXTURE_PAGE)) die(`${rel} is TRACKED by git — refusing to delete a committed file; ${TRACKED_HINT}`);
   const existed = existsSync(FIXTURE_PAGE);
   rmSync(FIXTURE_PAGE, { force: true });
   info(`fixture page ${existed ? 'removed' : 'already absent (idempotent)'}`);
 }
 
-/** (a) The valid fence must have gone through the COMPONENT (wrapper div),
- * come out as a build-time <svg>, and NOT degraded to a shiki code block. */
+/** The svg-arm assertion: the component's wrapper must DIRECTLY hold a
+ * build-time <svg> carrying VALID_CHART's labels, and the page must hold no
+ * degraded fence (shiki <figure> / <pre>). Exported through `check-svg` so
+ * the self-test suite can prove it rejects the shapes it exists to catch. */
+function assertRenderedSvg(html, label) {
+  const inWrapper = /<div class="mermaid-svg\b[^"]*"[^>]*>\s*(<svg\b[\s\S]*?<\/svg>)\s*<\/div>/.exec(html);
+  const labels = inWrapper
+    ? [...inWrapper[1].matchAll(/<text\b[^>]*>([^<]*)<\/text>/g)].map((m) => m[1].trim())
+    : [];
+  const hasLabels = VALID_LABELS.every((l) => labels.includes(l));
+  const pres = (html.match(/<pre\b/g) ?? []).length;
+  const shikiFigures = (html.match(/<figure\b[^>]*\bshiki\b/g) ?? []).length;
+  if (!inWrapper || !hasLabels || pres || shikiFigures) {
+    die(
+      `${label}: the valid flowchart fence did NOT render as a build-time SVG ` +
+        `(svg directly in the mermaid-svg wrapper=${Boolean(inWrapper)} · svg labels=${JSON.stringify(labels)}, ` +
+        `want ${JSON.stringify(VALID_LABELS)} · <pre>=${pres} · shiki <figure>=${shikiFigures}) — ` +
+        `the remarkMdxMermaid rewrite, the <Mermaid> mapping or build-time rendering is not firing`,
+    );
+  }
+  info(`svg arm: ${label} — the Mermaid wrapper directly holds a build-time <svg> labelled ${labels.join(' / ')}; no <pre>, no shiki <figure>`);
+}
+
+/** (a) The valid fence must have gone through the COMPONENT and come out as
+ * a build-time <svg>, not degraded to a shiki code block. */
 function verifySvgArm() {
   if (!existsSync(FIXTURE_PAGE)) {
     die('fixture page not planted — run the `plant` step BEFORE `next build`');
@@ -95,18 +151,7 @@ function verifySvgArm() {
   if (!existsSync(FIXTURE_OUT)) {
     die(`built page absent at ${relative(REPO_ROOT, FIXTURE_OUT)} — was the fixture planted before the build?`);
   }
-  const html = readFileSync(FIXTURE_OUT, 'utf8');
-  const hasWrapper = html.includes('mermaid-svg');
-  const hasSvg = /<svg[\s>]/.test(html);
-  const hasCodeBlock = html.includes('language-mermaid');
-  if (!hasWrapper || !hasSvg || hasCodeBlock) {
-    die(
-      `the valid flowchart fence did NOT render as a build-time SVG ` +
-        `(mermaid-svg wrapper=${hasWrapper} <svg>=${hasSvg} shiki-code-block=${hasCodeBlock}) — ` +
-        `the remarkMdxMermaid rewrite or the <Mermaid> component mapping is not firing`,
-    );
-  }
-  info(`svg arm: ${relative(REPO_ROOT, FIXTURE_OUT)} carries a rendered <svg> in the Mermaid wrapper, no shiki code block`);
+  assertRenderedSvg(readFileSync(FIXTURE_OUT, 'utf8'), relative(REPO_ROOT, FIXTURE_OUT));
 }
 
 /** (b) An unsupported type must FAIL a real `next build` (kickoff §6).
@@ -215,6 +260,11 @@ if (cmd === 'plant') {
   verifyGanttArm();
   info(`done in ${Date.now() - T0}ms`);
   console.log('MERMAID_BUILD_FIXTURE=PASS');
+} else if (cmd === 'check-svg') {
+  const file = process.argv[3];
+  if (!file || !existsSync(file)) die('usage: node scripts/self-test-mermaid-build.mjs check-svg <html-file>');
+  assertRenderedSvg(readFileSync(file, 'utf8'), relative(process.cwd(), resolve(file)) || file);
+  console.log('SVG_ARM=PASS');
 } else {
-  die('usage: node scripts/self-test-mermaid-build.mjs <plant|verify|clean>');
+  die('usage: node scripts/self-test-mermaid-build.mjs <plant|verify|clean|check-svg <html-file>>');
 }

@@ -22,7 +22,12 @@
  *     module (node --experimental-strip-types imports lib/mermaid-allowlist.ts
  *     directly — the same code the build runs):
  *     (a) unsupported type (`gantt`) must throw; (b) supported type carrying a
- *     dropped element (`click`) must throw; valid chart → GREEN control.
+ *     dropped element (`click`) must throw; valid chart → GREEN control. Plus
+ *     the build-integration fixture's svg-arm assertion
+ *     (`self-test-mermaid-build.mjs check-svg`) over synthetic pages that all
+ *     carry layout `<svg>` icons: an EMPTY Mermaid wrapper (client-renderer
+ *     shape) → RED, a fence degraded to a shiki figure → RED, a wrapper
+ *     holding the rendered `<svg>` → GREEN control.
  *   stubs — write-redirect-stubs.mjs: file-shaped URL colliding with a
  *     DIRECTORY in out/ → RED; both shapes written cleanly → GREEN controls.
  *   hero-fs8 — check-hero-fs8.mjs: a stack word planted OUTSIDE the pin-fed
@@ -230,6 +235,42 @@ function caseMermaid() {
         args: ['--experimental-strip-types', runnerPath, c.chart, c.expectThrow ? 'expect-throw' : 'expect-ok', ...(c.expectThrow ? [c.fragment] : [])],
         env: {},
       };
+    });
+  }
+
+  // The build-integration svg arm's own assertion must reject what it exists
+  // to catch. Every synthetic page carries layout <svg> icons OUTSIDE the
+  // wrapper — the shape that fooled the unanchored first version (every
+  // docs page has them), so a green here means the anchor holds.
+  const layoutIcons =
+    '<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24"/></svg></nav>' +
+    '<button><svg viewBox="0 0 24 24"><path d="M4 4h16"/></svg></button>';
+  const svgArmPage = (body) =>
+    `<!doctype html><html><body>${layoutIcons}<div class="prose flex-1">${body}</div></body></html>\n`;
+  const svgArmCases = [
+    {
+      name: 'svg arm — EMPTY Mermaid wrapper (client-renderer shape) beside layout icons',
+      expect: 'red',
+      body: '<div class="mermaid-svg [&amp;&gt;svg]:mx-auto [&amp;&gt;svg]:max-w-full"></div>',
+    },
+    {
+      name: 'svg arm — fence degraded to a shiki figure beside layout icons',
+      expect: 'red',
+      body: '<figure class="my-4 shiki shiki-themes github-light github-dark"><pre><code><span>flowchart TD</span></code></pre></figure>',
+    },
+    {
+      name: 'svg arm — rendered <svg> directly in the wrapper (control)',
+      expect: 'green',
+      body:
+        '<div class="mermaid-svg [&amp;&gt;svg]:mx-auto [&amp;&gt;svg]:max-w-full"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 200">' +
+        '<g><text x="75" y="40">Start</text></g><g><text x="75" y="160">End</text></g></svg></div>',
+    },
+  ];
+  for (const c of svgArmCases) {
+    runCase('mermaid', c.name, c.expect, c.expect === 'red' ? /did NOT render as a build-time SVG/ : null, (sandbox) => {
+      const file = join(sandbox, 'page.html');
+      writeFileSync(file, svgArmPage(c.body));
+      return { cmd: process.execPath, args: [join(REPO_ROOT, 'scripts', 'self-test-mermaid-build.mjs'), 'check-svg', file], env: {} };
     });
   }
 }
