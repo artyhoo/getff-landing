@@ -1,4 +1,4 @@
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
+import { DocsBody, DocsDescription, DocsPage, DocsTitle, MarkdownCopyButton } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
 import { source } from '@/lib/source';
 import { faqJsonLd } from '@/lib/faq-jsonld';
@@ -6,6 +6,17 @@ import { getMDXComponents } from '@/mdx-components';
 
 export function generateStaticParams() {
   return source.generateParams();
+}
+
+/**
+ * URL of the page's raw-Markdown twin (D10). The hub page (`/docs`, from
+ * content/docs/index.md) is the ONE page whose twin did not exist — the
+ * literal route app/docs/index.md/route.ts was added in the same change, so
+ * every page carrying the copy action has a twin (the D10 falsifier: a
+ * missing twin 404s the copy button).
+ */
+function markdownUrlFor(url: string): string {
+  return url === '/docs' ? '/docs/index.md' : `${url}.md`;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug?: string[] }> }) {
@@ -47,6 +58,12 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
       )}
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      {/* D10 page actions: the copy button fetches the page's raw-Markdown
+          twin — every page rendered by this template has one (195 existing
+          twins + the hub twin added with this change). */}
+      <div className="flex flex-row gap-2 items-center border-b pb-2">
+        <MarkdownCopyButton markdownUrl={markdownUrlFor(page.url)} />
+      </div>
       {/* DocsBody, not a bare .prose div: it is what gives headings their anchor
           links and wires the MDX components (callouts, code blocks, tabs). */}
       <DocsBody>

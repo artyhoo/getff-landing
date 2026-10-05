@@ -10,4 +10,14 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .source/
+.framework/
+# full-surface checkout at the same pin SHA (check-redirects --framework-full)
+.framework-full/
+# local scratch (probe binaries, build trees, evidence logs) — never shipped
+.scratch/
 wwwroot/
+# pages-build artefacts: the Mermaid build fixture planted for one build
+# (scripts/self-test-mermaid-build.mjs refuses to run if it is ever tracked)
+# and the timed-build log
+content/docs/mermaid-build-fixture.md
+build-time.txt

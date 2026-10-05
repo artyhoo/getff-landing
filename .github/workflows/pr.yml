@@ -1,0 +1,155 @@
+name: PR pages gate
+
+# R20 (rollout-and-cutover design, decided cold round 1 TD-9): ONE landing
+# workflow with a job named `pages-build` — NOT `build` (deploy.yml owns that
+# name; the protection rule must be unambiguous) — running against the
+# PRODUCTION config (no preview env; R8 keeps the preview delta to
+# PREVIEW_BASE_PATH and nothing else, and that is exercised by the smoke
+# publish, never here).
+#
+# Step order is the design's contract:
+#   fetch at the pin (BEFORE npm ci — R5: the postinstall reads
+#     source.config.ts) → second full-surface framework checkout AT THE
+#   SAME RESOLVED SHA (D37/D51(5)) → npm ci → R18 Zod over the fetched
+#   JSON (needs node_modules: it imports zod) → plant the Mermaid
+#   build-integration fixture (W-2) → next build (renders it) →
+#   write-redirect-stubs → check-redirects --framework-full →
+#   the two Mermaid unit fixtures (R6) → the Mermaid build-integration
+#   fixture (W-2: rendered <svg> asserted in out/ + a gantt fence must fail
+#   a throwaway build) → remove the fixture page → the gate self-test
+#   suite → lychee --offline over out/ (realised as
+#   scripts/check-links.mjs: pinned lychee + fail-closed classification of
+#   the MEASURED, ENUMERATED inherited dangle pairs — W-1).
+#
+# This job is the required check R9's branch protection names.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-pages-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  pages-build:
+    name: pages-build (production config)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15 # design budget: build < 10 min on ubuntu-latest (roll.md :107)
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0 (matches deploy.yml)
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0 (matches deploy.yml)
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install lychee 0.24.2 (pinned version + sha256)
+        # Pinned release install, same shape as the framework's audit-self.yml
+        # lychee step. --strip-components=1 is load-bearing (the release tarball
+        # nests the binary under lychee-x86_64-unknown-linux-gnu/). The sha256
+        # is the R20 gate's supply-chain pin; a checksum mismatch must fail the
+        # job here, not download-unverified.
+        run: |
+          set -euo pipefail
+          curl -sSfL https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-gnu.tar.gz -o "$RUNNER_TEMP/lychee.tgz"
+          echo "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a  $RUNNER_TEMP/lychee.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/lychee.tgz" -C "$RUNNER_TEMP" --strip-components=1
+          "$RUNNER_TEMP/lychee" --version
+          # The self-test suite's `links` section probes `lychee` by plain name
+          # (LYCHEE_BIN is unset on that step) — without this the required
+          # check is red on every PR (measured at harvest: exit 1 with no
+          # lychee on PATH).
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      # ── R5 ordering: the pin is materialised BEFORE npm ci ────────────────
+      - name: Fetch framework at the pin (before npm ci — R5)
+        run: node scripts/fetch-framework.mjs
+
+      - name: Full-surface framework checkout at the SAME resolved SHA (D37/D51(5))
+        env:
+          FRAMEWORK_PIN: ${{ runner.temp }}/framework-pinned.pin
+        run: |
+          set -euo pipefail
+          SHA="$(cat .framework/SHA)"
+          echo "FRAMEWORK_SHA=$SHA" >> "$GITHUB_ENV"
+          printf '%s\n' "$SHA" > "$FRAMEWORK_PIN"
+          node scripts/fetch-framework.mjs --full .framework-full
+          # Guard the seam the whole arm exists for: the two checkouts must
+          # agree, or --framework-full audits a different tree than was built.
+          test "$(cat .framework-full/SHA)" = "$SHA"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # R18 runs AFTER npm ci: check-pin-json imports lib/pin-schemas.mjs,
+      # which imports `zod` — on a clean runner there is no node_modules
+      # before this point (measured at harvest: ERR_MODULE_NOT_FOUND). R5 only
+      # requires the FETCH to precede npm ci, not the validation.
+      - name: Zod backstop over the fetched JSON (R18)
+        run: node scripts/check-pin-json.mjs
+
+      # ── W-2: the Mermaid build-integration fixture rides THIS build ──────
+      # (no second full build): a valid flowchart fence planted into
+      # content/ is rendered by the real production-config build, and the
+      # verify step below asserts the rendered <svg> in out/ — plus, in a
+      # throwaway copy, that an unsupported `gantt` fence makes next build
+      # exit non-zero. clean removes the planted page even on failure.
+      - name: Plant Mermaid build-integration fixture (W-2)
+        run: node scripts/self-test-mermaid-build.mjs plant
+
+      - name: Build (production config; budget < 10 min — measured, not assumed)
+        run: |
+          # pipefail: without it the pipe's status is tee's (always 0), so a
+          # failed `next build` would leave this step green.
+          set -o pipefail
+          { time npm run build ; } 2>&1 | tee build-time.txt
+          grep -q real build-time.txt
+
+      - name: Write redirect stubs (R7, both shapes)
+        run: node scripts/write-redirect-stubs.mjs
+
+      - name: Redirect coverage gate over enumerated old URLs (R7/R21/D37)
+        run: node scripts/check-redirects.mjs --framework-full .framework-full
+
+      # ── R6: the paired-negative Mermaid fixtures, fired in CI ─────────────
+      - name: Mermaid fixtures (unsupported type + dropped element must both be RED)
+        run: node scripts/self-test-gates.mjs --only mermaid
+
+      # ── W-2: the fence must reach the pipeline, not just the module ───────
+      # (a) the planted valid fence rendered as a build-time <svg> directly
+      #     inside the Mermaid wrapper in out/ (a shiki figure means the remark
+      #     rewrite died while the unit fixtures above stayed green; an empty
+      #     wrapper means rendering left build time); (b) a gantt fence must
+      #     FAIL a real next build in a throwaway copy. Cost: 43 s measured on
+      #     the S1 harvest host (Mac, 2026-09-23); the ubuntu-latest figure is
+      #     this step's duration in the job log — not assumed here.
+      - name: Mermaid build-integration fixture (svg in out/ + gantt fails a throwaway build)
+        run: node scripts/self-test-mermaid-build.mjs verify
+
+      - name: Remove the Mermaid fixture page (W-2 cleanup, runs even on failure)
+        if: always()
+        run: node scripts/self-test-mermaid-build.mjs clean
+
+      - name: Gate self-test suite (executes every gate against planted bad input)
+        run: node scripts/self-test-gates.mjs
+
+      - name: Link gate — lychee --offline over out/ (R20)
+        env:
+          LYCHEE_BIN: ${{ runner.temp }}/lychee
+        run: node scripts/check-links.mjs
+
+      - name: Record measurements
+        if: always()
+        run: |
+          {
+            echo "## pages-build measurements"
+            echo "- FRAMEWORK_SHA: $FRAMEWORK_SHA"
+            echo "- build time (ubuntu-latest, budget < 10 min): see Build step \`real\` line"
+          } >> "$GITHUB_STEP_SUMMARY"

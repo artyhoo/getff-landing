@@ -1,0 +1,17 @@
+[
+  {
+    "source": "/docs/quick-start/",
+    "destination": "/docs/quickstart-ts/",
+    "_comment": "interim-S1: hero forward link (hero-copy.json cta.primary) — the real /docs/quick-start/ page lands at S2; remove this row when it does"
+  },
+  {
+    "source": "/docs/how-it-works/",
+    "destination": "/docs/executable-agents-md/",
+    "_comment": "interim-S1: hero forward link (hero-copy.json howItWorksLink) — the real /docs/how-it-works/ page lands at S2; remove this row when it does"
+  },
+  {
+    "source": "/docs/installation/",
+    "destination": "/docs/first-steps-core/",
+    "_comment": "interim-S1: hero forward link (hero-copy.json install.more) — the real /docs/installation/ page lands at S2; remove this row when it does"
+  }
+]

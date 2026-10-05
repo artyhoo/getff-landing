@@ -1,0 +1,26 @@
+# Framework pin (R3) — one non-comment line: a branch name or a full SHA.
+# Resolved by scripts/fetch-framework.mjs (git ls-remote for branches; a SHA is
+# fetched directly, depth-1, via the server's allow-reachable-sha1-in-want).
+#
+# PINNED TO A FULL SHA ON THE FRAMEWORK'S `staging` — operator decision
+# 2026-09-21 (S1 BUILD harvest): neither `main` nor the `staging` branch name.
+# - Not `main`: R3's own falsifier fired — the promote cadence main→docs site
+#   exceeded 14 days while `docs/site/**` changed on staging, and `main`
+#   (`8fabc9df124d`, re-measured 2026-09-23) still does NOT carry
+#   `docs/site/hero-copy.json`, which the S1 build consumes.
+# - Not the `staging` name: a moving branch pin makes every production deploy
+#   render whatever unpromoted copy staging carries at build time. A literal SHA
+#   makes each change of rendered framework content an explicit, reviewable
+#   bump, and keeps the PR check and the deploy on one tree (a notify-landing
+#   redeploy — its R4 receiver is not on this branch yet — would re-render the
+#   same SHA until bumped).
+# `1b390629d480` = framework staging tip at the 2026-10-05 pin bump (#2030;
+# ~500 commits past `6f6edf3e0775` = staging at #1824, the round-2 harvest pin
+# the full pr.yml step sequence ran green against on 2026-09-23). To bump:
+# replace the SHA below in its own commit and re-run pr.yml. A bump that
+# changes the rendered reference output must update the enumerated dangle
+# pairs in scripts/check-links.mjs in the same PR (its unlisted and stale
+# arms fail otherwise). Whether the landing follows a branch again once
+# promotes resume (the rollout spec's R3/R4 shape) or keeps literal-SHA bumps
+# is NOT decided here — parked for S2 in the S1 harvest PR.
+1b390629d4806e9378989533c7a1501dd4c08b08

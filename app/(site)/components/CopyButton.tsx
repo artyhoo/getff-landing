@@ -12,7 +12,9 @@ export function CopyButton() {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const onClick = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const term = e.currentTarget.closest('.term');
+    // Terminal blocks (.term) and any [data-copy-root] container (e.g. the
+    // hero's quiet agent line) — non-breaking generalisation, S1 hero delta.
+    const term = e.currentTarget.closest('.term') ?? e.currentTarget.closest('[data-copy-root]');
     if (!term) return;
     const text = Array.from(term.querySelectorAll<HTMLElement>('[data-copy-text]'))
       .map((el) => el.textContent)

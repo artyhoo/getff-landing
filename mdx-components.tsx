@@ -1,5 +1,6 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
+import { Mermaid } from '@/components/mermaid';
 
 /**
  * MDX component map for the docs body.
@@ -16,6 +17,11 @@ import type { MDXComponents } from 'mdx/types';
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
+    // Build-time SVG renderer for ```mermaid fences (rewritten to
+    // <Mermaid chart="…"/> by remarkMdxMermaid in source.config.ts — R6).
+    // It throws on unsupported types and on silently-dropped syntax, which
+    // fails the static-export build instead of publishing a broken diagram.
+    Mermaid,
     ...components,
   };
 }
