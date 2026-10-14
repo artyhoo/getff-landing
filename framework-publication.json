@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "pages": [
+    "index.md",
+    "why.md",
+    "how-it-works.md",
+    "installation.md",
+    "quick-start.md",
+    "ai-agents.md",
+    "reference/B.md",
+    "reference/D/inject-matching-rule.md"
+  ]
+}

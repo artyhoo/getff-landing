@@ -17,7 +17,7 @@
  *
  * Three subcommands, wired as separate pr.yml steps (plus one for the
  * self-test suite):
- *   plant   — write content/docs/mermaid-build-fixture.md (a VALID flowchart
+ *   plant   — write .framework-docs/mermaid-build-fixture.md (a VALID flowchart
  *             fence) so the REAL production-config build renders it. Runs
  *             BEFORE `next build`; adds no separate build — the page rides
  *             the export the job is already producing, and clean removes it
@@ -69,7 +69,7 @@ const DEBUG = process.env.LOG_LEVEL === 'debug';
 const T0 = Date.now();
 
 const FIXTURE_SLUG = 'mermaid-build-fixture';
-const FIXTURE_PAGE = join(REPO_ROOT, 'content', 'docs', `${FIXTURE_SLUG}.md`);
+const FIXTURE_PAGE = join(REPO_ROOT, '.framework-docs', `${FIXTURE_SLUG}.md`);
 const FIXTURE_OUT = join(REPO_ROOT, 'out', 'docs', FIXTURE_SLUG, 'index.html');
 const GANTT_SLUG = 'mermaid-gantt-fixture';
 
@@ -219,7 +219,7 @@ function verifyGanttArm() {
         }
       }
       if (!fatal) {
-        writeFileSync(join(dst, 'content', 'docs', `${GANTT_SLUG}.md`), page(GANTT_CHART));
+        writeFileSync(join(dst, '.framework-docs', `${GANTT_SLUG}.md`), page(GANTT_CHART));
         info(`gantt arm (attempt ${attempt}/${ATTEMPTS}): throwaway at ${relative(REPO_ROOT, dst)} — running the real build (must exit non-zero, naming the rejection)`);
         const r = spawnSync('npm', ['run', 'build'], { encoding: 'utf8', cwd: dst });
         const out = `${r.stdout ?? ''}\n${r.stderr ?? ''}`;

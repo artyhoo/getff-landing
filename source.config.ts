@@ -1,8 +1,10 @@
 import { defineCollections, defineConfig, defineDocs } from 'fumadocs-mdx/config';
 import { remarkMdxMermaid } from 'fumadocs-core/mdx-plugins';
 import { z } from 'zod';
+import { remarkFrameworkLinks } from './lib/framework-links';
 
 export const docs = defineDocs({
+  dir: '.framework-docs',
   docs: {
     // Required for getLLMText(): exposes processed Markdown per page
     // (fumadocs.dev/docs/integrations/llms).
@@ -31,6 +33,6 @@ export default defineConfig({
     // and the mermaid fence rewrite runs after them (R6). `remarkMdxMermaid`
     // rewrites ```mermaid fences into <Mermaid chart="…"/> nodes, which the
     // component map below resolves to the build-time SVG server component.
-    remarkPlugins: (plugins) => [...plugins, remarkMdxMermaid],
+    remarkPlugins: (plugins) => [...plugins, remarkFrameworkLinks, remarkMdxMermaid],
   },
 });

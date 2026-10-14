@@ -22,6 +22,9 @@
  *       packages/core/README.md) for check-redirects.mjs --framework-full
  *       (D37/D51(5)). The pin is read and resolved exactly once either way.
  *
+ * Production guard: --require-main rejects any pin other than the current
+ * literal framework main SHA, before cache reuse or fetching.
+ *
  * Output contract: `.framework/SHA` (or `<dir>/SHA`) carries the resolved SHA;
  * the last stdout line is `FRAMEWORK_SHA=<sha>` for CI capture.
  *
@@ -96,6 +99,16 @@ if (/^[0-9a-f]{40}$/i.test(pin)) {
   if (!line) die('resolve', `branch "${pin}" not found on ${REPO} (ls-remote returned no matching ref)`);
   sha = line.split(/\t/)[0].trim();
   info(`resolved ${pin} → ${sha}`);
+}
+
+// A preview is allowed in PRs, but production must use the current promoted main.
+if (argv.includes('--require-main')) {
+  const remote = run('verify-main', 'git', ['ls-remote', REPO, 'refs/heads/main']);
+  const main = remote.split('\n').find(line => line.endsWith('\trefs/heads/main'))?.split('\t')[0];
+  if (!/^[0-9a-f]{40}$/i.test(pin) || sha !== main) {
+    die('verify-main', 'release pin ' + sha + ' is not current framework main ' + (main ?? '(missing)'));
+  }
+  info('release pin verified against framework main: ' + main);
 }
 
 // ── 3. Cache check: same SHA + tree already present → skip the fetch ─────────
