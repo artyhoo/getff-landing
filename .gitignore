@@ -21,3 +21,6 @@ wwwroot/
 # and the timed-build log
 content/docs/mermaid-build-fixture.md
 build-time.txt
+
+# Resolved legacy + bounded pinned publication collection
+.framework-docs*

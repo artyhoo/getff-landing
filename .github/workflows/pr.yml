@@ -70,7 +70,9 @@ jobs:
 
       # ── R5 ordering: the pin is materialised BEFORE npm ci ────────────────
       - name: Fetch framework at the pin (before npm ci — R5)
-        run: node scripts/fetch-framework.mjs
+        run: |
+          node scripts/fetch-framework.mjs
+          node scripts/prepare-framework-docs.mjs
 
       - name: Full-surface framework checkout at the SAME resolved SHA (D37/D51(5))
         env:
@@ -92,6 +94,9 @@ jobs:
       # which imports `zod` — on a clean runner there is no node_modules
       # before this point (measured at harvest: ERR_MODULE_NOT_FOUND). R5 only
       # requires the FETCH to precede npm ci, not the validation.
+      - name: Bounded publication regression tests
+        run: node --test tests/framework-publication.test.mjs
+
       - name: Zod backstop over the fetched JSON (R18)
         run: node scripts/check-pin-json.mjs
 
@@ -114,6 +119,9 @@ jobs:
 
       - name: Write redirect stubs (R7, both shapes)
         run: node scripts/write-redirect-stubs.mjs
+
+      - name: Verify eight real published pages and their shared projections
+        run: node scripts/check-publication.mjs
 
       - name: Redirect coverage gate over enumerated old URLs (R7/R21/D37)
         run: node scripts/check-redirects.mjs --framework-full .framework-full

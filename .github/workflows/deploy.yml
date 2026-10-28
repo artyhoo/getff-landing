@@ -31,7 +31,9 @@ jobs:
       # `npm ci` — the postinstall (`fumadocs-mdx`) reads source.config.ts and
       # the build consumes docs/site/** from .framework/.
       - name: Fetch framework at the pin (before npm ci — R5)
-        run: node scripts/fetch-framework.mjs
+        run: |
+          node scripts/fetch-framework.mjs --require-main
+          node scripts/prepare-framework-docs.mjs
 
       # D37/D51(5): second full-surface checkout at the SAME resolved SHA, so
       # the deploy-time redirect coverage gate audits the tree that was built.
@@ -56,6 +58,9 @@ jobs:
       # the old-URL surface must hold on main, at the pin, every deploy.
       - name: Write redirect stubs (R7, both shapes)
         run: node scripts/write-redirect-stubs.mjs
+
+      - name: Verify eight real published pages and their shared projections
+        run: node scripts/check-publication.mjs
 
       - name: Redirect coverage gate over enumerated old URLs (R7/R21/D37)
         run: node scripts/check-redirects.mjs --framework-full .framework-full
